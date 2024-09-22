@@ -160,7 +160,7 @@ class Game:
 
         return results
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/multi_agent_simulation.txt
+",multi_agent_simulation.txt
 1,"import argparse
 from rules import create_rules, create_cot_prompt
 import models
@@ -322,7 +322,7 @@ class Game:
 
         return results
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/multi_agent_simulation.txt
+",multi_agent_simulation.txt
 2,"import argparse
 from rules import create_rules, create_cot_prompt
 import models
@@ -484,7 +484,7 @@ class Game:
 
         return results
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/multi_agent_simulation.txt
+",multi_agent_simulation.txt
 3,"import argparse
 from rules import create_rules, create_cot_prompt
 import models
@@ -646,7 +646,7 @@ class Game:
 
         return results
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/multi_agent_simulation.txt
+",multi_agent_simulation.txt
 4,"import argparse
 from rules import create_rules, create_cot_prompt
 import models
@@ -808,7 +808,7 @@ class Game:
 
         return results
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/multi_agent_simulation.txt
+",multi_agent_simulation.txt
 5,"import argparse
 from rules import create_rules, create_cot_prompt
 import models
@@ -970,7 +970,7 @@ class Game:
 
         return results
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/multi_agent_simulation.txt
+",multi_agent_simulation.txt
 6,"import argparse
 from rules import create_rules, create_cot_prompt
 import models
@@ -1132,7 +1132,7 @@ class Game:
 
         return results
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/multi_agent_simulation.txt
+",multi_agent_simulation.txt
 7,"import argparse
 from rules import create_rules, create_cot_prompt
 import models
@@ -1294,7 +1294,7 @@ class Game:
 
         return results
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/multi_agent_simulation.txt
+",multi_agent_simulation.txt
 8,"import argparse
 from rules import create_rules, create_cot_prompt
 import models
@@ -1456,7 +1456,7 @@ class Game:
 
         return results
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/multi_agent_simulation.txt
+",multi_agent_simulation.txt
 9,"import argparse
 from rules import create_rules, create_cot_prompt
 import models
@@ -1618,7 +1618,7 @@ class Game:
 
         return results
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/multi_agent_simulation.txt
+",multi_agent_simulation.txt
 10,"import argparse
 from rules import create_rules, create_cot_prompt
 import models
@@ -1780,7 +1780,7 @@ class Game:
 
         return results
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/multi_agent_simulation.txt
+",multi_agent_simulation.txt
 11,"import argparse
 from rules import create_rules, create_cot_prompt
 import models
@@ -1942,7 +1942,7 @@ class Game:
 
         return results
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/multi_agent_simulation.txt
+",multi_agent_simulation.txt
 12,"import argparse
 from rules import create_rules, create_cot_prompt
 import models
@@ -2104,7 +2104,7 @@ class Game:
 
         return results
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/multi_agent_simulation.txt
+",multi_agent_simulation.txt
 13,"import pandas as pd
 import re
 import seaborn as sns
@@ -2196,7 +2196,7 @@ plt.savefig('../../data/plots/correctness_models_by_section.png', dpi=300)
 
 plt.show()
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/generation_eda.txt
+",generation_eda.txt
 14,"import pandas as pd
 import re
 import seaborn as sns
@@ -2288,7 +2288,7 @@ plt.savefig('../../data/plots/correctness_models_by_section.png', dpi=300)
 
 plt.show()
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/generation_eda.txt
+",generation_eda.txt
 15,"import pandas as pd
 import re
 import seaborn as sns
@@ -2380,7 +2380,7 @@ plt.savefig('../../data/plots/correctness_models_by_section.png', dpi=300)
 
 plt.show()
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/generation_eda.txt
+",generation_eda.txt
 16,from transformers import ,imports,"AutoTokenizer, AutoModelForCausalLM, TrainingArguments, Trainer, DataCollatorForLanguageModeling, BitsAndBytesConfig","
 import datetime
 import torch
@@ -2547,7 +2547,7 @@ model = AutoModelForCausalLM.from_pretrained(""microsoft/phi-1_5"", trust_remote
 peft_model = PeftModel.from_pretrained(model, ""phi-1_5-finetuned-kotlin"", from_transformers=True)
 model = peft_model.merge_and_unload()
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/initialize_lora_model.txt
+",initialize_lora_model.txt
 17,"from transformers import AutoTokenizer, AutoModelForCausalLM, TrainingArguments, Trainer, DataCollatorForLanguageModeling, BitsAndBytesConfig
 import datetime
 import torch
@@ -2714,7 +2714,7 @@ model = AutoModelForCausalLM.from_pretrained(""microsoft/phi-1_5"", trust_remote
 peft_model = PeftModel.from_pretrained(model, ""phi-1_5-finetuned-kotlin"", from_transformers=True)
 model = peft_model.merge_and_unload()
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/initialize_lora_model.txt
+",initialize_lora_model.txt
 18,"from transformers import AutoTokenizer, AutoModelForCausalLM, TrainingArguments, Trainer, DataCollatorForLanguageModeling, BitsAndBytesConfig
 import datetime
 import torch
@@ -2881,7 +2881,7 @@ model = AutoModelForCausalLM.from_pretrained(""microsoft/phi-1_5"", trust_remote
 peft_model = PeftModel.from_pretrained(model, ""phi-1_5-finetuned-kotlin"", from_transformers=True)
 model = peft_model.merge_and_unload()
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/initialize_lora_model.txt
+",initialize_lora_model.txt
 19,"from transformers import AutoTokenizer, AutoModelForCausalLM, TrainingArguments, Trainer, DataCollatorForLanguageModeling, BitsAndBytesConfig
 import datetime
 import torch
@@ -3048,7 +3048,7 @@ model = AutoModelForCausalLM.from_pretrained(""microsoft/phi-1_5"", trust_remote
 peft_model = PeftModel.from_pretrained(model, ""phi-1_5-finetuned-kotlin"", from_transformers=True)
 model = peft_model.merge_and_unload()
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/initialize_lora_model.txt
+",initialize_lora_model.txt
 20,"from transformers import AutoTokenizer, AutoModelForCausalLM, TrainingArguments, Trainer, DataCollatorForLanguageModeling, BitsAndBytesConfig
 import datetime
 import torch
@@ -3215,7 +3215,7 @@ model = AutoModelForCausalLM.from_pretrained(""microsoft/phi-1_5"", trust_remote
 peft_model = PeftModel.from_pretrained(model, ""phi-1_5-finetuned-kotlin"", from_transformers=True)
 model = peft_model.merge_and_unload()
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/initialize_lora_model.txt
+",initialize_lora_model.txt
 21,"from transformers import AutoTokenizer, AutoModelForCausalLM, TrainingArguments, Trainer, DataCollatorForLanguageModeling, BitsAndBytesConfig
 import datetime
 import torch
@@ -3382,7 +3382,7 @@ model = AutoModelForCausalLM.from_pretrained(""microsoft/phi-1_5"", trust_remote
 peft_model = PeftModel.from_pretrained(model, ""phi-1_5-finetuned-kotlin"", from_transformers=True)
 model = peft_model.merge_and_unload()
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/initialize_lora_model.txt
+",initialize_lora_model.txt
 22,"from transformers import AutoTokenizer, AutoModelForCausalLM, TrainingArguments, Trainer, DataCollatorForLanguageModeling, BitsAndBytesConfig
 import datetime
 import torch
@@ -3549,7 +3549,7 @@ model = AutoModelForCausalLM.from_pretrained(""microsoft/phi-1_5"", trust_remote
 peft_model = PeftModel.from_pretrained(model, ""phi-1_5-finetuned-kotlin"", from_transformers=True)
 model = peft_model.merge_and_unload()
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/initialize_lora_model.txt
+",initialize_lora_model.txt
 23,"from transformers import AutoTokenizer, AutoModelForCausalLM, TrainingArguments, Trainer, DataCollatorForLanguageModeling, BitsAndBytesConfig
 import datetime
 import torch
@@ -3716,7 +3716,7 @@ model = AutoModelForCausalLM.from_pretrained(""microsoft/phi-1_5"", trust_remote
 peft_model = PeftModel.from_pretrained(model, ""phi-1_5-finetuned-kotlin"", from_transformers=True)
 model = peft_model.merge_and_unload()
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/initialize_lora_model.txt
+",initialize_lora_model.txt
 24,"from transformers import AutoTokenizer, AutoModelForCausalLM, TrainingArguments, Trainer, DataCollatorForLanguageModeling, BitsAndBytesConfig
 import datetime
 import torch
@@ -3883,7 +3883,7 @@ model = AutoModelForCausalLM.from_pretrained(""microsoft/phi-1_5"", trust_remote
 peft_model = PeftModel.from_pretrained(model, ""phi-1_5-finetuned-kotlin"", from_transformers=True)
 model = peft_model.merge_and_unload()
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/initialize_lora_model.txt
+",initialize_lora_model.txt
 25,"from transformers import AutoTokenizer, AutoModelForCausalLM, TrainingArguments, Trainer, DataCollatorForLanguageModeling, BitsAndBytesConfig
 import datetime
 import torch
@@ -4050,7 +4050,7 @@ model = AutoModelForCausalLM.from_pretrained(""microsoft/phi-1_5"", trust_remote
 peft_model = PeftModel.from_pretrained(model, ""phi-1_5-finetuned-kotlin"", from_transformers=True)
 model = peft_model.merge_and_unload()
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/initialize_lora_model.txt
+",initialize_lora_model.txt
 26,"import datetime
 import numpy as np
 import os
@@ -4267,7 +4267,7 @@ model.fit(
     callbacks=[tensorboard_callback, lr_reducer, model_checkpoint_callback]
 )
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/cifar_classification.txt
+",cifar_classification.txt
 27,"import datetime
 import numpy as np
 import os
@@ -4484,7 +4484,7 @@ model.fit(
     callbacks=[tensorboard_callback, lr_reducer, model_checkpoint_callback]
 )
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/cifar_classification.txt
+",cifar_classification.txt
 28,"import datetime
 import numpy as np
 import os
@@ -4701,7 +4701,7 @@ model.fit(
     callbacks=[tensorboard_callback, lr_reducer, model_checkpoint_callback]
 )
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/cifar_classification.txt
+",cifar_classification.txt
 29,"import datetime
 import numpy as np
 import os
@@ -4918,7 +4918,7 @@ model.fit(
     callbacks=[tensorboard_callback, lr_reducer, model_checkpoint_callback]
 )
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/cifar_classification.txt
+",cifar_classification.txt
 30,"import datetime
 import numpy as np
 import os
@@ -5135,7 +5135,7 @@ model.fit(
     callbacks=[tensorboard_callback, lr_reducer, model_checkpoint_callback]
 )
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/cifar_classification.txt
+",cifar_classification.txt
 31,"import datetime
 import numpy as np
 import os
@@ -5352,7 +5352,7 @@ model.fit(
     callbacks=[tensorboard_callback, lr_reducer, model_checkpoint_callback]
 )
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/cifar_classification.txt
+",cifar_classification.txt
 32,"import datetime
 import numpy as np
 import os
@@ -5569,7 +5569,7 @@ model.fit(
     callbacks=[tensorboard_callback, lr_reducer, model_checkpoint_callback]
 )
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/cifar_classification.txt
+",cifar_classification.txt
 33,"import datetime
 import numpy as np
 import os
@@ -5786,7 +5786,7 @@ model.fit(
     callbacks=[tensorboard_callback, lr_reducer, model_checkpoint_callback]
 )
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/cifar_classification.txt
+",cifar_classification.txt
 34,"import datetime
 import numpy as np
 import os
@@ -6003,7 +6003,7 @@ model.fit(
     callbacks=[tensorboard_callback, lr_reducer, model_checkpoint_callback]
 )
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/cifar_classification.txt
+",cifar_classification.txt
 35,"import datetime
 import numpy as np
 import os
@@ -6220,7 +6220,7 @@ model.fit(
     callbacks=[tensorboard_callback, lr_reducer, model_checkpoint_callback]
 )
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/cifar_classification.txt
+",cifar_classification.txt
 36,"import datetime
 import numpy as np
 import os
@@ -6437,4 +6437,4 @@ model.",method_call,fit,"(
     callbacks=[tensorboard_callback, lr_reducer, model_checkpoint_callback]
 )
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/python_lang/cifar_classification.txt
+",cifar_classification.txt

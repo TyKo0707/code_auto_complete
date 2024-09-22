@@ -42,7 +42,7 @@ def extraction(files_path):
                                    'tag': tag,
                                    'content': content,
                                    'suffix': cleaned_suffix,
-                                   'file_name': path})
+                                   'file_name': path.split('/')[-1]})
     return extracted_data
 
 

@@ -111,4 +111,4 @@ int* bubble_sort(int* array, int size) {
 	return array;
 }
 
-",/Users/tyko0707/Desktop/code_auto_completion/data/c_lang/array_matrix_utils.txt
+",array_matrix_utils.txt
