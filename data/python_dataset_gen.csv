@@ -1,4 +1,4 @@
-Unnamed: 0,prefix,tag,content,suffix,file_name,gen_tiny_starcoder_py,gen_starcoder2_3b,gen_starcoder2_7b,gen_starcoder2_15b
+,prefix,tag,content,suffix,file_name,gen_tiny_starcoder_py,gen_starcoder2_3b,gen_starcoder2_7b,gen_starcoder2_15b
 0,"import argparse
 from rules import create_rules, create_cot_prompt
 import models
