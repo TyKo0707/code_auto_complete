@@ -71,9 +71,9 @@ def evaluation_step(prefix, suffix, target, generated):
 
     result = {
         'exact_match': exact_match(target, generated),
-        'chrf4_precision`': chrf_precision,
-        'chrf4_recall': chrf_recall,
-        'chrf4': chrf_fscore,
+        'chrf3_precision`': chrf_precision,
+        'chrf3_recall': chrf_recall,
+        'chrf3': chrf_fscore,
         'edit_distance': compute_edit_distance(target, generated),
         'embedding_similarity': compute_embedding_similarity(target, generated),
         'rouge_l': compute_rouge(target, generated),
