@@ -1,0 +1,90 @@
+import pandas as pd
+import re
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+
+def extract_base_function(true_function):
+    return true_function.split('.')[-1]
+
+
+def $$function_name check_function_in_generated$$(base_function, generated_code, $$function_parameter log=False$$):
+    try:
+        possible_functions = re.findall(r'\b\w+\b', generated_code)
+        results = base_function in possible_functions
+        if $$conditional_statement log$$:
+            print(f'True: \033[96m{base_function}\033[00m. \nGenerated: \033[96m{generated_code.strip()}\033[00m. '
+                  f'\nResults: \033[96m{results}\033[00m\n')
+        return results
+    except:
+        return False
+
+
+# Define the models and read their datasets
+num_samples = 3000
+dfs = {
+    'CodeStral-22B': pd.read_csv('../../data/generation/generation_results_codelstral_22B.csv')[:num_samples],
+    'Mistral-7B': pd.read_csv('../../data/generation/generation_results_mistral_7B.csv')[:num_samples],
+    'Phi-2': pd.read_csv('../../data/generation/generation_results_phi-2.csv')[:num_samples],
+    'CodeGen2-3_7B': pd.read_csv('../../data/generation/generation_results_codegen2-3_7B.csv')[:num_samples],
+    'CodeGen25-7B-Mono': pd.read_csv('../../data/generation/generation_results_codegen25-7b-monoB.csv')[:num_samples],
+}
+
+important_sections = ['DataFrame', 'General functions', 'GroupBy', 'Index objects', 'Input/output', 'Series']
+
+overall_ratios = []
+section_ratios_list = []
+
+# Iterate through each model and process the data
+for name, df in dfs.items():
+    df = df[df['section_name'].isin(important_sections)]
+
+    df['match_found'] = df.apply(
+        lambda row: check_function_in_generated(extract_base_function(row['function_name']), row['generation']), axis=1)
+    df_false = df[df.match_found == False]
+    df_false = df_false[['function_name', 'description', 'section_name', 'subsection_name']]
+    df_false.to_csv(f'{name}_false_gen.csv')
+    print(len(df_false))
+    overall_ratio = df.match_found.sum() / len(df)
+    overall_ratios.append({'Model': name, 'Overall Correctness Ratio': overall_ratio})
+
+    # Calculate the correctness ratio for each section
+    section_ratios = df.groupby('section_name')['match_found'].mean().reset_index()
+    section_ratios = section_ratios.rename(columns={'match_found': 'correctness_ratio'})
+    section_counts = df.groupby('section_name').size().reset_index(name='row_count')
+    section_ratios = pd.merge(section_ratios, section_counts, on='section_name')
+
+    print(section_ratios.correctness_ratio.var())
+
+    print(f'\nResults for {name} model:\nOverall correctness ratio: {overall_ratio:.4f}\n{section_ratios}')
+
+    section_ratios['Model'] = name
+    section_ratios_list.append(section_ratios)
+
+# Combine section ratios for all models into a single DataFrame
+section_ratios_df = pd.concat(section_ratios_list, ignore_index=True)
+overall_ratios_df = pd.DataFrame(overall_ratios)
+
+# Set up plotting style
+sns.set(style="whitegrid")
+
+# Plot 1: Overall Correctness Ratio for Each Model
+plt.figure(figsize=(12, 8))
+sns.barplot(x='Model', y='Overall Correctness Ratio', data=overall_ratios_df, palette="muted")
+plt.title('Overall Correctness Ratio by Model')
+plt.ylabel('Correctness Ratio')
+plt.xlabel('Model')
+plt.ylim(0, 1)
+plt.savefig('../../data/plots/correctness_models.png', dpi=300)
+
+# Plot 2: Correctness Ratio by Section for Each Model
+plt.figure(figsize=(16, 9))
+sns.barplot(x='correctness_ratio', y='section_name', hue='Model', data=section_ratios_df, palette="muted")
+plt.title('Correctness Ratio by Section and Model')
+plt.xlabel('Correctness Ratio')
+plt.ylabel('Section Name')
+plt.xlim(0, 1)
+plt.legend(title='Model')
+plt.savefig('../../data/plots/correctness_models_by_section.png', dpi=300)
+
+plt.show()

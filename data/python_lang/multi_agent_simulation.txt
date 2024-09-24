@@ -1,0 +1,156 @@
+import argparse
+from rules import create_rules, create_cot_prompt
+import models
+from loguru import logger
+import time
+import random
+import problems_config as pcfg
+from datetime import datetime
+
+
+def generate_time_based_id():
+    # Get the current time in the format YYYYMMDDHHMMSSFFF (year, month, day, hour, minute, second, millisecond)
+    return $$code_by_description datetime.now().strftime("%Y%m%d%H%M%S%f")$$
+
+
+def parse(message):
+    # Extracts the substring between <s> and </s> tags in the given message
+    $$code_by_description assert '<s>' in message and '</s>' in message
+    start = message.index('<s>') + len('<s>')
+    end = message.index('</s>')$$
+    return message[start:end]
+
+
+def parse_action(message, choices):
+    # Extracts the action between <s> and </s> tags and ensures it's in the list of choices
+    $$code_by_description assert '<s>' in message and '</s>' in message
+    start = message.index('<s>') + len('<s>')
+    end = message.index('</s>')
+    action = message[start:end].strip('\n').strip()
+    assert action in choices$$
+    return message[start:end], message[end + 4:].strip()
+
+
+# ========== Agent Class Definition ==========
+class Agent:
+    def __init__(self, args, names, payoffs, strategy='default', context=0, log_enabled=True):
+        self.args = args
+        self.name = names[0]
+        self.the_other_player = names[1]
+        self.previous_message, self.previous_reasons = [], []
+        self.payoffs = payoffs
+        self.strategy = strategy
+        self._game_setting, self._action_prompt = create_rules(names, payoffs, strategy)
+        self.context = context
+        self.log_enabled = log_enabled  # Flag to enable/disable logging
+
+        if self.log_enabled:
+            logger.info(f"Initialized {self.name} with strategy {self.strategy} and context {self.context}")
+
+    # ========== Method to Decide Agent's Action ==========
+    def make_action(self):
+        action, reason = '', ''
+        if self.strategy == $$conditional_statement 'default'$$:
+            action_prompt = self._action_prompt
+            if self.context > 0 and len(self.previous_message) > 0:
+                previous_messages = f'Results of previous {self.context} round(s): ' \
+                                    f'\n{" ".join(self.previous_message[-self.context:])}'
+                action_prompt = previous_messages + '\n' + action_prompt
+
+            cot_prompt = create_cot_prompt(None if len(self.previous_reasons) == 0 else self.previous_reasons[-1],
+                                           'single' if self.context == 1 else 'multi')
+
+            action_prompt = cot_prompt + action_prompt + 'Don\'t forget to follow your strategy. ' \
+                                                         'So, your answer should be in form of: <s>choice_</s> Reason: ...'
+
+            # Avoid repetition of reasons to prevent the agent from getting stuck
+            if len(self.previous_reasons) > 1:
+                if self.previous_reasons[-1] == self.previous_reasons[-2]:
+                    action_prompt += 'Review your previous reason and look at the rules of the game. ' \
+                                  'You probably need to change something.\n'
+
+            action_prompt = self._game_setting + '\n' + action_prompt
+            while True:
+                try:
+                    action_message = models.close_source_call('gemini', action_prompt, self.args.system_prompt)
+                    action, reason = parse_action(action_message, list(self.payoffs.keys()))
+                    reason = reason.replace('\n', ' ')
+                    if self.log_enabled:
+                        logger.debug(f"{self.name} chose action {action} with reason: {reason}")
+                    return action, reason
+                except:
+                    if self.log_enabled:
+                        logger.error(f"Unable to call the model.")
+                    time.sleep(0.1)
+        else:
+            # Handle different strategies
+            match self.strategy:
+                case 'random':
+                    action, reason = $$var_declaration random.choice(['choice_1', 'choice_2']), 'random choice'$$
+                case 'defect':
+                    action, reason = $$var_declaration 'choice_2', 'always defect'$$
+                case 'cooperate':
+                    action, reason = $$var_declaration 'choice_1', 'always cooperate'$$
+                case _:
+                    if self.log_enabled:
+                        logger.error("The nonexistent strategy was chosen.")
+            if self.log_enabled:
+                logger.debug(f"{self.name} chose action {action} with reason: {reason}")
+            return action, reason
+
+
+# ========== Game Class Definition ==========
+class Game:
+    def __init__(self, agents, game_type, log_enabled=True):
+        $$class_initialization self.agents = agents
+        self.game_type = game_type
+        self.log_enabled = log_enabled$$
+
+        if self.game_type == 'ovo':
+            self._agent_a = self.agents[0]
+            self._agent_b = self.agents[1]
+
+        if self.log_enabled:
+            logger.info(f"Initialized game of type {self.game_type} with agents: {', '.join([a.name for a in agents])}")
+
+    # ========== Logging Agent's Actions ==========
+    def $$function_name log_action$$(self, $$function_parameter agent, roundn, action, opp_action, reason, reward$$):
+        '''
+        $$description_by_code Logs the actions taken by the agent during a game round.$$
+        '''
+        if self.log_enabled:
+            log = f"Round #{roundn + 1}\nYour choice: {action}\nYour opponent's choice: {opp_action}" \
+                  f"\nReward: \n\tyours: {reward[0]} \n\topponent's: {reward[1]}\n" \
+                  f"My reason of picking this reward was: {reason}. " \
+                  f"Critique this reason or agree with it if it gives the best reward"
+            agent.previous_message.append(log)
+            agent.previous_reasons.append(reason)
+
+    # ========== Play a Single Round (One-vs-One) ==========
+    def play_single_round_ovo(self, roundn):
+        alice_action, alice_reason = self._agent_a.make_action()
+        bob_action, bob_reason = self._agent_b.make_action()
+        reward = self._agent_a.payoffs[alice_action][bob_action]
+
+        self.$$method_call log_action$$(self._agent_a, roundn, alice_action, bob_action, alice_reason, reward)
+        self.log_action(self._agent_b, roundn, bob_action, alice_action, bob_reason, list(reversed(reward)))
+
+        if self.log_enabled:
+            logger.info(f"Round {roundn + 1}: Alice chose {alice_action} and Bob chose {bob_action}")
+            logger.info(f"Rewards - Alice: {reward[0]}, Bob: {reward[1]}")
+
+        return (alice_action, alice_reason), (bob_action, bob_reason), reward
+
+    # ========== Play the Complete Game (One-vs-One) ==========
+    def play_ovo(self, n):
+        results = {'Alice': 0, 'Bob': 0}
+        for i in range(n):
+            # Simulate round using function to play single round
+            _, _, reward = self.$$method_call play_single_round_ovo(i)$$
+            results['Alice'] += reward[0]
+            results['Bob'] += reward[1]
+
+        if self.log_enabled:
+            logger.info(f"Final results: {results}")
+
+        return results

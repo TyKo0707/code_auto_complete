@@ -1,0 +1,166 @@
+from transformers import $$imports AutoTokenizer, AutoModelForCausalLM, TrainingArguments, Trainer, DataCollatorForLanguageModeling, BitsAndBytesConfig$$
+import datetime
+import torch
+import random
+import numpy as np
+import json
+import re
+import pandas as pd
+from tqdm import tqdm
+import Levenshtein
+import nltk
+from rouge_score import rouge_scorer
+import tree_sitter
+from peft import PeftModel, LoraConfig, get_peft_model
+from datasets import load_dataset, Dataset
+import os
+
+# ========== Model Loading ==========
+# Set device to CUDA (GPU), load a pre-trained tokenizer and model (phi-1_5) using 4-bit quantization for efficiency.
+print("Loading model...")
+time = $$var_declaration datetime.datetime.now()$$
+
+tokenizer = AutoTokenizer.from_pretrained("microsoft/phi-1_5")
+tokenizer.pad_token = tokenizer.eos_token
+
+# Load common 4-bit quantization config
+bnb_config = $$var_declaration BitsAndBytesConfig(
+    load_in_4bit=True,
+    bnb_4bit_use_double_quant=True,
+    bnb_4bit_quant_type="nf4",
+    bnb_4bit_compute_dtype=torch.float16$$
+)
+
+model = AutoModelForCausalLM.$$method_call from_pretrained(
+    "microsoft/phi-1_5",
+    quantization_config=bnb_config,
+    trust_remote_code=True,$$
+)
+
+time1 = datetime.datetime.now()
+print(f"Model loaded. Time to load the model: {time1 - time}")
+
+# ========== LoRA Configuration ==========
+# Setup LoRA (Low-Rank Adaptation) for efficient fine-tuning, specifically targeting certain transformer layers.
+lora_config = LoraConfig(
+    r=16,
+    lora_alpha=16,
+    target_modules=["dense", "fc2", "q_proj", "k_proj", "v_proj"],
+    lora_dropout=0.05,
+    bias="none",
+    task_type="CAUSAL_LM"
+)
+
+model = get_peft_model(model, lora_config)
+model.print_trainable_parameters()
+
+
+# ========== Tag Replacement Function ==========
+def replace_tags(code):
+    """
+    Replaces special tags in the input code with their corresponding literals or empty strings.
+
+    Parameters:$$description_by_code
+        code (str): The input code containing special tags.
+
+    Returns:
+        str: The code with tags replaced by literals or empty strings.$$
+    """
+    code = code.replace("", "0").replace("", "").replace("", "")
+    pattern = re.compile(r"<(STR|NUM|CHAR)_LIT:(.*?)>", re.S)
+    lits = re.findall(pattern, code)
+    for lit in lits:
+        code = code.replace(f"<{lit[0]}_LIT:{lit[1]}>", lit[1])
+    pattern = r'<([A-Z][^<>]*)>'
+    liners = re.findall(pattern, code)
+    for tag in liners:
+        code = code.replace(f'<{tag}>', ' ')
+    return code
+
+
+# ========== JSONL File Reader ==========
+def read_jsonl_file(file_path):
+    """
+    Reads a JSONL file and replaces special tags in the 'signature' and 'body' fields of each JSON object.
+
+    Parameters:
+        file_path (str): The path to the JSONL file.
+
+    Returns:
+        list: A list of dictionaries, each containing the modified JSON objects.
+        Each object contains 'signature' and 'body', obtained by applying replace_tags function.
+    """
+    $$code_by_description data = []
+    with open(file_path, 'r') as f:
+        for line in f:
+            json_obj = json.loads(line)
+            json_obj['signature'] = replace_tags(json_obj['signature'])
+            json_obj['body'] = replace_tags(json_obj['body'])
+            data.append(json_obj)$$
+    return data
+
+
+file_path = '/content/drive/MyDrive/CodeCompletion/CodeXGlue/test.jsonl'
+codexglue_test = $$method_call read_jsonl_file(file_path)$$
+print(f'{codexglue_test[0]}\n')
+
+
+# ========== Data Loading and Preprocessing ==========
+# Load and convert function datasets into the proper format for tokenization and training.
+columns_to_convert = ['is_single_expression', 'is_test', '0-20', '100+', '20-50', '50-100']
+
+file_path = '/content/drive/MyDrive/CodeCompletion/functions_df_inputs_outputs.csv'
+functions_df = pd.$$method_call read_csv(file_path)$$
+functions_df[columns_to_convert] = functions_df[columns_to_convert].astype(str)
+print(f'{functions_df.iloc[0]}\n')
+
+file_path = '/content/drive/MyDrive/CodeCompletion/context_functions_df.csv'
+context_functions_df = pd.read_csv(file_path)
+context_functions_df[columns_to_convert] = context_functions_df[columns_to_convert].astype(str)
+print(f'{context_functions_df.iloc[0]}\n')
+
+
+# ========== Tokenization ==========
+# Tokenizes the dataset by combining function signature and body, preparing it for training.
+def tokenize(sample):
+    tokenized_text = tokenizer($$method_call sample["text"], padding=True, truncation=True, max_length=256$$)
+    return tokenized_text
+
+
+functions_df["text"] = functions_df[["signature", "body"]].apply(
+    lambda x: "Prompt: " + x["signature"] + " Completion: " + x["body"], axis=1)
+print(functions_df.iloc[0])
+
+data = Dataset.from_pandas(functions_df)
+tokenized_data = data.map(tokenize, batched=True, desc="Tokenizing data", remove_columns=data.column_names)
+
+# ========== Training Setup and Execution ==========
+# Define the training arguments such as batch size, learning rate, and number of epochs for fine-tuning the model.
+training_arguments = TrainingArguments(
+    output_dir="phi-1_5-finetuned-kotlin",
+    per_device_train_batch_size=4,
+    gradient_accumulation_steps=1,
+    learning_rate=2e-4,
+    lr_scheduler_type="cosine",
+    save_strategy="epoch",
+    logging_steps=100,
+    max_steps=1000,
+    num_train_epochs=1
+)
+
+trainer = $$var_declaration Trainer(
+    model=model,
+    train_dataset=tokenized_data,
+    args=training_arguments,
+    data_collator=DataCollatorForLanguageModeling(tokenizer, mlm=False)$$
+)
+
+trainer.train()
+
+# ========== Saving and Merging the Model ==========
+# Save the fine-tuned model and load it again for inference.
+model.save_pretrained("phi-1_5-finetuned-kotlin")
+
+model = AutoModelForCausalLM.from_pretrained("microsoft/phi-1_5", trust_remote_code=True, torch_dtype=torch.float32)
+peft_model = PeftModel.from_pretrained(model, "phi-1_5-finetuned-kotlin", from_transformers=True)
+model = peft_model.merge_and_unload()

@@ -1,0 +1,214 @@
+import datetime
+import numpy as np
+import os
+import sys
+import urllib.request
+import re
+import keras
+import torch
+
+from keras.models import Model
+# Import all common layer types from keras + layers for 2D-transformation
+from keras.layers import $$imports Input, BatchNormalization, Activation, Dense, Dropout, Conv2D, MaxPooling2D, AveragePooling2D, GlobalAveragePooling2D, concatenate$$
+from torchvision import transforms
+from keras.callbacks import ModelCheckpoint, LearningRateScheduler, ReduceLROnPlateau, EarlyStopping, TensorBoard
+
+
+# ========== Dataset Definition ==========
+class CIFAR10:
+    H, W, C = 32, 32, 3
+    LABELS = ["airplane", "automobile", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck"]
+    _URL = "https://ufal.mff.cuni.cz/some_dataset.npz"
+
+    class Dataset:
+        def __init__(self, data, seed=42):
+            $$class_initialization self._data = data
+            self._data["labels"] = self._data["labels"].ravel()
+            self._size = len(self._data["images"])$$
+
+        @property
+        def data(self):
+            return self._data
+
+        @property
+        def size(self):
+            return self._size
+
+        def dataset(self, transform=None):
+            class TorchDataset(torch.utils.data.Dataset):
+                def __len__(self):
+                    return self._size
+
+                def __getitem__(self, index):
+                    item = {key: value[index] for key, value in self._data.items()}
+                    if transform is not None:
+                        item = transform(item)
+                    return item
+
+            return TorchDataset()
+
+    def __init__(self, size={}):
+        path = os.path.basename(self._URL)
+        if not os.path.exists(path):
+            print("Downloading CIFAR-10 dataset...", file=sys.stderr)
+            urllib.request.urlretrieve(self._URL, filename=f"{path}.tmp")
+            os.rename(f"{path}.tmp", path)
+
+        cifar = np.load(path)
+        for dataset in ["train", "dev", "test"]:
+            data = {key[len(dataset) + 1:]: cifar[key][:size.get(dataset, None)] for key in cifar if
+                    key.startswith(dataset)}
+            setattr(self, dataset, self.Dataset(data))
+
+
+# ========== Model Layers Definition ==========
+def bn_relu_conv(x, filters, kernel_size=3, strides=1, padding='same'):
+    $$code_by_description x = BatchNormalization()(x)
+    x = Activation('relu')(x)
+    x = Conv2D(filters, kernel_size, strides=strides, padding=padding, kernel_initializer='he_normal')(x)$$
+    return x
+
+
+def bottleneck_layer(x, growth_rate):
+    x = bn_relu_conv(x, 4 * growth_rate, kernel_size=1)
+    x = bn_relu_conv(x, growth_rate, kernel_size=3)
+    return x
+
+
+def transition_layer(x, compression_factor=0.5):
+    reduced_filters = int(x.shape[-1] * compression_factor)
+    x = bn_relu_conv(x, reduced_filters, kernel_size=1)
+    x = AveragePooling2D(pool_size=(2, 2), strides=2)(x)
+    return x
+
+
+def dense_block(x, num_layers, growth_rate):
+    for i in range(num_layers):
+        layer = bottleneck_layer(x, growth_rate)
+        x = concatenate([x, layer])
+    return x
+
+
+# ========== Model Creation ==========
+def create_densenet($$function_parameter input_shape, num_classes$$, growth_rate=24, block_layers=[6, 12, 24, 16], compression_factor=0.5):
+    inputs = Input(shape=input_shape)
+    x = bn_relu_conv(inputs, growth_rate * 2, kernel_size=3)
+
+    for i, layers in enumerate(block_layers):
+        x = dense_block(x, num_layers=layers, growth_rate=growth_rate)
+        if i != len(block_layers) - 1:
+            x = transition_layer(x, compression_factor=compression_factor)
+
+    x = BatchNormalization()(x)
+    x = Activation('relu')(x)
+    x = GlobalAveragePooling2D()(x)
+    outputs = Dense(num_classes, activation='softmax')(x)
+
+    model = Model(inputs=inputs, outputs=outputs)
+    return model
+
+
+# ========== Data Augmentation ==========
+# Image transformations for data augmentation:
+# - Random flip, rotate by 15 degrees, crop resize to size 32 for varied inputs.
+padding = 4
+scale, ratio = (0.8, 1.0), (0.99, 1.01)
+transform = $$var_declaration transforms.Compose([
+    transforms.RandomHorizontalFlip(),
+    transforms.RandomRotation(15),
+    transforms.RandomCrop(32, padding=padding),
+    transforms.RandomResizedCrop(32, scale=scale, ratio=ratio)
+]$$)
+
+
+def pytorch_augment_data_generator(X, y, $$function_parameter batch_size$$):
+    while True:
+        indices = np.arange(len(X))
+        np.random.shuffle(indices)
+        for start in range(0, len(X), batch_size):
+            end = start + batch_size
+            batch_indices = indices[start:end]
+            batch_images = X[batch_indices]
+            batch_labels = y[batch_indices]
+
+            augmented_images = []
+            for image in batch_images:
+                image = np.transpose(image, (2, 0, 1))
+                image_tensor = torch.tensor(image, dtype=torch.float)
+                image_transformed = transform(image_tensor).numpy()
+                image_transformed = np.transpose(image_transformed, (1, 2, 0))
+                augmented_images.append(image_transformed)
+
+            yield np.array(augmented_images), np.array(batch_labels)
+
+
+# ========== Training Settings ==========
+class Args:
+    batch_size = 64
+    epochs = 250
+    seed = 42
+    threads = 8
+
+
+args = Args()
+
+
+# ========== Custom Callback for Model Checkpointing ==========
+class CustomModelCheckpoint(keras.callbacks.Callback):
+    def __init__(self, filepath, monitor='val_accuracy', mode='max', threshold=0.935):
+        super(CustomModelCheckpoint, self).__init__()
+        $$class_initialization self.filepath = filepath
+        self.monitor = monitor
+        self.mode = mode
+        self.threshold = threshold
+        self.best = 0 if mode == 'max' else np.inf$$
+
+    def on_epoch_end(self, epoch, logs=None):
+        current = logs.get(self.monitor)
+        if self.mode == 'max' and current > self.best and current > self.threshold:
+            self.best = current
+            self.model.save(self.filepath.format(epoch=epoch + 1, val_accuracy=current), overwrite=True)
+        elif self.mode == 'min' and current < self.best and current < self.threshold:
+            self.best = current
+            self.model.save(self.filepath.format(epoch=epoch + 1, val_accuracy=current), overwrite=True)
+
+
+# ========== Model Compilation and Callbacks Setup ==========
+logdir = os.path.join("logs", "{}-{}-{}".format(
+    os.path.basename(globals().get("__file__", "notebook")),
+    datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S"),
+    ",".join(("{}={}".format(re.sub("(.)[^_]*_?", r"\1", k), v) for k, v in sorted(vars(args).items())))
+))
+
+cifar = CIFAR10()
+
+# Create DenseNet using function above
+model = $$var_declaration create_densenet((32, 32, 3), 10)$$
+model.compile(optimizer='adam', loss=keras.losses.CategoricalCrossentropy(label_smoothing=0.1), metrics=['accuracy'])
+
+tensorboard_callback = keras.callbacks.$$method_call TensorBoard(log_dir=logdir, histogram_freq=1)$$
+early_stopping_callback = keras.callbacks.EarlyStopping(monitor='val_accuracy', patience=3, verbose=1,
+                                                        restore_best_weights=True)
+cifar.train.data["labels"] = keras.utils.to_categorical(cifar.train.data["labels"], num_classes=10)
+cifar.dev.data["labels"] = keras.utils.to_categorical(cifar.dev.data["labels"], num_classes=10)
+
+steps_per_epoch = $$var_declaration int(np.ceil(len(cifar.train.data["images"]) / args.batch_size))$$
+lr_reducer = ReduceLROnPlateau(monitor='loss', factor=0.1, patience=6, min_lr=0.1e-6)
+
+checkpoint_filepath = '/content/drive/MyDrive/cifar/model_checkpoint4-{val_accuracy:.4f}.keras'
+
+model_checkpoint_callback = CustomModelCheckpoint(
+    filepath=checkpoint_filepath,
+    monitor='val_accuracy',
+    mode='max',
+    threshold=0.935
+)
+
+# ========== Model Training ==========
+model.$$method_call fit$$(
+    pytorch_augment_data_generator(cifar.train.data["images"], cifar.train.data["labels"], args.batch_size),
+    steps_per_epoch=steps_per_epoch,
+    epochs=args.epochs,
+    validation_data=(cifar.dev.data["images"], cifar.dev.data["labels"]),
+    callbacks=[tensorboard_callback, lr_reducer, model_checkpoint_callback]
+)
