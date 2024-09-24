@@ -11,7 +11,7 @@ from datetime import datetime
 
 def generate_time_based_id():
     # Get the current time in the format YYYYMMDDHHMMSSFFF (year, month, day, hour, minute, second, millisecond)
-    ",code_by_description,"return datetime.now().strftime(""%Y%m%d%H%M%S%f"")","
+    return ",code_by_description,"datetime.now().strftime(""%Y%m%d%H%M%S%f"")","
 
 
 def parse(message):
@@ -116,12 +116,8 @@ class Game:
 
     # ========== Logging Agent's Actions ==========
     def log_action(self, agent, roundn, action, opp_action, reason, reward):
-        '''Logs the actions taken by the agent during a game round.
-
-        This function constructs a log message that includes the round number,
-        the agent's action, the opponent's action, the rewards received,
-        and the reasoning behind the chosen action. If logging is enabled,
-        this message is appended to the agent's previous messages and reasons.
+        '''
+        Logs the actions taken by the agent during a game round.
         '''
         if self.log_enabled:
             log = f""Round #{roundn + 1}\nYour choice: {action}\nYour opponent's choice: {opp_action}"" \
@@ -278,12 +274,8 @@ class Game:
 
     # ========== Logging Agent's Actions ==========
     def log_action(self, agent, roundn, action, opp_action, reason, reward):
-        '''Logs the actions taken by the agent during a game round.
-
-        This function constructs a log message that includes the round number,
-        the agent's action, the opponent's action, the rewards received,
-        and the reasoning behind the chosen action. If logging is enabled,
-        this message is appended to the agent's previous messages and reasons.
+        '''
+        Logs the actions taken by the agent during a game round.
         '''
         if self.log_enabled:
             log = f""Round #{roundn + 1}\nYour choice: {action}\nYour opponent's choice: {opp_action}"" \
@@ -440,12 +432,8 @@ class Game:
 
     # ========== Logging Agent's Actions ==========
     def log_action(self, agent, roundn, action, opp_action, reason, reward):
-        '''Logs the actions taken by the agent during a game round.
-
-        This function constructs a log message that includes the round number,
-        the agent's action, the opponent's action, the rewards received,
-        and the reasoning behind the chosen action. If logging is enabled,
-        this message is appended to the agent's previous messages and reasons.
+        '''
+        Logs the actions taken by the agent during a game round.
         '''
         if self.log_enabled:
             log = f""Round #{roundn + 1}\nYour choice: {action}\nYour opponent's choice: {opp_action}"" \
@@ -537,7 +525,7 @@ class Agent:
     # ========== Method to Decide Agent's Action ==========
     def make_action(self):
         action, reason = '', ''
-        if self.strategy ",conditional_statement,== 'default',":
+        if self.strategy == ",conditional_statement,'default',":
             action_prompt = self._action_prompt
             if self.context > 0 and len(self.previous_message) > 0:
                 previous_messages = f'Results of previous {self.context} round(s): ' \
@@ -602,12 +590,8 @@ class Game:
 
     # ========== Logging Agent's Actions ==========
     def log_action(self, agent, roundn, action, opp_action, reason, reward):
-        '''Logs the actions taken by the agent during a game round.
-
-        This function constructs a log message that includes the round number,
-        the agent's action, the opponent's action, the rewards received,
-        and the reasoning behind the chosen action. If logging is enabled,
-        this message is appended to the agent's previous messages and reasons.
+        '''
+        Logs the actions taken by the agent during a game round.
         '''
         if self.log_enabled:
             log = f""Round #{roundn + 1}\nYour choice: {action}\nYour opponent's choice: {opp_action}"" \
@@ -764,12 +748,8 @@ class Game:
 
     # ========== Logging Agent's Actions ==========
     def log_action(self, agent, roundn, action, opp_action, reason, reward):
-        '''Logs the actions taken by the agent during a game round.
-
-        This function constructs a log message that includes the round number,
-        the agent's action, the opponent's action, the rewards received,
-        and the reasoning behind the chosen action. If logging is enabled,
-        this message is appended to the agent's previous messages and reasons.
+        '''
+        Logs the actions taken by the agent during a game round.
         '''
         if self.log_enabled:
             log = f""Round #{roundn + 1}\nYour choice: {action}\nYour opponent's choice: {opp_action}"" \
@@ -926,12 +906,8 @@ class Game:
 
     # ========== Logging Agent's Actions ==========
     def log_action(self, agent, roundn, action, opp_action, reason, reward):
-        '''Logs the actions taken by the agent during a game round.
-
-        This function constructs a log message that includes the round number,
-        the agent's action, the opponent's action, the rewards received,
-        and the reasoning behind the chosen action. If logging is enabled,
-        this message is appended to the agent's previous messages and reasons.
+        '''
+        Logs the actions taken by the agent during a game round.
         '''
         if self.log_enabled:
             log = f""Round #{roundn + 1}\nYour choice: {action}\nYour opponent's choice: {opp_action}"" \
@@ -1088,12 +1064,8 @@ class Game:
 
     # ========== Logging Agent's Actions ==========
     def log_action(self, agent, roundn, action, opp_action, reason, reward):
-        '''Logs the actions taken by the agent during a game round.
-
-        This function constructs a log message that includes the round number,
-        the agent's action, the opponent's action, the rewards received,
-        and the reasoning behind the chosen action. If logging is enabled,
-        this message is appended to the agent's previous messages and reasons.
+        '''
+        Logs the actions taken by the agent during a game round.
         '''
         if self.log_enabled:
             log = f""Round #{roundn + 1}\nYour choice: {action}\nYour opponent's choice: {opp_action}"" \
@@ -1250,12 +1222,8 @@ class Game:
 
     # ========== Logging Agent's Actions ==========
     def log_action(self, agent, roundn, action, opp_action, reason, reward):
-        '''Logs the actions taken by the agent during a game round.
-
-        This function constructs a log message that includes the round number,
-        the agent's action, the opponent's action, the rewards received,
-        and the reasoning behind the chosen action. If logging is enabled,
-        this message is appended to the agent's previous messages and reasons.
+        '''
+        Logs the actions taken by the agent during a game round.
         '''
         if self.log_enabled:
             log = f""Round #{roundn + 1}\nYour choice: {action}\nYour opponent's choice: {opp_action}"" \
@@ -1412,12 +1380,8 @@ class Game:
 
     # ========== Logging Agent's Actions ==========
     def ",function_name,log_action,"(self, agent, roundn, action, opp_action, reason, reward):
-        '''Logs the actions taken by the agent during a game round.
-
-        This function constructs a log message that includes the round number,
-        the agent's action, the opponent's action, the rewards received,
-        and the reasoning behind the chosen action. If logging is enabled,
-        this message is appended to the agent's previous messages and reasons.
+        '''
+        Logs the actions taken by the agent during a game round.
         '''
         if self.log_enabled:
             log = f""Round #{roundn + 1}\nYour choice: {action}\nYour opponent's choice: {opp_action}"" \
@@ -1574,12 +1538,8 @@ class Game:
 
     # ========== Logging Agent's Actions ==========
     def log_action(self, ",function_parameter,"agent, roundn, action, opp_action, reason, reward","):
-        '''Logs the actions taken by the agent during a game round.
-
-        This function constructs a log message that includes the round number,
-        the agent's action, the opponent's action, the rewards received,
-        and the reasoning behind the chosen action. If logging is enabled,
-        this message is appended to the agent's previous messages and reasons.
+        '''
+        Logs the actions taken by the agent during a game round.
         '''
         if self.log_enabled:
             log = f""Round #{roundn + 1}\nYour choice: {action}\nYour opponent's choice: {opp_action}"" \
@@ -1736,12 +1696,8 @@ class Game:
 
     # ========== Logging Agent's Actions ==========
     def log_action(self, agent, roundn, action, opp_action, reason, reward):
-        '''",description_by_code,"        Logs the actions taken by the agent during a game round.
-
-        This function constructs a log message that includes the round number,
-        the agent's action, the opponent's action, the rewards received,
-        and the reasoning behind the chosen action. If logging is enabled,
-        this message is appended to the agent's previous messages and reasons.","
+        '''
+        ",description_by_code,Logs the actions taken by the agent during a game round.,"
         '''
         if self.log_enabled:
             log = f""Round #{roundn + 1}\nYour choice: {action}\nYour opponent's choice: {opp_action}"" \
@@ -1898,12 +1854,8 @@ class Game:
 
     # ========== Logging Agent's Actions ==========
     def log_action(self, agent, roundn, action, opp_action, reason, reward):
-        '''Logs the actions taken by the agent during a game round.
-
-        This function constructs a log message that includes the round number,
-        the agent's action, the opponent's action, the rewards received,
-        and the reasoning behind the chosen action. If logging is enabled,
-        this message is appended to the agent's previous messages and reasons.
+        '''
+        Logs the actions taken by the agent during a game round.
         '''
         if self.log_enabled:
             log = f""Round #{roundn + 1}\nYour choice: {action}\nYour opponent's choice: {opp_action}"" \
@@ -2060,12 +2012,8 @@ class Game:
 
     # ========== Logging Agent's Actions ==========
     def log_action(self, agent, roundn, action, opp_action, reason, reward):
-        '''Logs the actions taken by the agent during a game round.
-
-        This function constructs a log message that includes the round number,
-        the agent's action, the opponent's action, the rewards received,
-        and the reasoning behind the chosen action. If logging is enabled,
-        this message is appended to the agent's previous messages and reasons.
+        '''
+        Logs the actions taken by the agent during a game round.
         '''
         if self.log_enabled:
             log = f""Round #{roundn + 1}\nYour choice: {action}\nYour opponent's choice: {opp_action}"" \
@@ -2440,10 +2388,10 @@ model.print_trainable_parameters()
 
 # ========== Tag Replacement Function ==========
 def replace_tags(code):
-    """"""Replaces special tags in the input code with their corresponding literals or empty strings.
+    """"""
+    Replaces special tags in the input code with their corresponding literals or empty strings.
 
-    Parameters:
-        code (str): The input code containing special tags.
+    Parameters:code (str): The input code containing special tags.
 
     Returns:
         str: The code with tags replaced by literals or empty strings.
@@ -2607,10 +2555,10 @@ model.print_trainable_parameters()
 
 # ========== Tag Replacement Function ==========
 def replace_tags(code):
-    """"""Replaces special tags in the input code with their corresponding literals or empty strings.
+    """"""
+    Replaces special tags in the input code with their corresponding literals or empty strings.
 
-    Parameters:
-        code (str): The input code containing special tags.
+    Parameters:code (str): The input code containing special tags.
 
     Returns:
         str: The code with tags replaced by literals or empty strings.
@@ -2745,8 +2693,8 @@ bnb_config = ",var_declaration,"BitsAndBytesConfig(
     load_in_4bit=True,
     bnb_4bit_use_double_quant=True,
     bnb_4bit_quant_type=""nf4"",
-    bnb_4bit_compute_dtype=torch.float16
-)","
+    bnb_4bit_compute_dtype=torch.float16","
+)
 
 model = AutoModelForCausalLM.from_pretrained(
     ""microsoft/phi-1_5"",
@@ -2774,10 +2722,10 @@ model.print_trainable_parameters()
 
 # ========== Tag Replacement Function ==========
 def replace_tags(code):
-    """"""Replaces special tags in the input code with their corresponding literals or empty strings.
+    """"""
+    Replaces special tags in the input code with their corresponding literals or empty strings.
 
-    Parameters:
-        code (str): The input code containing special tags.
+    Parameters:code (str): The input code containing special tags.
 
     Returns:
         str: The code with tags replaced by literals or empty strings.
@@ -2918,8 +2866,8 @@ bnb_config = BitsAndBytesConfig(
 model = AutoModelForCausalLM.",method_call,"from_pretrained(
     ""microsoft/phi-1_5"",
     quantization_config=bnb_config,
-    trust_remote_code=True,
-)","
+    trust_remote_code=True,","
+)
 
 time1 = datetime.datetime.now()
 print(f""Model loaded. Time to load the model: {time1 - time}"")
@@ -2941,10 +2889,10 @@ model.print_trainable_parameters()
 
 # ========== Tag Replacement Function ==========
 def replace_tags(code):
-    """"""Replaces special tags in the input code with their corresponding literals or empty strings.
+    """"""
+    Replaces special tags in the input code with their corresponding literals or empty strings.
 
-    Parameters:
-        code (str): The input code containing special tags.
+    Parameters:code (str): The input code containing special tags.
 
     Returns:
         str: The code with tags replaced by literals or empty strings.
@@ -3108,10 +3056,10 @@ model.print_trainable_parameters()
 
 # ========== Tag Replacement Function ==========
 def replace_tags(code):
-    """"""",description_by_code,"    Replaces special tags in the input code with their corresponding literals or empty strings.
+    """"""
+    Replaces special tags in the input code with their corresponding literals or empty strings.
 
-    Parameters:
-        code (str): The input code containing special tags.
+    Parameters:",description_by_code,"        code (str): The input code containing special tags.
 
     Returns:
         str: The code with tags replaced by literals or empty strings.","
@@ -3275,10 +3223,10 @@ model.print_trainable_parameters()
 
 # ========== Tag Replacement Function ==========
 def replace_tags(code):
-    """"""Replaces special tags in the input code with their corresponding literals or empty strings.
+    """"""
+    Replaces special tags in the input code with their corresponding literals or empty strings.
 
-    Parameters:
-        code (str): The input code containing special tags.
+    Parameters:code (str): The input code containing special tags.
 
     Returns:
         str: The code with tags replaced by literals or empty strings.
@@ -3307,14 +3255,14 @@ def read_jsonl_file(file_path):
         list: A list of dictionaries, each containing the modified JSON objects.
         Each object contains 'signature' and 'body', obtained by applying replace_tags function.
     """"""
-    data = ",code_by_description,"[]
+    ",code_by_description,"data = []
     with open(file_path, 'r') as f:
         for line in f:
             json_obj = json.loads(line)
             json_obj['signature'] = replace_tags(json_obj['signature'])
             json_obj['body'] = replace_tags(json_obj['body'])
-            data.append(json_obj)
-    return data","
+            data.append(json_obj)","
+    return data
 
 
 file_path = '/content/drive/MyDrive/CodeCompletion/CodeXGlue/test.jsonl'
@@ -3442,10 +3390,10 @@ model.print_trainable_parameters()
 
 # ========== Tag Replacement Function ==========
 def replace_tags(code):
-    """"""Replaces special tags in the input code with their corresponding literals or empty strings.
+    """"""
+    Replaces special tags in the input code with their corresponding literals or empty strings.
 
-    Parameters:
-        code (str): The input code containing special tags.
+    Parameters:code (str): The input code containing special tags.
 
     Returns:
         str: The code with tags replaced by literals or empty strings.
@@ -3609,10 +3557,10 @@ model.print_trainable_parameters()
 
 # ========== Tag Replacement Function ==========
 def replace_tags(code):
-    """"""Replaces special tags in the input code with their corresponding literals or empty strings.
+    """"""
+    Replaces special tags in the input code with their corresponding literals or empty strings.
 
-    Parameters:
-        code (str): The input code containing special tags.
+    Parameters:code (str): The input code containing special tags.
 
     Returns:
         str: The code with tags replaced by literals or empty strings.
@@ -3776,10 +3724,10 @@ model.print_trainable_parameters()
 
 # ========== Tag Replacement Function ==========
 def replace_tags(code):
-    """"""Replaces special tags in the input code with their corresponding literals or empty strings.
+    """"""
+    Replaces special tags in the input code with their corresponding literals or empty strings.
 
-    Parameters:
-        code (str): The input code containing special tags.
+    Parameters:code (str): The input code containing special tags.
 
     Returns:
         str: The code with tags replaced by literals or empty strings.
@@ -3943,10 +3891,10 @@ model.print_trainable_parameters()
 
 # ========== Tag Replacement Function ==========
 def replace_tags(code):
-    """"""Replaces special tags in the input code with their corresponding literals or empty strings.
+    """"""
+    Replaces special tags in the input code with their corresponding literals or empty strings.
 
-    Parameters:
-        code (str): The input code containing special tags.
+    Parameters:code (str): The input code containing special tags.
 
     Returns:
         str: The code with tags replaced by literals or empty strings.
@@ -4037,8 +3985,8 @@ trainer = ",var_declaration,"Trainer(
     model=model,
     train_dataset=tokenized_data,
     args=training_arguments,
-    data_collator=DataCollatorForLanguageModeling(tokenizer, mlm=False)
-)","
+    data_collator=DataCollatorForLanguageModeling(tokenizer, mlm=False)","
+)
 
 trainer.train()
 
@@ -4062,8 +4010,7 @@ import torch
 
 from keras.models import Model
 # Import all common layer types from keras + layers for 2D-transformation
-from keras.layers import ",imports,"Input, BatchNormalization, Activation, Dense, Dropout, Conv2D, MaxPooling2D, AveragePooling2D, \
-    GlobalAveragePooling2D, concatenate","
+from keras.layers import ",imports,"Input, BatchNormalization, Activation, Dense, Dropout, Conv2D, MaxPooling2D, AveragePooling2D, GlobalAveragePooling2D, concatenate","
 from torchvision import transforms
 from keras.callbacks import ModelCheckpoint, LearningRateScheduler, ReduceLROnPlateau, EarlyStopping, TensorBoard
 
@@ -4279,8 +4226,7 @@ import torch
 
 from keras.models import Model
 # Import all common layer types from keras + layers for 2D-transformation
-from keras.layers import Input, BatchNormalization, Activation, Dense, Dropout, Conv2D, MaxPooling2D, AveragePooling2D, \
-    GlobalAveragePooling2D, concatenate
+from keras.layers import Input, BatchNormalization, Activation, Dense, Dropout, Conv2D, MaxPooling2D, AveragePooling2D, GlobalAveragePooling2D, concatenate
 from torchvision import transforms
 from keras.callbacks import ModelCheckpoint, LearningRateScheduler, ReduceLROnPlateau, EarlyStopping, TensorBoard
 
@@ -4496,8 +4442,7 @@ import torch
 
 from keras.models import Model
 # Import all common layer types from keras + layers for 2D-transformation
-from keras.layers import Input, BatchNormalization, Activation, Dense, Dropout, Conv2D, MaxPooling2D, AveragePooling2D, \
-    GlobalAveragePooling2D, concatenate
+from keras.layers import Input, BatchNormalization, Activation, Dense, Dropout, Conv2D, MaxPooling2D, AveragePooling2D, GlobalAveragePooling2D, concatenate
 from torchvision import transforms
 from keras.callbacks import ModelCheckpoint, LearningRateScheduler, ReduceLROnPlateau, EarlyStopping, TensorBoard
 
@@ -4713,8 +4658,7 @@ import torch
 
 from keras.models import Model
 # Import all common layer types from keras + layers for 2D-transformation
-from keras.layers import Input, BatchNormalization, Activation, Dense, Dropout, Conv2D, MaxPooling2D, AveragePooling2D, \
-    GlobalAveragePooling2D, concatenate
+from keras.layers import Input, BatchNormalization, Activation, Dense, Dropout, Conv2D, MaxPooling2D, AveragePooling2D, GlobalAveragePooling2D, concatenate
 from torchvision import transforms
 from keras.callbacks import ModelCheckpoint, LearningRateScheduler, ReduceLROnPlateau, EarlyStopping, TensorBoard
 
@@ -4930,8 +4874,7 @@ import torch
 
 from keras.models import Model
 # Import all common layer types from keras + layers for 2D-transformation
-from keras.layers import Input, BatchNormalization, Activation, Dense, Dropout, Conv2D, MaxPooling2D, AveragePooling2D, \
-    GlobalAveragePooling2D, concatenate
+from keras.layers import Input, BatchNormalization, Activation, Dense, Dropout, Conv2D, MaxPooling2D, AveragePooling2D, GlobalAveragePooling2D, concatenate
 from torchvision import transforms
 from keras.callbacks import ModelCheckpoint, LearningRateScheduler, ReduceLROnPlateau, EarlyStopping, TensorBoard
 
@@ -5040,7 +4983,7 @@ transform = ",var_declaration,"transforms.Compose([
     transforms.RandomRotation(15),
     transforms.RandomCrop(32, padding=padding),
     transforms.RandomResizedCrop(32, scale=scale, ratio=ratio)
-])","
+]",")
 
 
 def pytorch_augment_data_generator(X, y, batch_size):
@@ -5147,8 +5090,7 @@ import torch
 
 from keras.models import Model
 # Import all common layer types from keras + layers for 2D-transformation
-from keras.layers import Input, BatchNormalization, Activation, Dense, Dropout, Conv2D, MaxPooling2D, AveragePooling2D, \
-    GlobalAveragePooling2D, concatenate
+from keras.layers import Input, BatchNormalization, Activation, Dense, Dropout, Conv2D, MaxPooling2D, AveragePooling2D, GlobalAveragePooling2D, concatenate
 from torchvision import transforms
 from keras.callbacks import ModelCheckpoint, LearningRateScheduler, ReduceLROnPlateau, EarlyStopping, TensorBoard
 
@@ -5364,8 +5306,7 @@ import torch
 
 from keras.models import Model
 # Import all common layer types from keras + layers for 2D-transformation
-from keras.layers import Input, BatchNormalization, Activation, Dense, Dropout, Conv2D, MaxPooling2D, AveragePooling2D, \
-    GlobalAveragePooling2D, concatenate
+from keras.layers import Input, BatchNormalization, Activation, Dense, Dropout, Conv2D, MaxPooling2D, AveragePooling2D, GlobalAveragePooling2D, concatenate
 from torchvision import transforms
 from keras.callbacks import ModelCheckpoint, LearningRateScheduler, ReduceLROnPlateau, EarlyStopping, TensorBoard
 
@@ -5581,8 +5522,7 @@ import torch
 
 from keras.models import Model
 # Import all common layer types from keras + layers for 2D-transformation
-from keras.layers import Input, BatchNormalization, Activation, Dense, Dropout, Conv2D, MaxPooling2D, AveragePooling2D, \
-    GlobalAveragePooling2D, concatenate
+from keras.layers import Input, BatchNormalization, Activation, Dense, Dropout, Conv2D, MaxPooling2D, AveragePooling2D, GlobalAveragePooling2D, concatenate
 from torchvision import transforms
 from keras.callbacks import ModelCheckpoint, LearningRateScheduler, ReduceLROnPlateau, EarlyStopping, TensorBoard
 
@@ -5798,8 +5738,7 @@ import torch
 
 from keras.models import Model
 # Import all common layer types from keras + layers for 2D-transformation
-from keras.layers import Input, BatchNormalization, Activation, Dense, Dropout, Conv2D, MaxPooling2D, AveragePooling2D, \
-    GlobalAveragePooling2D, concatenate
+from keras.layers import Input, BatchNormalization, Activation, Dense, Dropout, Conv2D, MaxPooling2D, AveragePooling2D, GlobalAveragePooling2D, concatenate
 from torchvision import transforms
 from keras.callbacks import ModelCheckpoint, LearningRateScheduler, ReduceLROnPlateau, EarlyStopping, TensorBoard
 
@@ -6015,8 +5954,7 @@ import torch
 
 from keras.models import Model
 # Import all common layer types from keras + layers for 2D-transformation
-from keras.layers import Input, BatchNormalization, Activation, Dense, Dropout, Conv2D, MaxPooling2D, AveragePooling2D, \
-    GlobalAveragePooling2D, concatenate
+from keras.layers import Input, BatchNormalization, Activation, Dense, Dropout, Conv2D, MaxPooling2D, AveragePooling2D, GlobalAveragePooling2D, concatenate
 from torchvision import transforms
 from keras.callbacks import ModelCheckpoint, LearningRateScheduler, ReduceLROnPlateau, EarlyStopping, TensorBoard
 
@@ -6232,8 +6170,7 @@ import torch
 
 from keras.models import Model
 # Import all common layer types from keras + layers for 2D-transformation
-from keras.layers import Input, BatchNormalization, Activation, Dense, Dropout, Conv2D, MaxPooling2D, AveragePooling2D, \
-    GlobalAveragePooling2D, concatenate
+from keras.layers import Input, BatchNormalization, Activation, Dense, Dropout, Conv2D, MaxPooling2D, AveragePooling2D, GlobalAveragePooling2D, concatenate
 from torchvision import transforms
 from keras.callbacks import ModelCheckpoint, LearningRateScheduler, ReduceLROnPlateau, EarlyStopping, TensorBoard
 
