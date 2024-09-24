@@ -11,7 +11,7 @@ def evaluation_step(prefix, suffix, target, tag, generated, index, model_name):
     functional_correctness = bool(
         int(input('Functional Correctness - will generated line compile? (bool int: 0/1): ') or "1")
     )
-    factual_correctness = float(input('Factual Correctness - is it correct? (int: 0-10): ') or "10") / 10
+    factual_correctness = float(input('Factual Correctness - is generated code correct? (int: 0-10): ') or "10") / 10
     relevance = float(input('Relevance (int: 0-10): ') or "10") / 10
     results = {'functional_correctness': functional_correctness,
                'factual_correctness': factual_correctness,
