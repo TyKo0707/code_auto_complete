@@ -62,6 +62,11 @@ I applied similar logic to automatic metrics, with some slight differences in fo
 - **ROUGE-L** &uarr;: (Syntactic similarity) Focuses on matching long subsequences between the generated and target code.
 - **Function Correctness (LLM)** &uarr;: (Functional correctness) Automatically checks whether the generated code runs without errors, using LLMs for efficiency instead of manual tests.
 
+*Note*: I was thinking about writing tests for completion code automatically.
+But it happened to be quite tricky to cover all types of generated code.
+So I decided to use LLM (Claude 3 Opus) for this task, and the model has shown itself to be of sufficient quality and suitability for this.
+You can see structure of a prompt at [utils/prompt_gen.py](https://github.com/TyKo0707/code_completion/blob/main/utils/prompt_gen.py).
+
 I will discuss their pros and cons later, now we are done with choosing the metrics.
 Example of evaluation:
 ```python 
@@ -85,3 +90,26 @@ functional_correctness: 1; factual_correctness: 0.8; relevance: 0.9
 exact_match: 0; chrf3: 0.675; edit_distance: 62; embedding_similarity: 0.959; rouge_l: 0.680; function_correctness_llm: 1
 ```
 
+### 4. Results:
+As a result of evaluating the generation of each of the models, 
+I obtained the results and stored them in the [data/eval_results](https://github.com/TyKo0707/code_completion/tree/main/data/eval_results) directory.
+#### Model Results
+
+- **Starcoder2-7B** was the best performer based on metrics, while **tiny_starcoder_py** was the worst.
+- This result is surprising: I expected **starcoder2-15B** to lead significantly, but its generation flaws affected this.
+- **Starcoder2-15B** generates outputs with significant edit distance deviations and often produces unexpected code, which can be both a strength and a weakness because the quality of unexpected remains good.
+- Overall, all models performed reasonably well for their sizes, but I would highlight starcoder2-7B as the model that most clearly fulfills its tasks.
+
+####  Comparison of Metrics
+
+*Note*: I transformed the edit_distance metric with MinMaxScaler and inverted the values (new_val = 1 - old_val).
+
+Insights from the Correlation Plot:
+- The binary variables **functional_correctness** and **functional_correctness_llm** correlate more with each other than with continuous variables.
+- **Functional_correctness** correlates highest with its LLM-generated counterpart, indicating that the LLM reliably assesses the generated code's functionality.
+- **Factual_correctness** is closely related to **chrf3**, **embedding_similarity**, and **rouge_l**, which becomes evident when we realize that these automatic metrics assess syntactic and semantic similarity, which is what factual_correctness represents too.
+- **Relevance** also shows high correlation with **factual_correctness**, though they differ in some justified cases, leading me to retain this metric.
+
+Differences in Pearson and Spearman Correlation Matrices:
+- Pearson correlation values are lower than Spearman’s, suggesting some relationships are nonlinear and better represented by curves. 
+Thus, using both methods together can provide a more comprehensive understanding of variable relationships.
