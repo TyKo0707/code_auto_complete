@@ -62,4 +62,30 @@ I applied similar logic to automatic metrics, with some slight differences in fo
 - **Function Correctness (LLM)**: (Functional correctness) Automatically checks whether the generated code runs without errors, using LLMs for efficiency instead of manual tests.
 
 I will discuss their pros and cons later, now we are done with choosing the metrics.
+Example of evaluation:
+```python 
+target: BitsAndBytesConfig(
+    load_in_4bit=True,
+    bnb_4bit_use_double_quant=True,
+    bnb_4bit_quant_type="nf4",
+    bnb_4bit_compute_dtype=torch.float16
+)
+generated: BitsAndBytesConfig(
+    load_in_8bit=True,
+    bnb_4bit_quant_type="nf4",
+    bnb_4bit_use_double_quant=True
+)
 
+# Manual
+functional_correctness: 1
+factual_correctness: 0.8
+relevance: 0.9
+
+# Automatic
+exact_match: 0
+chrf3: 0.674547983310153
+edit_distance: 62
+embedding_similarity: 0.95885
+rouge_l: 0.6796116504854369
+function_correctness_llm: 1
+```
