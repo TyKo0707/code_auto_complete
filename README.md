@@ -60,3 +60,6 @@ I applied similar logic to automatic metrics, with some slight differences in fo
 - **Embedding Similarity**: (Semantic similarity) Measures how semantically similar the generated code is to the target using embeddings like [CodeT5p-110m-Embedding](https://huggingface.co/Salesforce/codet5p-110m-embedding).
 - **ROUGE-L**: (Syntactic similarity) Focuses on matching long subsequences between the generated and target code.
 - **Function Correctness (LLM)**: (Functional correctness) Automatically checks whether the generated code runs without errors, using LLMs for efficiency instead of manual tests.
+
+I will discuss their pros and cons later, now we are done with choosing the metrics.
+
