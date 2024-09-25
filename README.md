@@ -94,16 +94,24 @@ exact_match: 0; chrf3: 0.675; edit_distance: 62; embedding_similarity: 0.959; ro
 As a result of evaluating the generation of each of the models, 
 I obtained the results and stored them in the [data/eval_results](https://github.com/TyKo0707/code_completion/tree/main/data/eval_results) directory.
 #### Model Results
+![manual_metrics](https://github.com/user-attachments/assets/b609575c-722c-4cf9-9aea-dfb5ac7b52cc)
+> Manual metrics
 
+![automatic_metrics](https://github.com/user-attachments/assets/e5d4c464-fb70-4cc8-bbbb-adb2c34aac24)
+> Automatic metrics
 - **Starcoder2-7B** was the best performer based on metrics, while **tiny_starcoder_py** was the worst.
 - This result is surprising: I expected **starcoder2-15B** to lead significantly, but its generation flaws affected this.
 - **Starcoder2-15B** generates outputs with significant edit distance deviations and often produces unexpected code, which can be both a strength and a weakness because the quality of unexpected remains good.
 - Overall, all models performed reasonably well for their sizes, but I would highlight starcoder2-7B as the model that most clearly fulfills its tasks.
 
 ####  Comparison of Metrics
+![metrics_correlation_spearman](https://github.com/user-attachments/assets/7f282bc2-a936-41c8-b5d4-37b6323cd770)
+> Spearman method correlation matrix
 
-*Note*: I transformed the edit_distance metric with MinMaxScaler and inverted the values (new_val = 1 - old_val).
+![metrics_correlation_pearson](https://github.com/user-attachments/assets/adcae412-dfbc-4975-ba4d-dc12b35d2269)
+> Pearson method correlation matrix
 
+*Note*: I transformed the edit_distance metric with MinMaxScaler and inverted the values (new_val = 1 - old_val).  
 Insights from the Correlation Plot:
 - The binary variables **functional_correctness** and **functional_correctness_llm** correlate more with each other than with continuous variables.
 - **Functional_correctness** correlates highest with its LLM-generated counterpart, indicating that the LLM reliably assesses the generated code's functionality.
