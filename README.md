@@ -46,20 +46,21 @@ For each generated sample, with its target form and context (prefix and suffix),
 - **Semantic Similarity**: Even if the code isn't identical, does it accomplish the task correctly, given the context?
 
 #### Manual Evaluation Metrics
+The arrows (&uarr; & &darr;) indicate the change in which direction is an indicator of improvement for each metric
 I’ve defined three manual metrics to assess code generation:
-- **Functional Correctness**: Does the generated code compile and run without errors?
-- **Factual Correctness**: Does the generated code solve the intended task?
-- **Relevance**: How well does the generated code fit the context and solve the task? (This is subjective but important.)
+- **Functional Correctness** &uarr;: Does the generated code compile and run without errors?
+- **Factual Correctness** &uarr;: Does the generated code solve the intended task?
+- **Relevance** &uarr;: How well does the generated code fit the context and solve the task? (This is subjective but important.)
 
 #### Automatic Evaluation Metrics
 I applied similar logic to automatic metrics, with some slight differences in focus:
 
-- **Exact Match**: (Exact match) Checks if the generated code is identical to the reference.
-- **CHRF3**: (Syntactic similarity) Evaluates character-level similarity, capturing fine details.
-- **Edit Distance**: (Syntactic similarity) Counts the number of changes required to match the reference.
-- **Embedding Similarity**: (Semantic similarity) Measures how semantically similar the generated code is to the target using embeddings like [CodeT5p-110m-Embedding](https://huggingface.co/Salesforce/codet5p-110m-embedding).
-- **ROUGE-L**: (Syntactic similarity) Focuses on matching long subsequences between the generated and target code.
-- **Function Correctness (LLM)**: (Functional correctness) Automatically checks whether the generated code runs without errors, using LLMs for efficiency instead of manual tests.
+- **Exact Match** &uarr;: (Exact match) Checks if the generated code is identical to the reference.
+- **CHRF3** &uarr;: (Syntactic similarity) Evaluates character-level similarity, capturing fine details.
+- **Edit Distance** &darr;: (Syntactic similarity) Counts the number of changes required to match the reference.
+- **Embedding Similarity** &uarr;: (Semantic similarity) Measures how semantically similar the generated code is to the target using embeddings like [CodeT5p-110m-Embedding](https://huggingface.co/Salesforce/codet5p-110m-embedding).
+- **ROUGE-L** &uarr;: (Syntactic similarity) Focuses on matching long subsequences between the generated and target code.
+- **Function Correctness (LLM)** &uarr;: (Functional correctness) Automatically checks whether the generated code runs without errors, using LLMs for efficiency instead of manual tests.
 
 I will discuss their pros and cons later, now we are done with choosing the metrics.
 Example of evaluation:
@@ -77,15 +78,8 @@ generated: BitsAndBytesConfig(
 )
 
 # Manual
-functional_correctness: 1
-factual_correctness: 0.8
-relevance: 0.9
+functional_correctness: 1; factual_correctness: 0.8; relevance: 0.9
 
 # Automatic
-exact_match: 0
-chrf3: 0.674547983310153
-edit_distance: 62
-embedding_similarity: 0.95885
-rouge_l: 0.6796116504854369
-function_correctness_llm: 1
+exact_match: 0; chrf3: 0.675; edit_distance: 62; embedding_similarity: 0.959; rouge_l: 0.680; function_correctness_llm: 1
 ```
