@@ -46,7 +46,7 @@ For each generated sample, with its target form and context (prefix and suffix),
 - **Semantic Similarity**: Even if the code isn't identical, does it accomplish the task correctly, given the context?
 
 #### Manual Evaluation Metrics
-The arrows (&uarr; & &darr;) indicate the change in which direction is an indicator of improvement for each metric
+The arrows (&uarr; & &darr;) indicate the change in which direction is an indicator of improvement for each metric. <br>
 I’ve defined three manual metrics to assess code generation:
 - **Functional Correctness** &uarr;: Does the generated code compile and run without errors?
 - **Factual Correctness** &uarr;: Does the generated code solve the intended task?
@@ -71,6 +71,7 @@ target: BitsAndBytesConfig(
     bnb_4bit_quant_type="nf4",
     bnb_4bit_compute_dtype=torch.float16
 )
+
 generated: BitsAndBytesConfig(
     load_in_8bit=True,
     bnb_4bit_quant_type="nf4",
@@ -83,3 +84,4 @@ functional_correctness: 1; factual_correctness: 0.8; relevance: 0.9
 # Automatic
 exact_match: 0; chrf3: 0.675; edit_distance: 62; embedding_similarity: 0.959; rouge_l: 0.680; function_correctness_llm: 1
 ```
+
