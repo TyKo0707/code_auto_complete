@@ -131,8 +131,7 @@ Here I'll outline the pros and cons I can find, for all the metrics I've used.
 
 - **Exact Match**:<br>
 \+ Great for understanding perfect outputs.<br>
-\- Too strict for varying output lengths and types.<br>
-<br>
+\- Too strict for varying output lengths and types.<br><br>
 - **ROUGE-L**:<br>
 \+ Captures token order (longest common subsequence).<br>
 \+ Evaluates tokens and sequences for nuanced assessment.<br>
