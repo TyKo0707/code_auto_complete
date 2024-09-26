@@ -20,7 +20,7 @@ I need to create a dataset consists of prefix, middle part (target), and suffix.
 Each target is located inside `$$tag ...$$` symbols. 
 There are 9 different types of tags (`code_by_description, conditional_statement, var_declaration, class_initialization, function_name, function_parameter, description_by_code, method_call, imports`) 
 that can be later used for troubleshooting or analysis, but as of now it is just a small bonus since the dataset is relatively small. 
-You can check example for each type by (data/tags_examples.txt)[https://github.com/TyKo0707/code_completion/blob/main/data/tags_example.txt]
+You can check example for each type by [data/tags_examples.txt](https://github.com/TyKo0707/code_completion/blob/main/data/tags_example.txt)
 Example:
 ```python 
 # Example 1:
