@@ -136,28 +136,24 @@ Here I'll outline the pros and cons I can find, for all the metrics I've used.
 \+ Captures token order (longest common subsequence).<br>
 \+ Evaluates tokens and sequences for nuanced assessment.<br>
 \- Limited contextual understanding.<br>
-\- High recall may not imply good performance; irrelevant matches possible.<br>
-<br>
+\- High recall may not imply good performance; irrelevant matches possible.<br><br>
 - **CHRF** (n=3):<br>
 \+ Sensitive to small syntax variations.<br>
 \+ Less sensitive to output length than word-based metrics.<br>
 \- Limited contextual understanding.<br>
 \- Doesn’t fully capture token order importance.<br>
-\- High recall but may lack precision in code quality.<br>
-<br>
+\- High recall but may lack precision in code quality.<br><br>
 - **Edit Distance**:<br>
 \+ Measures closeness, useful for typos and minor errors.<br>
 \- Limited contextual understanding.<br>
 \- Overly sensitive to small changes.<br>
-\- Ignores token order importance.<br>
-<br>
+\- Ignores token order importance.<br><br>
 - **Embedding Similarity** (CodeT5p embeddings):<br>
 \+ Captures semantic similarity, identifying equivalent completions.<br>
 \+ Context-aware, factoring in relationships between code elements.<br>
 \+ Can integrate with clustering and classification tasks.<br>
 \- Computationally expensive.<br>
-\- Misses specific syntax details, focuses on high-level similarities.<br>
-<br>
+\- Misses specific syntax details, focuses on high-level similarities.<br><br>
 - **Functional Correctness with LLMs**:<br>
 \+ Great for understanding whether generated output will work alone.<br>
 \- Cannot compile code with generated part, therefore not always correct.<br>
