@@ -1,0 +1,87 @@
+====================================================================================================
+tag: Code By Description ($$code_by_description)
+
+def bn_relu_conv(x, filters, kernel_size=3, strides=1, padding='same'):
+    $$code_by_description x = BatchNormalization()(x)
+    x = Activation('relu')(x)
+    x = Conv2D(filters, kernel_size, strides=strides, padding=padding, kernel_initializer='he_normal')(x)$$
+    return x
+
+====================================================================================================
+tag: Var Declaration ($$var_declaration)
+
+cifar.train.data["labels"] = keras.utils.to_categorical(cifar.train.data["labels"], num_classes=10)
+cifar.dev.data["labels"] = keras.utils.to_categorical(cifar.dev.data["labels"], num_classes=10)
+
+steps_per_epoch = $$var_declaration int(np.ceil(len(cifar.train.data["images"]) / args.batch_size))$$
+lr_reducer = ReduceLROnPlateau(monitor='loss', factor=0.1, patience=6, min_lr=0.1e-6)
+
+====================================================================================================
+tag: Class Initialization ($$class_initialization)
+
+class Dataset:
+    def __init__(self, data, seed=42):
+        $$class_initialization self._data = data
+        self._data["labels"] = self._data["labels"].ravel()
+        self._size = len(self._data["images"])$$
+
+====================================================================================================
+tag: Description By Code ($$description_by_code)
+
+def log_action(self, agent, roundn, action, opp_action, reason, reward):
+    '''
+    $$description_by_code Logs the actions taken by the agent during a game round.$$
+    '''
+    if self.log_enabled:
+        log = f"Round #{roundn + 1}\nYour choice: {action}\nYour opponent's choice: {opp_action}" \
+              f"\nReward: \n\tyours: {reward[0]} \n\topponent's: {reward[1]}\n" \...
+
+====================================================================================================
+tag: Method Call ($$method_call)
+
+model = AutoModelForCausalLM.$$method_call from_pretrained(
+    "microsoft/phi-1_5",
+    quantization_config=bnb_config,
+    trust_remote_code=True,$$
+)
+
+====================================================================================================
+tag: Conditional Statement ($$conditional_statement)
+
+possible_functions = re.findall(r'\b\w+\b', generated_code)
+results = base_function in possible_functions
+if $$conditional_statement log$$:
+    print(f'True: \033[96m{base_function}\033[00m. \nGenerated: \033[96m{generated_code.strip()}\033[00m. '
+          f'\nResults: \033[96m{results}\033[00m\n')
+
+====================================================================================================
+tag: Function Name ($$function_name)
+
+def $$function_name check_function_in_generated$$(base_function, generated_code, log=False):
+    try:
+        possible_functions = re.findall(r'\b\w+\b', generated_code)
+        results = base_function in possible_functions
+        if log:
+            print(f'True: \033[96m{base_function}\033[00m....
+
+====================================================================================================
+tag: Function Parameter ($$function_parameter)
+
+def log_action(self, $$function_parameter agent, roundn, action, opp_action, reason, reward$$):
+    '''
+    Logs the actions taken by the agent during a game round.
+    '''
+    if self.log_enabled:
+        log = f"Round #{roundn + 1}\nYour choice: {action}\nYour opponent's choice: {opp_action}" \
+              f"\nRew...
+
+====================================================================================================
+tag: Imports ($$imports)
+
+from keras.models import Model
+# Import all common layer types from keras + layers for 2D-transformation
+from keras.layers import $$imports Input, BatchNormalization, Activation, Dense, Dropout, Conv2D, MaxPooling2D, AveragePooling2D, GlobalAveragePooling2D, concatenate$$
+from torchvision import transforms
+from keras.callbacks import ModelCheckpoint, LearningRateScheduler, ReduceLROnPlateau, EarlyStopping, TensorBoard
+
+====================================================================================================
