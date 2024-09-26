@@ -8,22 +8,24 @@ After creating completions, the outputs are examined both manually and automatic
 The goal is to establish which metrics correspond best with human evaluation and to assess the quality of code completion across various models.
 
 ## Steps of solution
-### 0. Exploring the models:
+### 0. Exploring the models
 * Explore different models ([explore_tiny_starcoder.ipynb](https://github.com/TyKo0707/code_completion/blob/main/models_explore/explore_tiny_starcoder.ipynb), [explore_big_starcoder.ipynb](https://github.com/TyKo0707/code_completion/blob/main/models_explore/explore_big_starcoder.ipynb)) specified for code generation to find the most suitable for the task.
 * Find the optimal config and method of generation for each model.
 * Result of this step: decided to use starcoder and starcoder-based models `tiny_starcoder_py`, `starcoder2_3b`, `starcoder2_7b`, and `starcoder2_15b`.
 
 
-### 1. Data Collection and Preprocessing:
+### 1. Data Collection and Preprocessing
 I need to create a dataset consists of prefix, middle part (target), and suffix.
 * Took a few files ([data/python_lang](https://github.com/TyKo0707/code_completion/tree/main/data/python_lang)) from the local repository and annotated them. 
 Each target is located inside `$$tag ...$$` symbols. 
 There are 9 different types of tags (`code_by_description, conditional_statement, var_declaration, class_initialization, function_name, function_parameter, description_by_code, method_call, imports`) that can be later used for troubleshooting or analysis, but as of now it is just a small bonus since the dataset is relatively small. 
 Example:
 ```python 
+# Example 1:
 tensorboard_callback = keras.callbacks.$$method_call TensorBoard(log_dir=logdir, histogram_freq=1)$$
 # target part is `TensorBoard(log_dir=logdir, histogram_freq=1)` with tag method_call
 
+# Example 2:
 def generate_time_based_id():
     # Get the current time in the format YYYYMMDDHHMMSSFFF (year, month, day, hour, minute, second, millisecond)
     return $$code_by_description datetime.now().strftime("%Y%m%d%H%M%S%f")$$
@@ -32,11 +34,11 @@ def generate_time_based_id():
 * Extracted all targets using regex along with suffixes and prefixes from the same file. The resulting dataset consists of 37 code snippets and can be found here: [data/python_dataset.csv](https://github.com/TyKo0707/code_completion/blob/main/data/python_dataset.csv).
 
 
-### 2. Generation Code Completions:
+### 2. Generation Code Completions
 * Using dataset and 4 models, generate missing code parts and save them into [data/python_dataset_gen.csv](https://github.com/TyKo0707/code_completion/blob/main/data/python_dataset_gen.csv)
 
 
-### 3. Evaluation:
+### 3. Evaluation
 The most exciting part is here. I need to evaluate generated data manually and automatically and then compare different metrics by task suitability.
 #### Goals of the Evaluation
 For each generated sample, with its target form and context (prefix and suffix), we will measure the following:
@@ -64,7 +66,8 @@ I applied similar logic to automatic metrics, with some slight differences in fo
 
 *Note*: I was thinking about writing tests for completion code automatically.
 But it happened to be quite tricky to cover all types of generated code.
-So I decided to use LLM (Claude 3 Opus) for this task, and the model has shown itself to be of sufficient quality and suitability for this.
+So I decided to use LLM (Claude 3 Opus, because it seems that GPT-4 does not work properly, but you can try to use both of them) 
+for this task, and the model has shown itself to be of sufficient quality and suitability for this.
 You can see structure of a prompt at [utils/prompt_gen.py](https://github.com/TyKo0707/code_completion/blob/main/utils/prompt_gen.py).
 
 I will discuss their pros and cons later, now we are done with choosing the metrics.
@@ -90,7 +93,7 @@ functional_correctness: 1; factual_correctness: 0.8; relevance: 0.9
 exact_match: 0; chrf3: 0.675; edit_distance: 62; embedding_similarity: 0.959; rouge_l: 0.680; function_correctness_llm: 1
 ```
 
-### 4. Results:
+### 4. Results
 As a result of evaluating the generation of each of the models, 
 I obtained the results and stored them in the [data/eval_results](https://github.com/TyKo0707/code_completion/tree/main/data/eval_results) directory.
 #### Model Results
@@ -122,3 +125,42 @@ Insights from the Correlation Plot:
 Differences in Pearson and Spearman Correlation Matrices:
 - Pearson correlation values are lower than Spearman’s, suggesting some relationships are nonlinear and better represented by curves. 
 Thus, using both methods together can provide a more comprehensive understanding of variable relationships.
+
+### 5. Analysis
+Here I'll outline the pros and cons I can find, for all the metrics I've used. 
+
+---
+- **Exact Match**:<br>
+\+ Great for understanding perfect outputs.<br>
+\- Too strict for varying output lengths and types.<br>
+---
+- **ROUGE-L**:<br>
+\+ Captures token order (longest common subsequence).<br>
+\+ Evaluates tokens and sequences for nuanced assessment.<br>
+\- Limited contextual understanding.<br>
+\- High recall may not imply good performance; irrelevant matches possible.<br>
+---
+- **CHRF** (n=3):<br>
+\+ Sensitive to small syntax variations.<br>
+\+ Less sensitive to output length than word-based metrics.<br>
+\- Limited contextual understanding.<br>
+\- Doesn’t fully capture token order importance.<br>
+\- High recall but may lack precision in code quality.<br>
+---
+- **Edit Distance**:<br>
+\+ Measures closeness, useful for typos and minor errors.<br>
+\- Limited contextual understanding.<br>
+\- Overly sensitive to small changes.<br>
+\- Ignores token order importance.<br>
+---
+- **Embedding Similarity** (CodeT5p embeddings):<br>
+\+ Captures semantic similarity, identifying equivalent completions.<br>
+\+ Context-aware, factoring in relationships between code elements.<br>
+\+ Can integrate with clustering and classification tasks.<br>
+\- Computationally expensive.<br>
+\- Misses specific syntax details, focuses on high-level similarities.<br>
+---
+- **Functional Correctness with LLMs**:<br>
+\+ Great for understanding whether generated output will work alone.<br>
+\- Cannot compile code with generated part, therefore not always correct.<br>
+---
