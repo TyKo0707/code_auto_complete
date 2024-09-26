@@ -48,25 +48,26 @@ def compute_embedding_similarity(golden, generated):
     generated_embedding = model_embeddings(tokenizer_embeddings.encode(generated, return_tensors="pt"))[
         0].detach().numpy()
     similarity = round(cosine_similarity([golden_embedding], [generated_embedding])[0][0], 5)
-    print(f'Golden: {golden}\nGen: {generated}\nSimilarity: {similarity}')
     return similarity
 
 
-def evaluation_step(prefix, suffix, target, generated):
-    prompt = prompt_gen.generate_prompt_function_correctness(prefix, suffix, generated)
-    response = models_api.call_anthropic_api(prompt).strip()
-    functional_correctness = None
-    # Give 3 tries for model to generate output in valid format
-    for i in range(3):
-        try:
-            functional_correctness = int(response[0])
-            break
-        except:
-            print(f'The model generated an invalid output! {i + 1} try.')
+def functional_correctness_llm(prefix, suffix, generated, model):
+    if model == 'gpt':
+        prompt = prompt_gen.generate_prompt_function_correctness_gpt(prefix, suffix, generated)
+        response = models_api.call_openai_api(prompt)
+        functional_correctness = response['correct']
+        reason = response['reason']
+        return functional_correctness, reason
+    elif model == 'claude':
+        prompt = prompt_gen.generate_prompt_function_correctness_claude(prefix, suffix, generated)
+        response = models_api.call_anthropic_api(prompt).strip()
+        functional_correctness = int(response[0])
+        return functional_correctness, ''
 
-    if functional_correctness is None:
-        raise Exception(f"An unexpected error occurred while generating output!")
 
+def evaluation_step(prefix, suffix, target, generated, model='claude', reasoning=False):
+    target, generated = str(target), str(generated)
+    functional_correctness, reason = functional_correctness_llm(prefix, suffix, generated, model)
     chrf_precision, chrf_recall, chrf_fscore = compute_chrf(target, generated)
 
     result = {
@@ -77,24 +78,34 @@ def evaluation_step(prefix, suffix, target, generated):
         'edit_distance': compute_edit_distance(target, generated),
         'embedding_similarity': compute_embedding_similarity(target, generated),
         'rouge_l': compute_rouge(target, generated),
-        'function_correctness_llm': functional_correctness
+        'function_correctness_llm': functional_correctness,
     }
+    if reasoning:
+        result['reason_correctness_llm'] = reason
     return result
 
 
 if __name__ == '__main__':
+    import pprint
+
     DATA_PATH = env.str("DATA_PATH")
     models = env.list("MODELS_LIST")
 
+    llm_model = 'claude'
+
     df = pd.read_csv(f'{DATA_PATH}/python_dataset_gen.csv')
     for model in models:
-        save_path = f'{DATA_PATH}/eval_results/automatic/automatic_results_{model}.csv'
+        save_path = f'{DATA_PATH}/eval_results/automatic/automatic_results_{model}_{llm_model}.csv'
         results = []
 
         for ind, row in df.iterrows():
             generated = row[f'gen_{model}']
             result = evaluation_step(row.prefix, row.suffix, row.content, generated)
             results.append(result)
+
+            print(f'Golden: {row.content}\nGen: {generated}\nEvaluation results:')
+            pprint.pprint(result)
+            print()
 
             results_df = pd.DataFrame(results)
             results_df.to_csv(save_path, index=False)
