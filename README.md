@@ -263,4 +263,17 @@ understanding of how to use it.
 
 ### Future Work
 
+Future work:
+- Increase the size of the dataset: obviously, the larger the dataset, the better we can evaluate models.
+- Try new models such as Code Llama, T5, InCoder, etc.
+- Evaluate the generation also for other programming languages.
+- Involve more people for manual evaluation, since it was done only by me for this experiment.
+- To try to create a universal evaluation metric to assess semantic and syntactic correctness, and to find a fast way to test the generated code (maybe generate tests with LLMs).
+- Test the implementation of this method in different IDEs, optimize the model and find a fast way to evaluate its outputs on the fly to collect data on generation quality.
+
 ### Final Words
+Finally, this research shed light on the complexities of code completion, 
+offering significant insights into model performance, evaluation metrics, and the challenges of producing accurate, context-aware code. 
+The StarCoder models showed excellent skills, with the StarCoder2-7B emerging as the most dependable for this task. 
+However, there is still plenty of space for development, particularly in terms of dataset size, model variety, and evaluation techniques. 
+This study lays the groundwork for future research and refinement in this field.
