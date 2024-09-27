@@ -129,8 +129,10 @@ Differences in Pearson and Spearman Correlation Matrices:
 Thus, using both methods together can provide a more comprehensive understanding of variable relationships.
 
 ### 5. Analysis
-Here I'll outline the pros and cons I can find, for all the metrics I've used. 
+Here I'll outline the pros and cons I can find, for all the metrics I've used.
+I also want to discuss the best model by my judgment and by evaluation results and how these compare with each other.
 
+#### Metrics Analysis 
 | Metric                             | Pros                                                                                                                                                                                                       | Cons                                                                                                                                                |
 |------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Exact Match**                    | + Great for understanding perfect outputs.                                                                                                                                                                 | - Too strict for varying output lengths and types.                                                                                                  |
@@ -138,4 +140,24 @@ Here I'll outline the pros and cons I can find, for all the metrics I've used.
 | **CHRF (n=3)**                     | + Sensitive to small syntax variations. <br> + Less sensitive to output length than word-based metrics.                                                                                                    | - Limited contextual understanding. <br> - Doesn’t fully capture token order importance. <br> - High recall but may lack precision in code quality. |
 | **Edit Distance**                  | + Measures closeness, useful for typos and minor errors.                                                                                                                                                   | - Limited contextual understanding. <br> - Overly sensitive to small changes. <br> - Ignores token order importance.                                |
 | **Embedding Similarity (CodeT5p)** | + Captures semantic similarity, identifying equivalent completions. <br> + Context-aware, factoring in relationships between code elements. <br> + Can integrate with clustering and classification tasks. | - Computationally expensive. <br> - Misses specific syntax details, focuses on high-level similarities.                                             |
-| **Functional Correctness (LLMs)**  | + Great for understanding whether generated output will work alone.                                                                                                                                        | - Cannot compile code with generated part, therefore not always correct.                                                                            |
+| **Functional Correctness (LLMs)**  | + Great for understanding whether generated output will work alone.                                                                                                                                        | - Cannot compile code with generated part, therefore not always correct.                                                                            | 
+
+I would say, that I'd use **ROUGE-L**, **CHRF**, **Embedding Similarity**, and **Functional Correctness** as the prior metrics for code completion tasks.
+
+#### Models Analysis 
+In my opinion: from the code generation I have seen and from evaluation results, 
+Starcoder2-7B has proven to be the best model. 
+It generates complete finished code with a good understanding of context 
+and doesn't try to augment it unnecessarily (as Starcoder2-15B does). 
+To put it simply, if I were to use this model to help me write code, I would be happy with it and have a good understanding of how to use it.
+
+## Conclusion
+### Findings and Learnings
+- Understood more about how code completion works and that there are even specially trained models for this (like StarCoder1/2 family).
+- How to generate code by general context of a file (suffix and prefix) using different models.
+- What types of tasks code completion can be useful for (described by tags).
+- What metrics are more appropriate to use for code generation and which of them meet my personal requirements (comparison of manual and automatic metrics).
+- Realized which model is the best among the StarCoder models and that I could even use it as an assistant in writing my own code (at least in Python)
+### Future Work
+
+### Final Words
