@@ -18,7 +18,7 @@ steps using the following instructions:
 0. **Installing requirements and setting env-variables**: Install all the requirements from the `requirements.txt` file.
    You also need to assign environment variables at `.env` in the following way:
 
-```
+```python
 DATA_PATH='/path_to_project/data'
 PYTHON_FILES='/path_to_project/data/python_lang/'
 PYTHON_SAVE_PATH='/path_to_project/data/python_dataset.csv'
@@ -31,7 +31,7 @@ OPENAI_KEY='your-openai-key'
 ```
 
 1. **Explore Models**:
-   Run `explore_big_starcoder.ipynb` and `explore_tiny_starcoder.ipynb`.
+   Run `models_explore/explore_big_starcoder.ipynb` and `models_explore/explore_tiny_starcoder.ipynb`.
 2. **Data Extraction**:
    Execute `data_extraction.py` (input: `PYTHON_FILES`, output: `PYTHON_SAVE_PATH`).
 3. **Generate Completions**:
