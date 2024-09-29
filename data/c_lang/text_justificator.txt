@@ -1,0 +1,282 @@
+using System;
+using System.IO;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace Justification
+{
+    public class Program
+    {
+        private static void Main(string[] args)
+        {
+            var state = new ProgramInputOutputState();
+            if (!state.InitializeFromCommandLineArgs(args)) return;
+
+            var processor = new TextProcessor(state.Writer, state.MaxLineWidth, state.InputFileList, state.IsHighlight);
+            processor.Process();
+
+            state.Dispose();
+        }
+    }
+
+    public class TextProcessor
+    {
+        private static char[] WhitespaceCharacters = { ' ', '\n', '\t' };
+        private readonly int _maxLineWidth;
+        private readonly string[] _inputFilesList;
+        private readonly bool _isHighlight;
+        private int fileIndex = 0, currLineLen = 0, totalLineLen = 0;
+        private List<(string word, int spacing)> lineWordList = new List<(string word, int spacing)>();
+        private bool EOP = false;
+        private string exceedOneWord = "";
+        private TextReader _reader;
+        private TextWriter _writer;
+
+        public TextProcessor(TextWriter writer, int maxLineWidth, string[] inputFiles, bool highlightFlag)
+        {
+            $$class_initialization _writer = writer;
+            _inputFilesList = inputFiles;
+            if (_inputFilesList.Length != 0) MakeReader();
+            _isHighlight = highlightFlag;
+            _maxLineWidth = maxLineWidth;$$
+        }
+
+        private void MakeReader()
+        {
+            if (fileIndex != 0) _reader.Dispose();
+            _reader = ProgramInputOutputState.CreateReader(_inputFilesList[fileIndex++]);
+        }
+
+        /// <summary>
+        /// Counts consecutive whitespace characters or end of file in the input stream.
+        /// </summary>
+        private int $$function_name CountConsecutiveWhitespaceOrEndOfFile$$()
+        {
+            int consecutiveNewlines = 0;
+
+            while (!(fileIndex == _inputFilesList.Length && _reader.Peek() == -1) &&
+                   (WhitespaceCharacters.Contains((char)_reader.Peek()) || _reader.Peek() == -1))
+            {
+                if (_reader.Peek() == -1) MakeReader();
+                if ($$conditional_statement WhitespaceCharacters.Contains((char)_reader.Peek())$$)
+                {
+                    if ((char)_reader.Read() == '\n')
+                    {
+                        ++consecutiveNewlines;
+                    }
+                }
+            }
+            return consecutiveNewlines;
+        }
+
+        /// <summary>
+        $$description_by_code /// Reads the next word from the input stream.
+        /// Handles end-of-file conditions and whitespace appropriately.$$
+        /// </summary>
+        private string GetNextWord()
+        {
+            int consecutiveNewlines = $$var_declaration CountConsecutiveWhitespaceOrEndOfFile();$$
+            string word = "";
+
+            if ((fileIndex == _inputFilesList.Length && _reader.Peek() == -1) || consecutiveNewlines >= 2)
+            {
+                EOP = true; // Set end-of-processing flag
+                return word;
+            }
+            else
+            {
+                while (_reader.Peek() != -1 && !WhitespaceCharacters.Contains((char)_reader.Peek()))
+                {
+                    word += (char)_reader.Read();
+                }
+                return word;
+            }
+        }
+
+        /// <summary>
+        /// Stretches the line by writing the words and their corresponding spacing to the output.
+        /// </summary>
+        /// <param name="wordSpacingList">A list of words and their spacing to format the output line.</param>
+        /// <param name="EOP">Indicates whether end of processing has been reached.</param>
+        private void StretchLine(List<(string word, int spacing)> wordSpacingList, bool EOP)
+        {
+            if (wordSpacingList.Count == 0) return;
+
+            foreach (var (word, spacing) in wordSpacingList)
+            {
+                _writer.Write($"{word}{new string(_isHighlight ? '.' : ' ', spacing)}");
+            }
+
+            _writer.WriteLine(_isHighlight ? "<-" : "");
+
+            if (EOP)
+            {
+                _writer.WriteLine(_isHighlight ? "<-" : "");
+            }
+        }
+
+        /// <summary>
+        /// Handles the end of processing by stretching the line if necessary and writing it to output.
+        /// </summary>
+        private void HandleEOP()
+        {
+            if (EOP)
+            {
+                StretchLine(lineWordList, !(_reader.Peek() == -1 && fileIndex == _inputFilesList.Length));
+            }
+            else
+            {
+                if (lineWordList.Count > 1)
+                {
+                    // Adjust spacing to fit within the maximum line width
+                    while (totalLineLen < _maxLineWidth)
+                    {
+                        for (int i = 0; i < Math.Max(lineWordList.Count - 1, 1); ++i)
+                        {
+                            if (totalLineLen >= _maxLineWidth) break;
+                            lineWordList[i] = (lineWordList[i].word, lineWordList[i].spacing + 1);
+                            ++totalLineLen;
+                        }
+                    }
+                }
+                StretchLine(lineWordList, false);
+            }
+        }
+
+        /// <summary>
+        /// Handles the aftermath of reading a word to update the state and prepare for the next word.
+        /// </summary>
+        /// <param name="currentWord">The current word being processed.</param>
+        /// <returns>True if the word was successfully handled, false otherwise.</returns>
+        private bool HandleReadAftermath(string currentWord)
+        {
+            if (EOP) return false;
+
+            if (totalLineLen + 1 + currentWord.Length > _maxLineWidth)
+            {
+                exceedOneWord = currentWord; // Store the word that exceeds the line width
+                return false;
+            }
+
+            currLineLen += currentWord.Length;
+
+            if (lineWordList.Count > 0)
+            {
+                lineWordList[^1] = (lineWordList[^1].word, lineWordList[^1].spacing + 1); // Increase spacing for the last word
+            }
+
+            lineWordList.Add((currentWord, 0)); // Add the current word to the list
+            totalLineLen = currLineLen + lineWordList.Count - 1; // Update the total line length
+            return true;
+        }
+
+        /// <summary>
+        /// Processes the input files by reading words, justifying lines, and writing the output.
+        /// </summary>
+        public void Process()
+        {
+            while (fileIndex != _inputFilesList.Length || _reader.Peek() != -1)
+            {
+                currLineLen = 0;
+                totalLineLen = 0;
+                lineWordList = new List<(string word, int spacing)>();
+                EOP = false;
+
+                while (totalLineLen <= _maxLineWidth)
+                {
+                    if (!string.IsNullOrEmpty(exceedOneWord))
+                    {
+                        currLineLen += exceedOneWord.Length;
+                        lineWordList.Add((exceedOneWord, 0));
+                        totalLineLen += currLineLen + lineWordList.Count - 1;
+                        exceedOneWord = "";
+                        if (CountConsecutiveWhitespaceOrEndOfFile() >= 2
+                            || (_reader.Peek() == -1 && fileIndex == _inputFilesList.Length))
+                        {
+                            EOP = true;
+                            break;
+                        }
+                        continue;
+                    }
+
+                    string currentWord = GetNextWord().TrimEnd();
+                    if (!HandleReadAftermath(currentWord)) break; // Process the current word
+                }
+
+                HandleEOP(); // Handle end of processing for the line
+            }
+        }
+    }
+
+    public class ProgramInputOutputState : IDisposable
+    {
+        public TextWriter Writer { get; set; } = null;
+        public bool IsHighlight = false;
+        public string[] InputFileList { get; set; }
+        public int MaxLineWidth;
+
+        /// <summary>
+        /// Initializes the state from command-line arguments.
+        /// Configures the highlight option, input file list, and output writer.
+        /// </summary>
+        /// <param name="args">Command-line arguments passed to the program.</param>
+        /// <returns>True if initialization was successful; otherwise, false.</returns>
+        public bool InitializeFromCommandLineArgs(string[] args)
+        {
+            if (args.Length > 0)
+            {
+                if (args[0] == "--highlight-spaces")
+                {
+                    IsHighlight = true; // Enable highlighting if specified
+                }
+            }
+
+            if ((args.Length < 3 && !IsHighlight) || (args.Length < 4 && IsHighlight) || !int.TryParse(args[^1], out MaxLineWidth) || MaxLineWidth <= 0)
+            {
+                PrintUsage();
+                return false;
+            }
+
+            InputFileList = args.Skip(1).Take(args.Length - 2).ToArray();
+            Writer = CreateWriter();
+
+            return true;
+        }
+
+        /// <summary>
+        /// Creates a TextWriter for output based on the specified file name.
+        /// </summary>
+        /// <returns>A TextWriter configured for output.</returns>
+        private TextWriter CreateWriter()
+        {
+            if (IsHighlight) return Console.Out; // Highlight output to console
+            return new StreamWriter("justified_output.txt"); // Regular output to file
+        }
+
+        /// <summary>
+        /// Creates a TextReader for the specified input file.
+        /// </summary>
+        /// <param name="fileName">The name of the input file.</param>
+        /// <returns>A TextReader for the input file.</returns>
+        public static TextReader CreateReader(string fileName)
+        {
+            return new StreamReader(fileName);
+        }
+
+        /// <summary>
+        /// Releases resources used by the writer and any other resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Writer?.Dispose();
+        }
+
+        /// <summary>
+        /// Prints the usage instructions for the command-line arguments.
+        /// </summary>
+        private void PrintUsage()
+        {
+            Console.WriteLine("Usage: Justification [--highlight-spaces] inputFile1 inputFile2 ... inputFileN lineWidth");
+        }
+    }
+}

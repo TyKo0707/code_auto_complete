@@ -1,0 +1,111 @@
+#include "manip.h"
+
+using namespace std;
+
+// Creates an array of size 'n' with random values between -20 and 130.
+int* create_arr(int* arr, int n) {
+	srand(time(NULL));
+	for (int i = 0; i < n; i++) {
+		arr[i] = $$var_declaration rand() % 151 - 20$$;
+	}
+	return arr;
+}
+
+// Outputs the elements of the array 'arr' of size 'n' to the console.
+void output_array(int* arr, int n) {
+	for (int i = 0; i < n; i++) {
+		$$method_call cout << setw(4) << arr[i];$$
+	}
+}
+
+// Outputs the matrix 'matrix' of size 'm x m' to the console.
+void output_matrix(int** matrix, int m) {
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < m; j++) {
+			$$method_call cout << setw(4) << matrix[i][j];$$
+		}
+		cout << "\n";
+	}
+}
+
+// Finds the first negative element in the array 'arr' and stores its position in 'pos'.
+void find_neg(int* arr, int n, int& pos) {
+	for (int i = 0; i < n; i++) {
+		if ($$conditional_statement arr[i] < 0$$) {
+			pos = i;
+			break;
+		}
+	}
+}
+
+// Finds the position of the maximum positive element in the array 'arr' of size 'm'.
+void find_pos_max(int* arr, int m, int& pos_max) {
+	int max = -20;
+	for (int i = 0; i < m; i++) {
+		if ($$conditional_statement arr[i] > max$$) {
+			pos_max = i;
+			max = arr[i];
+		}
+	}
+}
+
+// Reverses the elements in 'arr' up to position 'pos'.
+void replace_arr(int* arr, int n, int pos) {
+	int* rev_arr = $$var_declaration new int[pos + 1];$$
+	for (int i = 0; i < pos + 1; i++) {
+		rev_arr[i] = arr[pos - i];
+	}
+	for (int i = 0; i < pos + 1; i++) {
+		arr[i] = rev_arr[i];
+	}
+}
+
+// Creates a matrix from the given array 'arr', filling an 'm x m' matrix.
+int** create_matrix(int** matrix, int* arr, int m) {
+	int index = 0;
+	for (int i = 0; i < m; i++) {
+		matrix[i] = new int[m];
+	}
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < m; j++) {
+			matrix[i][j] = arr[index];
+			index++;
+		}
+	}
+	return matrix;
+}
+
+// Sorts the elements in 'arr' after the position of the maximum value.
+void sort_after_max(int* arr, int m, int row) {
+	int pos_max = m - 1;
+	int index = 0;
+	find_pos_max(arr, m, pos_max);
+	int* buff_arr = new int[m - pos_max];
+	for (int i = m - 1; i > pos_max - 1; i--) {
+		buff_arr[index] = arr[i];
+		index++;
+	}
+	if (index != 1) {
+		bubble_sort(buff_arr, m - pos_max);
+	}
+	index = 0;
+	for (int i = pos_max; i < m; i++) {
+		arr[i] = buff_arr[index];
+		index++;
+	}
+}
+
+// Sorts the array 'array' using the bubble sort algorithm. Use i as an index element for the outer loop and j for the inner
+int* bubble_sort(int* array, int size) {
+	int temp;
+	$$code_by_description for (int i = 0; i < size - 1; i++) {
+		for (int j = 0; j < size - 1; j++) {
+			if (array[j] > array[j + 1]) {
+				temp = array[j + 1];
+				array[j + 1] = array[j];
+				array[j] = temp;
+			}
+		}
+	}$$
+	return array;
+}

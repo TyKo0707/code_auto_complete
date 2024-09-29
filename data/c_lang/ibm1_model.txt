@@ -1,0 +1,178 @@
+namespace MachineTranslator;
+
+using System;
+using System.Collections.Generic;
+using System.$$imports Linq;$$
+using System.Data;
+
+public class IBMModel1
+{
+    private Dictionary<string, int> enVocabularyDict, csVocabularyDict;
+    private List<(List<string>, List<string>)> sentencePairs;
+    private int numberIterations, enVocabularySize, csVocabularySize;
+    private bool Verbose;
+    private double Threshold;
+    private double[] countsSentences;
+    private DataTable probabilitiesDataTable;
+    public double[,] LexicalTranslationProb { get; set; }
+
+    public IBMModel1(Dictionary<string, int> enVocabularyDict, Dictionary<string, int> csVocabularyDict, List<(List<string>, List<string>)> sentencePairs,
+        int numberIterations = 7, bool verbose = true, double threshold = 0.02)
+    {
+        this.enVocabularyDict = enVocabularyDict;
+        enVocabularySize = enVocabularyDict.Count;
+
+        $$class_initialization this.csVocabularyDict = csVocabularyDict;
+        csVocabularySize = csVocabularyDict.Count;
+
+        this.sentencePairs = sentencePairs;
+
+        this.numberIterations = numberIterations;
+
+        // Determine if process should be described during the run
+        this.Verbose = verbose;
+
+        // Initialize threshold for stoping the algorithm
+        this.Threshold = threshold;$$
+
+        // Initialize and fill the lexical translation probabilities (i.e. t(e|f)) uniformly
+        double uniform_val = 1.0 / csVocabularySize;
+        LexicalTranslationProb = new double[enVocabularySize, csVocabularySize];
+
+        for (int i = 0; i < enVocabularySize; i++)
+        {
+            for (int j = 0; j < csVocabularySize; j++)
+            {
+                LexicalTranslationProb[i, j] = uniform_val;
+            }
+        }
+
+        probabilitiesDataTable = new DataTable();
+        probabilitiesDataTable.Columns.Add("word_en", typeof(string));
+        probabilitiesDataTable.Columns.Add("words_cz", typeof(string));
+        probabilitiesDataTable.Columns.Add("probability", typeof(double));
+
+        countsSentences = new double[enVocabularySize];
+    }
+    /// <summary>
+    $$description_by_code /// Transforms the lexical translation probability matrix into a DataTable for easy manipulation and sorting.$$
+    /// </summary>
+    public DataTable TransformTable(double[,] table)
+    {
+        for (int enIndex = 0; enIndex < table.GetLength(0); enIndex++)
+        {
+            var row = Enumerable.Range(0, table.GetLength(1)).Select(j => table[enIndex, j]).ToArray();
+            int index = row.Select((value, index) => new { Value = value, Index = index })
+                                .OrderByDescending(x => x.Value)
+                                .Select(x => x.Index).ToList()[0];
+
+            var prob = Math.Round(row[index] * 100, 2);
+            var csWord = csVocabularyDict.FirstOrDefault(x => x.Value == index).Key;
+            var enWord = enVocabularyDict.FirstOrDefault(x => x.Value == enIndex).Key;
+
+            probabilitiesDataTable.Rows.$$method_call Add(enWord, csWord, prob);$$
+        }
+
+        var sortedRows = probabilitiesDataTable.AsEnumerable().OrderBy(row => row.Field<double>("probability")).Reverse();
+
+        // Create a new DataTable with the sorted rows
+        DataTable sortedDataTable = probabilitiesDataTable.Clone();
+        foreach (var row in sortedRows)
+        {
+            sortedDataTable.ImportRow(row);
+        }
+
+        return sortedDataTable;
+    }
+
+    // Fits the IBM Model 1 by iterating through the Expectation-Maximization algorithm.
+    // The number of iterations is controlled by the `numberIterations` variable.
+    // The algorithm converges if the change in translation probabilities falls below the threshold.
+    public void FitModel()
+    {
+        double[,] prevT = (double[,])LexicalTranslationProb.Clone();
+
+        // Loop until converge
+        for (int i = 0; i < numberIterations; i++)
+        {
+            Console.WriteLine($"Iteration {i + 1}");
+
+            double[,] count = new double[enVocabularySize, csVocabularySize];
+            double[] total = new double[csVocabularyDict.Count];
+
+            ExpectationStep(count, total);
+            MaximizationStep(count, total);
+
+            double change = CheckThreshold(prevT, LexicalTranslationProb) * 1000;
+            Console.WriteLine($"\tChange rate: {change}");
+            if (change < Threshold)
+            {
+                Console.WriteLine($"\nModel converged after {i + 1} iterations with value of change rate: {change} (expected number of iterations: {numberIterations})");
+                break;
+            }
+            prevT = (double[,])LexicalTranslationProb.Clone();
+        }
+    }
+
+    // Performs the Expectation step of the algorithm.
+    // It calculates fractional counts of word translations based on sentence pairs and current probabilities.
+    private void ExpectationStep($$function_parameter double[,] count, double[] total$$)
+    {
+        foreach (var sp in sentencePairs)
+        {
+            foreach (var ew in sp.Item1)
+            {
+                int ew_ind = enVocabularyDict[ew];
+                countsSentences[ew_ind] = 0.0;
+                // Count probability of each word in sentence using the frequency of the word and its overall probability
+                foreach (var fw in sp.Item2)
+                {
+                    int fw_ind = csVocabularyDict[fw];
+                    countsSentences[ew_ind] += LexicalTranslationProb[ew_ind, fw_ind];
+                }
+
+                // Update counts (total and for pairs)
+                foreach (var fw in sp.Item2)
+                {
+                    int fw_ind = csVocabularyDict[fw];
+                    count[ew_ind, fw_ind] += LexicalTranslationProb[ew_ind, fw_ind] / countsSentences[ew_ind];
+                    total[fw_ind] += LexicalTranslationProb[ew_ind, fw_ind] / countsSentences[ew_ind];
+                }
+            }
+        }
+    }
+
+    // Performs the Maximization step of the algorithm.
+    // It updates the lexical translation probabilities using the counts from the Expectation step.
+    private void MaximizationStep(double[,] count, double[] total)
+    {
+        for (int fw = 0; fw < csVocabularyDict.Count; fw++)
+        {
+            for (int ew = 0; ew < enVocabularyDict.Count; ew++)
+            {
+                LexicalTranslationProb[ew, fw] = count[ew, fw] / total[fw];
+            }
+        }
+    }
+
+    // Checks how much the translation probabilities have changed between iterations.
+    // It computes the average absolute difference between the previous and current probability matrices.
+    // Returns the average difference per element.
+    private double CheckThreshold($$function_parameter double[,] prev_t, double[,] curr_t$$)
+    {
+        // Compute average absolute difference per element based on the number of elements in the matrices
+        double sumAbsDiff = 0;
+        int numRows = prev_t.$$method_call GetLength(0); $$
+        int numCols = prev_t.GetLength(1);
+
+        for (int i = 0; i < numRows; i++)
+        {
+            for (int j = 0; j < numCols; j++)
+            {
+                sumAbsDiff += $$var_declaration Math.Abs(curr_t[i, j] - prev_t[i, j]);$$
+            }
+        }
+
+        return sumAbsDiff / (numRows * numCols);
+    }
+}

@@ -1,0 +1,99 @@
+namespace MachineTranslator;
+using System.IO;
+using System.Collections.Generic;
+// We'll need to use regexes
+using System.$$imports Text.RegularExpressions;$$
+
+public class Preprocessor
+{
+    public List<(string, string)> AllignedTextData { get; set; } = new();
+    public List<string> EnVocabularyList { get; set; } = new();
+    public List<string> CsVocabularyList { get; set; } = new();
+    public List<(List<string>, List<string>)> SplitSentences { get; set; } = new();
+    public Preprocessor(string dataset)
+    {
+        string filePath = dataset;
+
+        using (StreamReader reader = new StreamReader(filePath))
+        {
+            reader.ReadLine();
+
+            while (!reader.EndOfStream)
+            {
+                string? line = reader.ReadLine();
+                string[] values = line.Split('\t');
+
+                // Add the values to the list as a tuple
+                AllignedTextData.Add((values[0], values[1]));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Processes the aligned text data to clean and format each sentence
+    /// for both English and Czech languages.
+    /// </summary>
+    public void ProcessTextData()
+    {
+        for (int i = 0; i < AllignedTextData.Count; i++)
+        {
+            $$code_by_description var (sentenceEnglish, sentenceCzech) = AllignedTextData[i];
+            AllignedTextData[i] = (ProcessSentence(sentenceEnglish), ProcessSentence(sentenceCzech));$$
+        }
+    }
+
+    /// <summary>
+    $$description_by_code /// Creates vocabulary lists for both English and Czech languages
+    /// by extracting unique words from the aligned text data.$$
+    /// </summary>
+    public void $$function_name CreateVocabulary$$()
+    {
+        // Create vocabulary for each language in HashSet
+        var enVocabularySet = $$var_declaration new HashSet<string>();$$
+        var csVocabularySet = new HashSet<string>();
+
+        foreach (var (sentenceEnglish, sentenceCzech) in AllignedTextData)
+        {
+            var enWords = sentenceEnglish.Split();
+            var csWords = sentenceCzech.Split();
+
+            foreach (var word in enWords) enVocabularySet.Add(word);
+            foreach (var word in csWords) csVocabularySet.Add(word);
+        }
+
+        // Convert vocabularies to lists
+        EnVocabularyList = new List<string>(enVocabularySet);
+        CsVocabularyList = new List<string>(csVocabularySet);
+
+        // Split sentences by comma
+        foreach (var (sentenceEnglish, sentenceCzech) in AllignedTextData)
+        {
+            var enSentenceSplit = new List<string>(sentenceEnglish.Split());
+            var csSentenceSplit = new List<string>(sentenceCzech.Split());
+
+            SplitSentences.Add((enSentenceSplit, csSentenceSplit));
+        }
+
+    }
+
+    /// <summary>
+    /// Processes a single sentence by removing unwanted characters,
+    /// normalizing the text, and converting it to lowercase.
+    /// </summary>
+    private static string ProcessSentence(string sentence)
+    {
+        // Remove hyphens and space before apostrophe
+        sentence = sentence.$$method_call Replace("-", " ").Replace(" '", "'");$$
+
+        // Remove all numbers
+        sentence = Regex.Replace(sentence, @"\d+", "");
+
+        // Remove excess symbols (except ')
+        sentence = Regex.Replace(sentence, @"[^\w\s']", "");
+
+        // Remove excess whitespaces
+        sentence = Regex.Replace(sentence, @"\s+", " ").Trim();
+
+        return sentence.ToLower();
+    }
+}
