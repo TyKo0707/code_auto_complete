@@ -96,7 +96,7 @@ void sort_after_max(int* arr, int m, int row) {
 	}
 }
 
-// Sorts the array 'array' using the bubble sort algorithm.
+// Sorts the array 'array' using the bubble sort algorithm. Use i as an index element for the outer loop and j for the inner
 int* bubble_sort(int* array, int size) {
 	int temp;
 	for (int i = 0; i < size - 1; i++) {
@@ -112,3 +112,4483 @@ int* bubble_sort(int* array, int size) {
 }
 
 ",array_matrix_utils.txt
+1,"#include ""manip.h""
+
+using namespace std;
+
+// Creates an array of size 'n' with random values between -20 and 130.
+int* create_arr(int* arr, int n) {
+	srand(time(NULL));
+	for (int i = 0; i < n; i++) {
+		arr[i] = rand() % 151 - 20;
+	}
+	return arr;
+}
+
+// Outputs the elements of the array 'arr' of size 'n' to the console.
+void output_array(int* arr, int n) {
+	for (int i = 0; i < n; i++) {
+		",method_call,cout << setw(4) << arr[i];,"
+	}
+}
+
+// Outputs the matrix 'matrix' of size 'm x m' to the console.
+void output_matrix(int** matrix, int m) {
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < m; j++) {
+			cout << setw(4) << matrix[i][j];
+		}
+		cout << ""\n"";
+	}
+}
+
+// Finds the first negative element in the array 'arr' and stores its position in 'pos'.
+void find_neg(int* arr, int n, int& pos) {
+	for (int i = 0; i < n; i++) {
+		if (arr[i] < 0) {
+			pos = i;
+			break;
+		}
+	}
+}
+
+// Finds the position of the maximum positive element in the array 'arr' of size 'm'.
+void find_pos_max(int* arr, int m, int& pos_max) {
+	int max = -20;
+	for (int i = 0; i < m; i++) {
+		if (arr[i] > max) {
+			pos_max = i;
+			max = arr[i];
+		}
+	}
+}
+
+// Reverses the elements in 'arr' up to position 'pos'.
+void replace_arr(int* arr, int n, int pos) {
+	int* rev_arr = new int[pos + 1];
+	for (int i = 0; i < pos + 1; i++) {
+		rev_arr[i] = arr[pos - i];
+	}
+	for (int i = 0; i < pos + 1; i++) {
+		arr[i] = rev_arr[i];
+	}
+}
+
+// Creates a matrix from the given array 'arr', filling an 'm x m' matrix.
+int** create_matrix(int** matrix, int* arr, int m) {
+	int index = 0;
+	for (int i = 0; i < m; i++) {
+		matrix[i] = new int[m];
+	}
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < m; j++) {
+			matrix[i][j] = arr[index];
+			index++;
+		}
+	}
+	return matrix;
+}
+
+// Sorts the elements in 'arr' after the position of the maximum value.
+void sort_after_max(int* arr, int m, int row) {
+	int pos_max = m - 1;
+	int index = 0;
+	find_pos_max(arr, m, pos_max);
+	int* buff_arr = new int[m - pos_max];
+	for (int i = m - 1; i > pos_max - 1; i--) {
+		buff_arr[index] = arr[i];
+		index++;
+	}
+	if (index != 1) {
+		bubble_sort(buff_arr, m - pos_max);
+	}
+	index = 0;
+	for (int i = pos_max; i < m; i++) {
+		arr[i] = buff_arr[index];
+		index++;
+	}
+}
+
+// Sorts the array 'array' using the bubble sort algorithm. Use i as an index element for the outer loop and j for the inner
+int* bubble_sort(int* array, int size) {
+	int temp;
+	for (int i = 0; i < size - 1; i++) {
+		for (int j = 0; j < size - 1; j++) {
+			if (array[j] > array[j + 1]) {
+				temp = array[j + 1];
+				array[j + 1] = array[j];
+				array[j] = temp;
+			}
+		}
+	}
+	return array;
+}
+
+",array_matrix_utils.txt
+2,"#include ""manip.h""
+
+using namespace std;
+
+// Creates an array of size 'n' with random values between -20 and 130.
+int* create_arr(int* arr, int n) {
+	srand(time(NULL));
+	for (int i = 0; i < n; i++) {
+		arr[i] = rand() % 151 - 20;
+	}
+	return arr;
+}
+
+// Outputs the elements of the array 'arr' of size 'n' to the console.
+void output_array(int* arr, int n) {
+	for (int i = 0; i < n; i++) {
+		cout << setw(4) << arr[i];
+	}
+}
+
+// Outputs the matrix 'matrix' of size 'm x m' to the console.
+void output_matrix(int** matrix, int m) {
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < m; j++) {
+			",method_call,cout << setw(4) << matrix[i][j];,"
+		}
+		cout << ""\n"";
+	}
+}
+
+// Finds the first negative element in the array 'arr' and stores its position in 'pos'.
+void find_neg(int* arr, int n, int& pos) {
+	for (int i = 0; i < n; i++) {
+		if (arr[i] < 0) {
+			pos = i;
+			break;
+		}
+	}
+}
+
+// Finds the position of the maximum positive element in the array 'arr' of size 'm'.
+void find_pos_max(int* arr, int m, int& pos_max) {
+	int max = -20;
+	for (int i = 0; i < m; i++) {
+		if (arr[i] > max) {
+			pos_max = i;
+			max = arr[i];
+		}
+	}
+}
+
+// Reverses the elements in 'arr' up to position 'pos'.
+void replace_arr(int* arr, int n, int pos) {
+	int* rev_arr = new int[pos + 1];
+	for (int i = 0; i < pos + 1; i++) {
+		rev_arr[i] = arr[pos - i];
+	}
+	for (int i = 0; i < pos + 1; i++) {
+		arr[i] = rev_arr[i];
+	}
+}
+
+// Creates a matrix from the given array 'arr', filling an 'm x m' matrix.
+int** create_matrix(int** matrix, int* arr, int m) {
+	int index = 0;
+	for (int i = 0; i < m; i++) {
+		matrix[i] = new int[m];
+	}
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < m; j++) {
+			matrix[i][j] = arr[index];
+			index++;
+		}
+	}
+	return matrix;
+}
+
+// Sorts the elements in 'arr' after the position of the maximum value.
+void sort_after_max(int* arr, int m, int row) {
+	int pos_max = m - 1;
+	int index = 0;
+	find_pos_max(arr, m, pos_max);
+	int* buff_arr = new int[m - pos_max];
+	for (int i = m - 1; i > pos_max - 1; i--) {
+		buff_arr[index] = arr[i];
+		index++;
+	}
+	if (index != 1) {
+		bubble_sort(buff_arr, m - pos_max);
+	}
+	index = 0;
+	for (int i = pos_max; i < m; i++) {
+		arr[i] = buff_arr[index];
+		index++;
+	}
+}
+
+// Sorts the array 'array' using the bubble sort algorithm. Use i as an index element for the outer loop and j for the inner
+int* bubble_sort(int* array, int size) {
+	int temp;
+	for (int i = 0; i < size - 1; i++) {
+		for (int j = 0; j < size - 1; j++) {
+			if (array[j] > array[j + 1]) {
+				temp = array[j + 1];
+				array[j + 1] = array[j];
+				array[j] = temp;
+			}
+		}
+	}
+	return array;
+}
+
+",array_matrix_utils.txt
+3,"#include ""manip.h""
+
+using namespace std;
+
+// Creates an array of size 'n' with random values between -20 and 130.
+int* create_arr(int* arr, int n) {
+	srand(time(NULL));
+	for (int i = 0; i < n; i++) {
+		arr[i] = rand() % 151 - 20;
+	}
+	return arr;
+}
+
+// Outputs the elements of the array 'arr' of size 'n' to the console.
+void output_array(int* arr, int n) {
+	for (int i = 0; i < n; i++) {
+		cout << setw(4) << arr[i];
+	}
+}
+
+// Outputs the matrix 'matrix' of size 'm x m' to the console.
+void output_matrix(int** matrix, int m) {
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < m; j++) {
+			cout << setw(4) << matrix[i][j];
+		}
+		cout << ""\n"";
+	}
+}
+
+// Finds the first negative element in the array 'arr' and stores its position in 'pos'.
+void find_neg(int* arr, int n, int& pos) {
+	for (int i = 0; i < n; i++) {
+		if (",conditional_statement,arr[i] < 0,") {
+			pos = i;
+			break;
+		}
+	}
+}
+
+// Finds the position of the maximum positive element in the array 'arr' of size 'm'.
+void find_pos_max(int* arr, int m, int& pos_max) {
+	int max = -20;
+	for (int i = 0; i < m; i++) {
+		if (arr[i] > max) {
+			pos_max = i;
+			max = arr[i];
+		}
+	}
+}
+
+// Reverses the elements in 'arr' up to position 'pos'.
+void replace_arr(int* arr, int n, int pos) {
+	int* rev_arr = new int[pos + 1];
+	for (int i = 0; i < pos + 1; i++) {
+		rev_arr[i] = arr[pos - i];
+	}
+	for (int i = 0; i < pos + 1; i++) {
+		arr[i] = rev_arr[i];
+	}
+}
+
+// Creates a matrix from the given array 'arr', filling an 'm x m' matrix.
+int** create_matrix(int** matrix, int* arr, int m) {
+	int index = 0;
+	for (int i = 0; i < m; i++) {
+		matrix[i] = new int[m];
+	}
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < m; j++) {
+			matrix[i][j] = arr[index];
+			index++;
+		}
+	}
+	return matrix;
+}
+
+// Sorts the elements in 'arr' after the position of the maximum value.
+void sort_after_max(int* arr, int m, int row) {
+	int pos_max = m - 1;
+	int index = 0;
+	find_pos_max(arr, m, pos_max);
+	int* buff_arr = new int[m - pos_max];
+	for (int i = m - 1; i > pos_max - 1; i--) {
+		buff_arr[index] = arr[i];
+		index++;
+	}
+	if (index != 1) {
+		bubble_sort(buff_arr, m - pos_max);
+	}
+	index = 0;
+	for (int i = pos_max; i < m; i++) {
+		arr[i] = buff_arr[index];
+		index++;
+	}
+}
+
+// Sorts the array 'array' using the bubble sort algorithm. Use i as an index element for the outer loop and j for the inner
+int* bubble_sort(int* array, int size) {
+	int temp;
+	for (int i = 0; i < size - 1; i++) {
+		for (int j = 0; j < size - 1; j++) {
+			if (array[j] > array[j + 1]) {
+				temp = array[j + 1];
+				array[j + 1] = array[j];
+				array[j] = temp;
+			}
+		}
+	}
+	return array;
+}
+
+",array_matrix_utils.txt
+4,"#include ""manip.h""
+
+using namespace std;
+
+// Creates an array of size 'n' with random values between -20 and 130.
+int* create_arr(int* arr, int n) {
+	srand(time(NULL));
+	for (int i = 0; i < n; i++) {
+		arr[i] = rand() % 151 - 20;
+	}
+	return arr;
+}
+
+// Outputs the elements of the array 'arr' of size 'n' to the console.
+void output_array(int* arr, int n) {
+	for (int i = 0; i < n; i++) {
+		cout << setw(4) << arr[i];
+	}
+}
+
+// Outputs the matrix 'matrix' of size 'm x m' to the console.
+void output_matrix(int** matrix, int m) {
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < m; j++) {
+			cout << setw(4) << matrix[i][j];
+		}
+		cout << ""\n"";
+	}
+}
+
+// Finds the first negative element in the array 'arr' and stores its position in 'pos'.
+void find_neg(int* arr, int n, int& pos) {
+	for (int i = 0; i < n; i++) {
+		if (arr[i] < 0) {
+			pos = i;
+			break;
+		}
+	}
+}
+
+// Finds the position of the maximum positive element in the array 'arr' of size 'm'.
+void find_pos_max(int* arr, int m, int& pos_max) {
+	int max = -20;
+	for (int i = 0; i < m; i++) {
+		if (",conditional_statement,arr[i] > max,") {
+			pos_max = i;
+			max = arr[i];
+		}
+	}
+}
+
+// Reverses the elements in 'arr' up to position 'pos'.
+void replace_arr(int* arr, int n, int pos) {
+	int* rev_arr = new int[pos + 1];
+	for (int i = 0; i < pos + 1; i++) {
+		rev_arr[i] = arr[pos - i];
+	}
+	for (int i = 0; i < pos + 1; i++) {
+		arr[i] = rev_arr[i];
+	}
+}
+
+// Creates a matrix from the given array 'arr', filling an 'm x m' matrix.
+int** create_matrix(int** matrix, int* arr, int m) {
+	int index = 0;
+	for (int i = 0; i < m; i++) {
+		matrix[i] = new int[m];
+	}
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < m; j++) {
+			matrix[i][j] = arr[index];
+			index++;
+		}
+	}
+	return matrix;
+}
+
+// Sorts the elements in 'arr' after the position of the maximum value.
+void sort_after_max(int* arr, int m, int row) {
+	int pos_max = m - 1;
+	int index = 0;
+	find_pos_max(arr, m, pos_max);
+	int* buff_arr = new int[m - pos_max];
+	for (int i = m - 1; i > pos_max - 1; i--) {
+		buff_arr[index] = arr[i];
+		index++;
+	}
+	if (index != 1) {
+		bubble_sort(buff_arr, m - pos_max);
+	}
+	index = 0;
+	for (int i = pos_max; i < m; i++) {
+		arr[i] = buff_arr[index];
+		index++;
+	}
+}
+
+// Sorts the array 'array' using the bubble sort algorithm. Use i as an index element for the outer loop and j for the inner
+int* bubble_sort(int* array, int size) {
+	int temp;
+	for (int i = 0; i < size - 1; i++) {
+		for (int j = 0; j < size - 1; j++) {
+			if (array[j] > array[j + 1]) {
+				temp = array[j + 1];
+				array[j + 1] = array[j];
+				array[j] = temp;
+			}
+		}
+	}
+	return array;
+}
+
+",array_matrix_utils.txt
+5,"#include ""manip.h""
+
+using namespace std;
+
+// Creates an array of size 'n' with random values between -20 and 130.
+int* create_arr(int* arr, int n) {
+	srand(time(NULL));
+	for (int i = 0; i < n; i++) {
+		arr[i] = rand() % 151 - 20;
+	}
+	return arr;
+}
+
+// Outputs the elements of the array 'arr' of size 'n' to the console.
+void output_array(int* arr, int n) {
+	for (int i = 0; i < n; i++) {
+		cout << setw(4) << arr[i];
+	}
+}
+
+// Outputs the matrix 'matrix' of size 'm x m' to the console.
+void output_matrix(int** matrix, int m) {
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < m; j++) {
+			cout << setw(4) << matrix[i][j];
+		}
+		cout << ""\n"";
+	}
+}
+
+// Finds the first negative element in the array 'arr' and stores its position in 'pos'.
+void find_neg(int* arr, int n, int& pos) {
+	for (int i = 0; i < n; i++) {
+		if (arr[i] < 0) {
+			pos = i;
+			break;
+		}
+	}
+}
+
+// Finds the position of the maximum positive element in the array 'arr' of size 'm'.
+void find_pos_max(int* arr, int m, int& pos_max) {
+	int max = -20;
+	for (int i = 0; i < m; i++) {
+		if (arr[i] > max) {
+			pos_max = i;
+			max = arr[i];
+		}
+	}
+}
+
+// Reverses the elements in 'arr' up to position 'pos'.
+void replace_arr(int* arr, int n, int pos) {
+	int* rev_arr = ",var_declaration,new int[pos + 1];,"
+	for (int i = 0; i < pos + 1; i++) {
+		rev_arr[i] = arr[pos - i];
+	}
+	for (int i = 0; i < pos + 1; i++) {
+		arr[i] = rev_arr[i];
+	}
+}
+
+// Creates a matrix from the given array 'arr', filling an 'm x m' matrix.
+int** create_matrix(int** matrix, int* arr, int m) {
+	int index = 0;
+	for (int i = 0; i < m; i++) {
+		matrix[i] = new int[m];
+	}
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < m; j++) {
+			matrix[i][j] = arr[index];
+			index++;
+		}
+	}
+	return matrix;
+}
+
+// Sorts the elements in 'arr' after the position of the maximum value.
+void sort_after_max(int* arr, int m, int row) {
+	int pos_max = m - 1;
+	int index = 0;
+	find_pos_max(arr, m, pos_max);
+	int* buff_arr = new int[m - pos_max];
+	for (int i = m - 1; i > pos_max - 1; i--) {
+		buff_arr[index] = arr[i];
+		index++;
+	}
+	if (index != 1) {
+		bubble_sort(buff_arr, m - pos_max);
+	}
+	index = 0;
+	for (int i = pos_max; i < m; i++) {
+		arr[i] = buff_arr[index];
+		index++;
+	}
+}
+
+// Sorts the array 'array' using the bubble sort algorithm. Use i as an index element for the outer loop and j for the inner
+int* bubble_sort(int* array, int size) {
+	int temp;
+	for (int i = 0; i < size - 1; i++) {
+		for (int j = 0; j < size - 1; j++) {
+			if (array[j] > array[j + 1]) {
+				temp = array[j + 1];
+				array[j + 1] = array[j];
+				array[j] = temp;
+			}
+		}
+	}
+	return array;
+}
+
+",array_matrix_utils.txt
+6,"#include ""manip.h""
+
+using namespace std;
+
+// Creates an array of size 'n' with random values between -20 and 130.
+int* create_arr(int* arr, int n) {
+	srand(time(NULL));
+	for (int i = 0; i < n; i++) {
+		arr[i] = rand() % 151 - 20;
+	}
+	return arr;
+}
+
+// Outputs the elements of the array 'arr' of size 'n' to the console.
+void output_array(int* arr, int n) {
+	for (int i = 0; i < n; i++) {
+		cout << setw(4) << arr[i];
+	}
+}
+
+// Outputs the matrix 'matrix' of size 'm x m' to the console.
+void output_matrix(int** matrix, int m) {
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < m; j++) {
+			cout << setw(4) << matrix[i][j];
+		}
+		cout << ""\n"";
+	}
+}
+
+// Finds the first negative element in the array 'arr' and stores its position in 'pos'.
+void find_neg(int* arr, int n, int& pos) {
+	for (int i = 0; i < n; i++) {
+		if (arr[i] < 0) {
+			pos = i;
+			break;
+		}
+	}
+}
+
+// Finds the position of the maximum positive element in the array 'arr' of size 'm'.
+void find_pos_max(int* arr, int m, int& pos_max) {
+	int max = -20;
+	for (int i = 0; i < m; i++) {
+		if (arr[i] > max) {
+			pos_max = i;
+			max = arr[i];
+		}
+	}
+}
+
+// Reverses the elements in 'arr' up to position 'pos'.
+void replace_arr(int* arr, int n, int pos) {
+	int* rev_arr = new int[pos + 1];
+	for (int i = 0; i < pos + 1; i++) {
+		rev_arr[i] = arr[pos - i];
+	}
+	for (int i = 0; i < pos + 1; i++) {
+		arr[i] = rev_arr[i];
+	}
+}
+
+// Creates a matrix from the given array 'arr', filling an 'm x m' matrix.
+int** create_matrix(int** matrix, int* arr, int m) {
+	int index = 0;
+	for (int i = 0; i < m; i++) {
+		matrix[i] = new int[m];
+	}
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < m; j++) {
+			matrix[i][j] = arr[index];
+			index++;
+		}
+	}
+	return matrix;
+}
+
+// Sorts the elements in 'arr' after the position of the maximum value.
+void sort_after_max(int* arr, int m, int row) {
+	int pos_max = m - 1;
+	int index = 0;
+	find_pos_max(arr, m, pos_max);
+	int* buff_arr = new int[m - pos_max];
+	for (int i = m - 1; i > pos_max - 1; i--) {
+		buff_arr[index] = arr[i];
+		index++;
+	}
+	if (index != 1) {
+		bubble_sort(buff_arr, m - pos_max);
+	}
+	index = 0;
+	for (int i = pos_max; i < m; i++) {
+		arr[i] = buff_arr[index];
+		index++;
+	}
+}
+
+// Sorts the array 'array' using the bubble sort algorithm. Use i as an index element for the outer loop and j for the inner
+int* bubble_sort(int* array, int size) {
+	int temp;
+	",code_by_description,"for (int i = 0; i < size - 1; i++) {
+		for (int j = 0; j < size - 1; j++) {
+			if (array[j] > array[j + 1]) {
+				temp = array[j + 1];
+				array[j + 1] = array[j];
+				array[j] = temp;
+			}
+		}
+	}","
+	return array;
+}
+
+",array_matrix_utils.txt
+7,"namespace MachineTranslator;
+using System.IO;
+using System.Collections.Generic;
+// We'll need to use regexes
+using System.",imports,Text.RegularExpressions;,"
+
+public class Preprocessor
+{
+    public List<(string, string)> AllignedTextData { get; set; } = new();
+    public List<string> EnVocabularyList { get; set; } = new();
+    public List<string> CsVocabularyList { get; set; } = new();
+    public List<(List<string>, List<string>)> SplitSentences { get; set; } = new();
+    public Preprocessor(string dataset)
+    {
+        string filePath = dataset;
+
+        using (StreamReader reader = new StreamReader(filePath))
+        {
+            reader.ReadLine();
+
+            while (!reader.EndOfStream)
+            {
+                string? line = reader.ReadLine();
+                string[] values = line.Split('\t');
+
+                // Add the values to the list as a tuple
+                AllignedTextData.Add((values[0], values[1]));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Processes the aligned text data to clean and format each sentence
+    /// for both English and Czech languages.
+    /// </summary>
+    public void ProcessTextData()
+    {
+        for (int i = 0; i < AllignedTextData.Count; i++)
+        {
+            var (sentenceEnglish, sentenceCzech) = AllignedTextData[i];
+            AllignedTextData[i] = (ProcessSentence(sentenceEnglish), ProcessSentence(sentenceCzech));
+        }
+    }
+
+    /// <summary>
+    /// Creates vocabulary lists for both English and Czech languages
+    /// by extracting unique words from the aligned text data.
+    /// </summary>
+    public void CreateVocabulary()
+    {
+        // Create vocabulary for each language in HashSet
+        var enVocabularySet = new HashSet<string>();
+        var csVocabularySet = new HashSet<string>();
+
+        foreach (var (sentenceEnglish, sentenceCzech) in AllignedTextData)
+        {
+            var enWords = sentenceEnglish.Split();
+            var csWords = sentenceCzech.Split();
+
+            foreach (var word in enWords) enVocabularySet.Add(word);
+            foreach (var word in csWords) csVocabularySet.Add(word);
+        }
+
+        // Convert vocabularies to lists
+        EnVocabularyList = new List<string>(enVocabularySet);
+        CsVocabularyList = new List<string>(csVocabularySet);
+
+        // Split sentences by comma
+        foreach (var (sentenceEnglish, sentenceCzech) in AllignedTextData)
+        {
+            var enSentenceSplit = new List<string>(sentenceEnglish.Split());
+            var csSentenceSplit = new List<string>(sentenceCzech.Split());
+
+            SplitSentences.Add((enSentenceSplit, csSentenceSplit));
+        }
+
+    }
+
+    /// <summary>
+    /// Processes a single sentence by removing unwanted characters,
+    /// normalizing the text, and converting it to lowercase.
+    /// </summary>
+    private static string ProcessSentence(string sentence)
+    {
+        // Remove hyphens and space before apostrophe
+        sentence = sentence.Replace(""-"", "" "").Replace("" '"", ""'"");
+
+        // Remove all numbers
+        sentence = Regex.Replace(sentence, @""\d+"", """");
+
+        // Remove excess symbols (except ')
+        sentence = Regex.Replace(sentence, @""[^\w\s']"", """");
+
+        // Remove excess whitespaces
+        sentence = Regex.Replace(sentence, @""\s+"", "" "").Trim();
+
+        return sentence.ToLower();
+    }
+}
+
+",preprocess_text.txt
+8,"namespace MachineTranslator;
+using System.IO;
+using System.Collections.Generic;
+// We'll need to use regexes
+using System.Text.RegularExpressions;
+
+public class Preprocessor
+{
+    public List<(string, string)> AllignedTextData { get; set; } = new();
+    public List<string> EnVocabularyList { get; set; } = new();
+    public List<string> CsVocabularyList { get; set; } = new();
+    public List<(List<string>, List<string>)> SplitSentences { get; set; } = new();
+    public Preprocessor(string dataset)
+    {
+        string filePath = dataset;
+
+        using (StreamReader reader = new StreamReader(filePath))
+        {
+            reader.ReadLine();
+
+            while (!reader.EndOfStream)
+            {
+                string? line = reader.ReadLine();
+                string[] values = line.Split('\t');
+
+                // Add the values to the list as a tuple
+                AllignedTextData.Add((values[0], values[1]));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Processes the aligned text data to clean and format each sentence
+    /// for both English and Czech languages.
+    /// </summary>
+    public void ProcessTextData()
+    {
+        for (int i = 0; i < AllignedTextData.Count; i++)
+        {
+            ",code_by_description,"var (sentenceEnglish, sentenceCzech) = AllignedTextData[i];
+            AllignedTextData[i] = (ProcessSentence(sentenceEnglish), ProcessSentence(sentenceCzech));","
+        }
+    }
+
+    /// <summary>
+    /// Creates vocabulary lists for both English and Czech languages
+    /// by extracting unique words from the aligned text data.
+    /// </summary>
+    public void CreateVocabulary()
+    {
+        // Create vocabulary for each language in HashSet
+        var enVocabularySet = new HashSet<string>();
+        var csVocabularySet = new HashSet<string>();
+
+        foreach (var (sentenceEnglish, sentenceCzech) in AllignedTextData)
+        {
+            var enWords = sentenceEnglish.Split();
+            var csWords = sentenceCzech.Split();
+
+            foreach (var word in enWords) enVocabularySet.Add(word);
+            foreach (var word in csWords) csVocabularySet.Add(word);
+        }
+
+        // Convert vocabularies to lists
+        EnVocabularyList = new List<string>(enVocabularySet);
+        CsVocabularyList = new List<string>(csVocabularySet);
+
+        // Split sentences by comma
+        foreach (var (sentenceEnglish, sentenceCzech) in AllignedTextData)
+        {
+            var enSentenceSplit = new List<string>(sentenceEnglish.Split());
+            var csSentenceSplit = new List<string>(sentenceCzech.Split());
+
+            SplitSentences.Add((enSentenceSplit, csSentenceSplit));
+        }
+
+    }
+
+    /// <summary>
+    /// Processes a single sentence by removing unwanted characters,
+    /// normalizing the text, and converting it to lowercase.
+    /// </summary>
+    private static string ProcessSentence(string sentence)
+    {
+        // Remove hyphens and space before apostrophe
+        sentence = sentence.Replace(""-"", "" "").Replace("" '"", ""'"");
+
+        // Remove all numbers
+        sentence = Regex.Replace(sentence, @""\d+"", """");
+
+        // Remove excess symbols (except ')
+        sentence = Regex.Replace(sentence, @""[^\w\s']"", """");
+
+        // Remove excess whitespaces
+        sentence = Regex.Replace(sentence, @""\s+"", "" "").Trim();
+
+        return sentence.ToLower();
+    }
+}
+
+",preprocess_text.txt
+9,"namespace MachineTranslator;
+using System.IO;
+using System.Collections.Generic;
+// We'll need to use regexes
+using System.Text.RegularExpressions;
+
+public class Preprocessor
+{
+    public List<(string, string)> AllignedTextData { get; set; } = new();
+    public List<string> EnVocabularyList { get; set; } = new();
+    public List<string> CsVocabularyList { get; set; } = new();
+    public List<(List<string>, List<string>)> SplitSentences { get; set; } = new();
+    public Preprocessor(string dataset)
+    {
+        string filePath = dataset;
+
+        using (StreamReader reader = new StreamReader(filePath))
+        {
+            reader.ReadLine();
+
+            while (!reader.EndOfStream)
+            {
+                string? line = reader.ReadLine();
+                string[] values = line.Split('\t');
+
+                // Add the values to the list as a tuple
+                AllignedTextData.Add((values[0], values[1]));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Processes the aligned text data to clean and format each sentence
+    /// for both English and Czech languages.
+    /// </summary>
+    public void ProcessTextData()
+    {
+        for (int i = 0; i < AllignedTextData.Count; i++)
+        {
+            var (sentenceEnglish, sentenceCzech) = AllignedTextData[i];
+            AllignedTextData[i] = (ProcessSentence(sentenceEnglish), ProcessSentence(sentenceCzech));
+        }
+    }
+
+    /// <summary>
+    ",description_by_code,"/// Creates vocabulary lists for both English and Czech languages
+    /// by extracting unique words from the aligned text data.","
+    /// </summary>
+    public void CreateVocabulary()
+    {
+        // Create vocabulary for each language in HashSet
+        var enVocabularySet = new HashSet<string>();
+        var csVocabularySet = new HashSet<string>();
+
+        foreach (var (sentenceEnglish, sentenceCzech) in AllignedTextData)
+        {
+            var enWords = sentenceEnglish.Split();
+            var csWords = sentenceCzech.Split();
+
+            foreach (var word in enWords) enVocabularySet.Add(word);
+            foreach (var word in csWords) csVocabularySet.Add(word);
+        }
+
+        // Convert vocabularies to lists
+        EnVocabularyList = new List<string>(enVocabularySet);
+        CsVocabularyList = new List<string>(csVocabularySet);
+
+        // Split sentences by comma
+        foreach (var (sentenceEnglish, sentenceCzech) in AllignedTextData)
+        {
+            var enSentenceSplit = new List<string>(sentenceEnglish.Split());
+            var csSentenceSplit = new List<string>(sentenceCzech.Split());
+
+            SplitSentences.Add((enSentenceSplit, csSentenceSplit));
+        }
+
+    }
+
+    /// <summary>
+    /// Processes a single sentence by removing unwanted characters,
+    /// normalizing the text, and converting it to lowercase.
+    /// </summary>
+    private static string ProcessSentence(string sentence)
+    {
+        // Remove hyphens and space before apostrophe
+        sentence = sentence.Replace(""-"", "" "").Replace("" '"", ""'"");
+
+        // Remove all numbers
+        sentence = Regex.Replace(sentence, @""\d+"", """");
+
+        // Remove excess symbols (except ')
+        sentence = Regex.Replace(sentence, @""[^\w\s']"", """");
+
+        // Remove excess whitespaces
+        sentence = Regex.Replace(sentence, @""\s+"", "" "").Trim();
+
+        return sentence.ToLower();
+    }
+}
+
+",preprocess_text.txt
+10,"namespace MachineTranslator;
+using System.IO;
+using System.Collections.Generic;
+// We'll need to use regexes
+using System.Text.RegularExpressions;
+
+public class Preprocessor
+{
+    public List<(string, string)> AllignedTextData { get; set; } = new();
+    public List<string> EnVocabularyList { get; set; } = new();
+    public List<string> CsVocabularyList { get; set; } = new();
+    public List<(List<string>, List<string>)> SplitSentences { get; set; } = new();
+    public Preprocessor(string dataset)
+    {
+        string filePath = dataset;
+
+        using (StreamReader reader = new StreamReader(filePath))
+        {
+            reader.ReadLine();
+
+            while (!reader.EndOfStream)
+            {
+                string? line = reader.ReadLine();
+                string[] values = line.Split('\t');
+
+                // Add the values to the list as a tuple
+                AllignedTextData.Add((values[0], values[1]));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Processes the aligned text data to clean and format each sentence
+    /// for both English and Czech languages.
+    /// </summary>
+    public void ProcessTextData()
+    {
+        for (int i = 0; i < AllignedTextData.Count; i++)
+        {
+            var (sentenceEnglish, sentenceCzech) = AllignedTextData[i];
+            AllignedTextData[i] = (ProcessSentence(sentenceEnglish), ProcessSentence(sentenceCzech));
+        }
+    }
+
+    /// <summary>
+    /// Creates vocabulary lists for both English and Czech languages
+    /// by extracting unique words from the aligned text data.
+    /// </summary>
+    public void ",function_name,CreateVocabulary,"()
+    {
+        // Create vocabulary for each language in HashSet
+        var enVocabularySet = new HashSet<string>();
+        var csVocabularySet = new HashSet<string>();
+
+        foreach (var (sentenceEnglish, sentenceCzech) in AllignedTextData)
+        {
+            var enWords = sentenceEnglish.Split();
+            var csWords = sentenceCzech.Split();
+
+            foreach (var word in enWords) enVocabularySet.Add(word);
+            foreach (var word in csWords) csVocabularySet.Add(word);
+        }
+
+        // Convert vocabularies to lists
+        EnVocabularyList = new List<string>(enVocabularySet);
+        CsVocabularyList = new List<string>(csVocabularySet);
+
+        // Split sentences by comma
+        foreach (var (sentenceEnglish, sentenceCzech) in AllignedTextData)
+        {
+            var enSentenceSplit = new List<string>(sentenceEnglish.Split());
+            var csSentenceSplit = new List<string>(sentenceCzech.Split());
+
+            SplitSentences.Add((enSentenceSplit, csSentenceSplit));
+        }
+
+    }
+
+    /// <summary>
+    /// Processes a single sentence by removing unwanted characters,
+    /// normalizing the text, and converting it to lowercase.
+    /// </summary>
+    private static string ProcessSentence(string sentence)
+    {
+        // Remove hyphens and space before apostrophe
+        sentence = sentence.Replace(""-"", "" "").Replace("" '"", ""'"");
+
+        // Remove all numbers
+        sentence = Regex.Replace(sentence, @""\d+"", """");
+
+        // Remove excess symbols (except ')
+        sentence = Regex.Replace(sentence, @""[^\w\s']"", """");
+
+        // Remove excess whitespaces
+        sentence = Regex.Replace(sentence, @""\s+"", "" "").Trim();
+
+        return sentence.ToLower();
+    }
+}
+
+",preprocess_text.txt
+11,"namespace MachineTranslator;
+using System.IO;
+using System.Collections.Generic;
+// We'll need to use regexes
+using System.Text.RegularExpressions;
+
+public class Preprocessor
+{
+    public List<(string, string)> AllignedTextData { get; set; } = new();
+    public List<string> EnVocabularyList { get; set; } = new();
+    public List<string> CsVocabularyList { get; set; } = new();
+    public List<(List<string>, List<string>)> SplitSentences { get; set; } = new();
+    public Preprocessor(string dataset)
+    {
+        string filePath = dataset;
+
+        using (StreamReader reader = new StreamReader(filePath))
+        {
+            reader.ReadLine();
+
+            while (!reader.EndOfStream)
+            {
+                string? line = reader.ReadLine();
+                string[] values = line.Split('\t');
+
+                // Add the values to the list as a tuple
+                AllignedTextData.Add((values[0], values[1]));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Processes the aligned text data to clean and format each sentence
+    /// for both English and Czech languages.
+    /// </summary>
+    public void ProcessTextData()
+    {
+        for (int i = 0; i < AllignedTextData.Count; i++)
+        {
+            var (sentenceEnglish, sentenceCzech) = AllignedTextData[i];
+            AllignedTextData[i] = (ProcessSentence(sentenceEnglish), ProcessSentence(sentenceCzech));
+        }
+    }
+
+    /// <summary>
+    /// Creates vocabulary lists for both English and Czech languages
+    /// by extracting unique words from the aligned text data.
+    /// </summary>
+    public void CreateVocabulary()
+    {
+        // Create vocabulary for each language in HashSet
+        var enVocabularySet = ",var_declaration,new HashSet<string>();,"
+        var csVocabularySet = new HashSet<string>();
+
+        foreach (var (sentenceEnglish, sentenceCzech) in AllignedTextData)
+        {
+            var enWords = sentenceEnglish.Split();
+            var csWords = sentenceCzech.Split();
+
+            foreach (var word in enWords) enVocabularySet.Add(word);
+            foreach (var word in csWords) csVocabularySet.Add(word);
+        }
+
+        // Convert vocabularies to lists
+        EnVocabularyList = new List<string>(enVocabularySet);
+        CsVocabularyList = new List<string>(csVocabularySet);
+
+        // Split sentences by comma
+        foreach (var (sentenceEnglish, sentenceCzech) in AllignedTextData)
+        {
+            var enSentenceSplit = new List<string>(sentenceEnglish.Split());
+            var csSentenceSplit = new List<string>(sentenceCzech.Split());
+
+            SplitSentences.Add((enSentenceSplit, csSentenceSplit));
+        }
+
+    }
+
+    /// <summary>
+    /// Processes a single sentence by removing unwanted characters,
+    /// normalizing the text, and converting it to lowercase.
+    /// </summary>
+    private static string ProcessSentence(string sentence)
+    {
+        // Remove hyphens and space before apostrophe
+        sentence = sentence.Replace(""-"", "" "").Replace("" '"", ""'"");
+
+        // Remove all numbers
+        sentence = Regex.Replace(sentence, @""\d+"", """");
+
+        // Remove excess symbols (except ')
+        sentence = Regex.Replace(sentence, @""[^\w\s']"", """");
+
+        // Remove excess whitespaces
+        sentence = Regex.Replace(sentence, @""\s+"", "" "").Trim();
+
+        return sentence.ToLower();
+    }
+}
+
+",preprocess_text.txt
+12,"namespace MachineTranslator;
+using System.IO;
+using System.Collections.Generic;
+// We'll need to use regexes
+using System.Text.RegularExpressions;
+
+public class Preprocessor
+{
+    public List<(string, string)> AllignedTextData { get; set; } = new();
+    public List<string> EnVocabularyList { get; set; } = new();
+    public List<string> CsVocabularyList { get; set; } = new();
+    public List<(List<string>, List<string>)> SplitSentences { get; set; } = new();
+    public Preprocessor(string dataset)
+    {
+        string filePath = dataset;
+
+        using (StreamReader reader = new StreamReader(filePath))
+        {
+            reader.ReadLine();
+
+            while (!reader.EndOfStream)
+            {
+                string? line = reader.ReadLine();
+                string[] values = line.Split('\t');
+
+                // Add the values to the list as a tuple
+                AllignedTextData.Add((values[0], values[1]));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Processes the aligned text data to clean and format each sentence
+    /// for both English and Czech languages.
+    /// </summary>
+    public void ProcessTextData()
+    {
+        for (int i = 0; i < AllignedTextData.Count; i++)
+        {
+            var (sentenceEnglish, sentenceCzech) = AllignedTextData[i];
+            AllignedTextData[i] = (ProcessSentence(sentenceEnglish), ProcessSentence(sentenceCzech));
+        }
+    }
+
+    /// <summary>
+    /// Creates vocabulary lists for both English and Czech languages
+    /// by extracting unique words from the aligned text data.
+    /// </summary>
+    public void CreateVocabulary()
+    {
+        // Create vocabulary for each language in HashSet
+        var enVocabularySet = new HashSet<string>();
+        var csVocabularySet = new HashSet<string>();
+
+        foreach (var (sentenceEnglish, sentenceCzech) in AllignedTextData)
+        {
+            var enWords = sentenceEnglish.Split();
+            var csWords = sentenceCzech.Split();
+
+            foreach (var word in enWords) enVocabularySet.Add(word);
+            foreach (var word in csWords) csVocabularySet.Add(word);
+        }
+
+        // Convert vocabularies to lists
+        EnVocabularyList = new List<string>(enVocabularySet);
+        CsVocabularyList = new List<string>(csVocabularySet);
+
+        // Split sentences by comma
+        foreach (var (sentenceEnglish, sentenceCzech) in AllignedTextData)
+        {
+            var enSentenceSplit = new List<string>(sentenceEnglish.Split());
+            var csSentenceSplit = new List<string>(sentenceCzech.Split());
+
+            SplitSentences.Add((enSentenceSplit, csSentenceSplit));
+        }
+
+    }
+
+    /// <summary>
+    /// Processes a single sentence by removing unwanted characters,
+    /// normalizing the text, and converting it to lowercase.
+    /// </summary>
+    private static string ProcessSentence(string sentence)
+    {
+        // Remove hyphens and space before apostrophe
+        sentence = sentence.",method_call,"Replace(""-"", "" "").Replace("" '"", ""'"");","
+
+        // Remove all numbers
+        sentence = Regex.Replace(sentence, @""\d+"", """");
+
+        // Remove excess symbols (except ')
+        sentence = Regex.Replace(sentence, @""[^\w\s']"", """");
+
+        // Remove excess whitespaces
+        sentence = Regex.Replace(sentence, @""\s+"", "" "").Trim();
+
+        return sentence.ToLower();
+    }
+}
+
+",preprocess_text.txt
+13,"#include ""Tree.h""
+
+// Prints the details of a product including its name, amount, and provider.
+void Detail::print_detail() {
+	cout << endl << ""Name: "" << detail << ""  Amount: "" << amount << ""  Provider: "" << provider;
+}
+
+// Recursively adds a new detail node to the binary search tree based on its name.
+// It compares the new node's name with the current node to place it in the correct position (left or right).
+void add_detail(Detail* &newOne, Detail* &current) {
+	Detail* p = new Detail;
+	p = newOne;
+	if (current) {
+		if (p->",conditional_statement,detail > current->detail,") {
+			add_detail(newOne, current->right);
+		}
+		else if (p->detail < current->detail) {
+			add_detail(newOne, current->left);
+		}
+	}
+	else {
+		current = newOne;
+	}
+}
+
+// Recursively traverses the binary search tree and prints details of each node (in pre-order).
+void output_tree(Detail*& current) {
+	Detail* p = new Detail;
+	p = current;
+	if (p) {
+		p->print_detail();
+
+		output_tree(p->left);
+		output_tree(p->right);
+	}
+}
+
+// Collects provider information and corresponding amounts from each node in the binary search tree.
+// It stores these values in the provided vectors for further analysis.
+void getInfoProviders(Detail*& current, vector<int>&detailamount, int &i, vector<string>&providers) {
+	Detail* p = new Detail;
+	p = current;
+	if (p) {
+		providers[i]=p->provider;
+		detailamount[i] = p->amount;
+		i++;
+		getInfoProviders(p->left,detailamount,i,providers);
+		getInfoProviders(p->right, detailamount, i, providers);
+	}
+}
+
+// Finds and returns the name of the provider with the largest total amount.
+// It sums the amounts for each provider (if there are duplicates) and finds the maximum.
+string biggestProvider(int& max, Detail* root, int n) {
+	vector<int>detailamount(n);
+	int i = 0;
+	vector<string>providers(n);
+
+	getInfoProviders(root, detailamount, i, providers);
+
+	auto iter = detailamount.cbegin();
+	auto iter2 = providers.cbegin();
+
+	for (int i = 0; i < detailamount.size(); i++) {
+		for (int j = i + 1; j < detailamount.size(); j++) {
+			if (providers[i] == providers[j]) {
+				detailamount[i] += detailamount[j];
+				detailamount.erase(iter + j);
+				providers.erase(iter2 + j);
+			}
+		}
+	}
+
+	int temp;
+	int temp_index;
+	int max_index;
+	max = *max_element(detailamount.begin(), detailamount.end());
+	for (int i = 0; i < detailamount.size(); i++) {
+		if (detailamount[i] == max) {
+			max_index = i;
+		}
+	}
+
+	return providers[max_index];
+}
+",tree_struct.txt
+14,"#include ""Tree.h""
+
+// Prints the details of a product including its name, amount, and provider.
+void Detail::print_detail() {
+	cout << endl << ""Name: "" << detail << ""  Amount: "" << amount << ""  Provider: "" << provider;
+}
+
+// Recursively adds a new detail node to the binary search tree based on its name.
+// It compares the new node's name with the current node to place it in the correct position (left or right).
+void add_detail(Detail* &newOne, Detail* &current) {
+	Detail* p = new Detail;
+	p = newOne;
+	if (current) {
+		if (p->detail > current->detail) {
+			add_detail(newOne, current->right);
+		}
+		else if (p->detail < current->detail) {
+			add_detail(newOne, current->left);
+		}
+	}
+	else {
+		current = newOne;
+	}
+}
+
+// Recursively traverses the binary search tree and prints details of each node (in pre-order).
+void output_tree(Detail*& current) {
+	Detail* p = new Detail;
+	p = current;
+	if (p) {
+		p->print_detail();
+
+		output_tree(p->left);
+		output_tree(p->right);
+	}
+}
+
+// Collects provider information and corresponding amounts from each node in the binary search tree.
+// It stores these values in the provided vectors for further analysis.
+void ",function_name,getInfoProviders,"(Detail*& current, vector<int>&detailamount, int &i, vector<string>&providers) {
+	Detail* p = new Detail;
+	p = current;
+	if (p) {
+		providers[i]=p->provider;
+		detailamount[i] = p->amount;
+		i++;
+		getInfoProviders(p->left,detailamount,i,providers);
+		getInfoProviders(p->right, detailamount, i, providers);
+	}
+}
+
+// Finds and returns the name of the provider with the largest total amount.
+// It sums the amounts for each provider (if there are duplicates) and finds the maximum.
+string biggestProvider(int& max, Detail* root, int n) {
+	vector<int>detailamount(n);
+	int i = 0;
+	vector<string>providers(n);
+
+	getInfoProviders(root, detailamount, i, providers);
+
+	auto iter = detailamount.cbegin();
+	auto iter2 = providers.cbegin();
+
+	for (int i = 0; i < detailamount.size(); i++) {
+		for (int j = i + 1; j < detailamount.size(); j++) {
+			if (providers[i] == providers[j]) {
+				detailamount[i] += detailamount[j];
+				detailamount.erase(iter + j);
+				providers.erase(iter2 + j);
+			}
+		}
+	}
+
+	int temp;
+	int temp_index;
+	int max_index;
+	max = *max_element(detailamount.begin(), detailamount.end());
+	for (int i = 0; i < detailamount.size(); i++) {
+		if (detailamount[i] == max) {
+			max_index = i;
+		}
+	}
+
+	return providers[max_index];
+}
+",tree_struct.txt
+15,"#include ""Tree.h""
+
+// Prints the details of a product including its name, amount, and provider.
+void Detail::print_detail() {
+	cout << endl << ""Name: "" << detail << ""  Amount: "" << amount << ""  Provider: "" << provider;
+}
+
+// Recursively adds a new detail node to the binary search tree based on its name.
+// It compares the new node's name with the current node to place it in the correct position (left or right).
+void add_detail(Detail* &newOne, Detail* &current) {
+	Detail* p = new Detail;
+	p = newOne;
+	if (current) {
+		if (p->detail > current->detail) {
+			add_detail(newOne, current->right);
+		}
+		else if (p->detail < current->detail) {
+			add_detail(newOne, current->left);
+		}
+	}
+	else {
+		current = newOne;
+	}
+}
+
+// Recursively traverses the binary search tree and prints details of each node (in pre-order).
+void output_tree(Detail*& current) {
+	Detail* p = new Detail;
+	p = current;
+	if (p) {
+		p->print_detail();
+
+		output_tree(p->left);
+		output_tree(p->right);
+	}
+}
+
+// Collects provider information and corresponding amounts from each node in the binary search tree.
+// It stores these values in the provided vectors for further analysis.
+void getInfoProviders(Detail*& current, vector<int>&detailamount, int &i, vector<string>&providers) {
+	Detail* p = new Detail;
+	p = current;
+	if (p) {
+		",code_by_description,"providers[i]=p->provider;
+		detailamount[i] = p->amount;
+		i++;
+		getInfoProviders(p->left,detailamount,i,providers);
+		getInfoProviders(p->right, detailamount, i, providers);","
+	}
+}
+
+// Finds and returns the name of the provider with the largest total amount.
+// It sums the amounts for each provider (if there are duplicates) and finds the maximum.
+string biggestProvider(int& max, Detail* root, int n) {
+	vector<int>detailamount(n);
+	int i = 0;
+	vector<string>providers(n);
+
+	getInfoProviders(root, detailamount, i, providers);
+
+	auto iter = detailamount.cbegin();
+	auto iter2 = providers.cbegin();
+
+	for (int i = 0; i < detailamount.size(); i++) {
+		for (int j = i + 1; j < detailamount.size(); j++) {
+			if (providers[i] == providers[j]) {
+				detailamount[i] += detailamount[j];
+				detailamount.erase(iter + j);
+				providers.erase(iter2 + j);
+			}
+		}
+	}
+
+	int temp;
+	int temp_index;
+	int max_index;
+	max = *max_element(detailamount.begin(), detailamount.end());
+	for (int i = 0; i < detailamount.size(); i++) {
+		if (detailamount[i] == max) {
+			max_index = i;
+		}
+	}
+
+	return providers[max_index];
+}
+",tree_struct.txt
+16,"#include ""Tree.h""
+
+// Prints the details of a product including its name, amount, and provider.
+void Detail::print_detail() {
+	cout << endl << ""Name: "" << detail << ""  Amount: "" << amount << ""  Provider: "" << provider;
+}
+
+// Recursively adds a new detail node to the binary search tree based on its name.
+// It compares the new node's name with the current node to place it in the correct position (left or right).
+void add_detail(Detail* &newOne, Detail* &current) {
+	Detail* p = new Detail;
+	p = newOne;
+	if (current) {
+		if (p->detail > current->detail) {
+			add_detail(newOne, current->right);
+		}
+		else if (p->detail < current->detail) {
+			add_detail(newOne, current->left);
+		}
+	}
+	else {
+		current = newOne;
+	}
+}
+
+// Recursively traverses the binary search tree and prints details of each node (in pre-order).
+void output_tree(Detail*& current) {
+	Detail* p = new Detail;
+	p = current;
+	if (p) {
+		p->print_detail();
+
+		output_tree(p->left);
+		output_tree(p->right);
+	}
+}
+
+// Collects provider information and corresponding amounts from each node in the binary search tree.
+// It stores these values in the provided vectors for further analysis.
+void getInfoProviders(Detail*& current, vector<int>&detailamount, int &i, vector<string>&providers) {
+	Detail* p = new Detail;
+	p = current;
+	if (p) {
+		providers[i]=p->provider;
+		detailamount[i] = p->amount;
+		i++;
+		getInfoProviders(p->left,detailamount,i,providers);
+		getInfoProviders(p->right, detailamount, i, providers);
+	}
+}
+
+// Finds and returns the name of the provider with the largest total amount.
+// It sums the amounts for each provider (if there are duplicates) and finds the maximum.
+string biggestProvider(",function_parameter,"int& max, Detail* root, int n",") {
+	vector<int>detailamount(n);
+	int i = 0;
+	vector<string>providers(n);
+
+	getInfoProviders(root, detailamount, i, providers);
+
+	auto iter = detailamount.cbegin();
+	auto iter2 = providers.cbegin();
+
+	for (int i = 0; i < detailamount.size(); i++) {
+		for (int j = i + 1; j < detailamount.size(); j++) {
+			if (providers[i] == providers[j]) {
+				detailamount[i] += detailamount[j];
+				detailamount.erase(iter + j);
+				providers.erase(iter2 + j);
+			}
+		}
+	}
+
+	int temp;
+	int temp_index;
+	int max_index;
+	max = *max_element(detailamount.begin(), detailamount.end());
+	for (int i = 0; i < detailamount.size(); i++) {
+		if (detailamount[i] == max) {
+			max_index = i;
+		}
+	}
+
+	return providers[max_index];
+}
+",tree_struct.txt
+17,"using System;
+using System.IO;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace Justification
+{
+    public class Program
+    {
+        private static void Main(string[] args)
+        {
+            var state = new ProgramInputOutputState();
+            if (!state.InitializeFromCommandLineArgs(args)) return;
+
+            var processor = new TextProcessor(state.Writer, state.MaxLineWidth, state.InputFileList, state.IsHighlight);
+            processor.Process();
+
+            state.Dispose();
+        }
+    }
+
+    public class TextProcessor
+    {
+        private static char[] WhitespaceCharacters = { ' ', '\n', '\t' };
+        private readonly int _maxLineWidth;
+        private readonly string[] _inputFilesList;
+        private readonly bool _isHighlight;
+        private int fileIndex = 0, currLineLen = 0, totalLineLen = 0;
+        private List<(string word, int spacing)> lineWordList = new List<(string word, int spacing)>();
+        private bool EOP = false;
+        private string exceedOneWord = """";
+        private TextReader _reader;
+        private TextWriter _writer;
+
+        public TextProcessor(TextWriter writer, int maxLineWidth, string[] inputFiles, bool highlightFlag)
+        {
+            ",class_initialization,"_writer = writer;
+            _inputFilesList = inputFiles;
+            if (_inputFilesList.Length != 0) MakeReader();
+            _isHighlight = highlightFlag;
+            _maxLineWidth = maxLineWidth;","
+        }
+
+        private void MakeReader()
+        {
+            if (fileIndex != 0) _reader.Dispose();
+            _reader = ProgramInputOutputState.CreateReader(_inputFilesList[fileIndex++]);
+        }
+
+        /// <summary>
+        /// Counts consecutive whitespace characters or end of file in the input stream.
+        /// </summary>
+        private int CountConsecutiveWhitespaceOrEndOfFile()
+        {
+            int consecutiveNewlines = 0;
+
+            while (!(fileIndex == _inputFilesList.Length && _reader.Peek() == -1) &&
+                   (WhitespaceCharacters.Contains((char)_reader.Peek()) || _reader.Peek() == -1))
+            {
+                if (_reader.Peek() == -1) MakeReader();
+                if (WhitespaceCharacters.Contains((char)_reader.Peek()))
+                {
+                    if ((char)_reader.Read() == '\n')
+                    {
+                        ++consecutiveNewlines;
+                    }
+                }
+            }
+            return consecutiveNewlines;
+        }
+
+        /// <summary>
+        /// Reads the next word from the input stream.
+        /// Handles end-of-file conditions and whitespace appropriately.
+        /// </summary>
+        private string GetNextWord()
+        {
+            int consecutiveNewlines = CountConsecutiveWhitespaceOrEndOfFile();
+            string word = """";
+
+            if ((fileIndex == _inputFilesList.Length && _reader.Peek() == -1) || consecutiveNewlines >= 2)
+            {
+                EOP = true; // Set end-of-processing flag
+                return word;
+            }
+            else
+            {
+                while (_reader.Peek() != -1 && !WhitespaceCharacters.Contains((char)_reader.Peek()))
+                {
+                    word += (char)_reader.Read();
+                }
+                return word;
+            }
+        }
+
+        /// <summary>
+        /// Stretches the line by writing the words and their corresponding spacing to the output.
+        /// </summary>
+        /// <param name=""wordSpacingList"">A list of words and their spacing to format the output line.</param>
+        /// <param name=""EOP"">Indicates whether end of processing has been reached.</param>
+        private void StretchLine(List<(string word, int spacing)> wordSpacingList, bool EOP)
+        {
+            if (wordSpacingList.Count == 0) return;
+
+            foreach (var (word, spacing) in wordSpacingList)
+            {
+                _writer.Write($""{word}{new string(_isHighlight ? '.' : ' ', spacing)}"");
+            }
+
+            _writer.WriteLine(_isHighlight ? ""<-"" : """");
+
+            if (EOP)
+            {
+                _writer.WriteLine(_isHighlight ? ""<-"" : """");
+            }
+        }
+
+        /// <summary>
+        /// Handles the end of processing by stretching the line if necessary and writing it to output.
+        /// </summary>
+        private void HandleEOP()
+        {
+            if (EOP)
+            {
+                StretchLine(lineWordList, !(_reader.Peek() == -1 && fileIndex == _inputFilesList.Length));
+            }
+            else
+            {
+                if (lineWordList.Count > 1)
+                {
+                    // Adjust spacing to fit within the maximum line width
+                    while (totalLineLen < _maxLineWidth)
+                    {
+                        for (int i = 0; i < Math.Max(lineWordList.Count - 1, 1); ++i)
+                        {
+                            if (totalLineLen >= _maxLineWidth) break;
+                            lineWordList[i] = (lineWordList[i].word, lineWordList[i].spacing + 1);
+                            ++totalLineLen;
+                        }
+                    }
+                }
+                StretchLine(lineWordList, false);
+            }
+        }
+
+        /// <summary>
+        /// Handles the aftermath of reading a word to update the state and prepare for the next word.
+        /// </summary>
+        /// <param name=""currentWord"">The current word being processed.</param>
+        /// <returns>True if the word was successfully handled, false otherwise.</returns>
+        private bool HandleReadAftermath(string currentWord)
+        {
+            if (EOP) return false;
+
+            if (totalLineLen + 1 + currentWord.Length > _maxLineWidth)
+            {
+                exceedOneWord = currentWord; // Store the word that exceeds the line width
+                return false;
+            }
+
+            currLineLen += currentWord.Length;
+
+            if (lineWordList.Count > 0)
+            {
+                lineWordList[^1] = (lineWordList[^1].word, lineWordList[^1].spacing + 1); // Increase spacing for the last word
+            }
+
+            lineWordList.Add((currentWord, 0)); // Add the current word to the list
+            totalLineLen = currLineLen + lineWordList.Count - 1; // Update the total line length
+            return true;
+        }
+
+        /// <summary>
+        /// Processes the input files by reading words, justifying lines, and writing the output.
+        /// </summary>
+        public void Process()
+        {
+            while (fileIndex != _inputFilesList.Length || _reader.Peek() != -1)
+            {
+                currLineLen = 0;
+                totalLineLen = 0;
+                lineWordList = new List<(string word, int spacing)>();
+                EOP = false;
+
+                while (totalLineLen <= _maxLineWidth)
+                {
+                    if (!string.IsNullOrEmpty(exceedOneWord))
+                    {
+                        currLineLen += exceedOneWord.Length;
+                        lineWordList.Add((exceedOneWord, 0));
+                        totalLineLen += currLineLen + lineWordList.Count - 1;
+                        exceedOneWord = """";
+                        if (CountConsecutiveWhitespaceOrEndOfFile() >= 2
+                            || (_reader.Peek() == -1 && fileIndex == _inputFilesList.Length))
+                        {
+                            EOP = true;
+                            break;
+                        }
+                        continue;
+                    }
+
+                    string currentWord = GetNextWord().TrimEnd();
+                    if (!HandleReadAftermath(currentWord)) break; // Process the current word
+                }
+
+                HandleEOP(); // Handle end of processing for the line
+            }
+        }
+    }
+
+    public class ProgramInputOutputState : IDisposable
+    {
+        public TextWriter Writer { get; set; } = null;
+        public bool IsHighlight = false;
+        public string[] InputFileList { get; set; }
+        public int MaxLineWidth;
+
+        /// <summary>
+        /// Initializes the state from command-line arguments.
+        /// Configures the highlight option, input file list, and output writer.
+        /// </summary>
+        /// <param name=""args"">Command-line arguments passed to the program.</param>
+        /// <returns>True if initialization was successful; otherwise, false.</returns>
+        public bool InitializeFromCommandLineArgs(string[] args)
+        {
+            if (args.Length > 0)
+            {
+                if (args[0] == ""--highlight-spaces"")
+                {
+                    IsHighlight = true; // Enable highlighting if specified
+                }
+            }
+
+            if ((args.Length < 3 && !IsHighlight) || (args.Length < 4 && IsHighlight) || !int.TryParse(args[^1], out MaxLineWidth) || MaxLineWidth <= 0)
+            {
+                PrintUsage();
+                return false;
+            }
+
+            InputFileList = args.Skip(1).Take(args.Length - 2).ToArray();
+            Writer = CreateWriter();
+
+            return true;
+        }
+
+        /// <summary>
+        /// Creates a TextWriter for output based on the specified file name.
+        /// </summary>
+        /// <returns>A TextWriter configured for output.</returns>
+        private TextWriter CreateWriter()
+        {
+            if (IsHighlight) return Console.Out; // Highlight output to console
+            return new StreamWriter(""justified_output.txt""); // Regular output to file
+        }
+
+        /// <summary>
+        /// Creates a TextReader for the specified input file.
+        /// </summary>
+        /// <param name=""fileName"">The name of the input file.</param>
+        /// <returns>A TextReader for the input file.</returns>
+        public static TextReader CreateReader(string fileName)
+        {
+            return new StreamReader(fileName);
+        }
+
+        /// <summary>
+        /// Releases resources used by the writer and any other resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Writer?.Dispose();
+        }
+
+        /// <summary>
+        /// Prints the usage instructions for the command-line arguments.
+        /// </summary>
+        private void PrintUsage()
+        {
+            Console.WriteLine(""Usage: Justification [--highlight-spaces] inputFile1 inputFile2 ... inputFileN lineWidth"");
+        }
+    }
+}
+
+",text_justificator.txt
+18,"using System;
+using System.IO;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace Justification
+{
+    public class Program
+    {
+        private static void Main(string[] args)
+        {
+            var state = new ProgramInputOutputState();
+            if (!state.InitializeFromCommandLineArgs(args)) return;
+
+            var processor = new TextProcessor(state.Writer, state.MaxLineWidth, state.InputFileList, state.IsHighlight);
+            processor.Process();
+
+            state.Dispose();
+        }
+    }
+
+    public class TextProcessor
+    {
+        private static char[] WhitespaceCharacters = { ' ', '\n', '\t' };
+        private readonly int _maxLineWidth;
+        private readonly string[] _inputFilesList;
+        private readonly bool _isHighlight;
+        private int fileIndex = 0, currLineLen = 0, totalLineLen = 0;
+        private List<(string word, int spacing)> lineWordList = new List<(string word, int spacing)>();
+        private bool EOP = false;
+        private string exceedOneWord = """";
+        private TextReader _reader;
+        private TextWriter _writer;
+
+        public TextProcessor(TextWriter writer, int maxLineWidth, string[] inputFiles, bool highlightFlag)
+        {
+            _writer = writer;
+            _inputFilesList = inputFiles;
+            if (_inputFilesList.Length != 0) MakeReader();
+            _isHighlight = highlightFlag;
+            _maxLineWidth = maxLineWidth;
+        }
+
+        private void MakeReader()
+        {
+            if (fileIndex != 0) _reader.Dispose();
+            _reader = ProgramInputOutputState.CreateReader(_inputFilesList[fileIndex++]);
+        }
+
+        /// <summary>
+        /// Counts consecutive whitespace characters or end of file in the input stream.
+        /// </summary>
+        private int ",function_name,CountConsecutiveWhitespaceOrEndOfFile,"()
+        {
+            int consecutiveNewlines = 0;
+
+            while (!(fileIndex == _inputFilesList.Length && _reader.Peek() == -1) &&
+                   (WhitespaceCharacters.Contains((char)_reader.Peek()) || _reader.Peek() == -1))
+            {
+                if (_reader.Peek() == -1) MakeReader();
+                if (WhitespaceCharacters.Contains((char)_reader.Peek()))
+                {
+                    if ((char)_reader.Read() == '\n')
+                    {
+                        ++consecutiveNewlines;
+                    }
+                }
+            }
+            return consecutiveNewlines;
+        }
+
+        /// <summary>
+        /// Reads the next word from the input stream.
+        /// Handles end-of-file conditions and whitespace appropriately.
+        /// </summary>
+        private string GetNextWord()
+        {
+            int consecutiveNewlines = CountConsecutiveWhitespaceOrEndOfFile();
+            string word = """";
+
+            if ((fileIndex == _inputFilesList.Length && _reader.Peek() == -1) || consecutiveNewlines >= 2)
+            {
+                EOP = true; // Set end-of-processing flag
+                return word;
+            }
+            else
+            {
+                while (_reader.Peek() != -1 && !WhitespaceCharacters.Contains((char)_reader.Peek()))
+                {
+                    word += (char)_reader.Read();
+                }
+                return word;
+            }
+        }
+
+        /// <summary>
+        /// Stretches the line by writing the words and their corresponding spacing to the output.
+        /// </summary>
+        /// <param name=""wordSpacingList"">A list of words and their spacing to format the output line.</param>
+        /// <param name=""EOP"">Indicates whether end of processing has been reached.</param>
+        private void StretchLine(List<(string word, int spacing)> wordSpacingList, bool EOP)
+        {
+            if (wordSpacingList.Count == 0) return;
+
+            foreach (var (word, spacing) in wordSpacingList)
+            {
+                _writer.Write($""{word}{new string(_isHighlight ? '.' : ' ', spacing)}"");
+            }
+
+            _writer.WriteLine(_isHighlight ? ""<-"" : """");
+
+            if (EOP)
+            {
+                _writer.WriteLine(_isHighlight ? ""<-"" : """");
+            }
+        }
+
+        /// <summary>
+        /// Handles the end of processing by stretching the line if necessary and writing it to output.
+        /// </summary>
+        private void HandleEOP()
+        {
+            if (EOP)
+            {
+                StretchLine(lineWordList, !(_reader.Peek() == -1 && fileIndex == _inputFilesList.Length));
+            }
+            else
+            {
+                if (lineWordList.Count > 1)
+                {
+                    // Adjust spacing to fit within the maximum line width
+                    while (totalLineLen < _maxLineWidth)
+                    {
+                        for (int i = 0; i < Math.Max(lineWordList.Count - 1, 1); ++i)
+                        {
+                            if (totalLineLen >= _maxLineWidth) break;
+                            lineWordList[i] = (lineWordList[i].word, lineWordList[i].spacing + 1);
+                            ++totalLineLen;
+                        }
+                    }
+                }
+                StretchLine(lineWordList, false);
+            }
+        }
+
+        /// <summary>
+        /// Handles the aftermath of reading a word to update the state and prepare for the next word.
+        /// </summary>
+        /// <param name=""currentWord"">The current word being processed.</param>
+        /// <returns>True if the word was successfully handled, false otherwise.</returns>
+        private bool HandleReadAftermath(string currentWord)
+        {
+            if (EOP) return false;
+
+            if (totalLineLen + 1 + currentWord.Length > _maxLineWidth)
+            {
+                exceedOneWord = currentWord; // Store the word that exceeds the line width
+                return false;
+            }
+
+            currLineLen += currentWord.Length;
+
+            if (lineWordList.Count > 0)
+            {
+                lineWordList[^1] = (lineWordList[^1].word, lineWordList[^1].spacing + 1); // Increase spacing for the last word
+            }
+
+            lineWordList.Add((currentWord, 0)); // Add the current word to the list
+            totalLineLen = currLineLen + lineWordList.Count - 1; // Update the total line length
+            return true;
+        }
+
+        /// <summary>
+        /// Processes the input files by reading words, justifying lines, and writing the output.
+        /// </summary>
+        public void Process()
+        {
+            while (fileIndex != _inputFilesList.Length || _reader.Peek() != -1)
+            {
+                currLineLen = 0;
+                totalLineLen = 0;
+                lineWordList = new List<(string word, int spacing)>();
+                EOP = false;
+
+                while (totalLineLen <= _maxLineWidth)
+                {
+                    if (!string.IsNullOrEmpty(exceedOneWord))
+                    {
+                        currLineLen += exceedOneWord.Length;
+                        lineWordList.Add((exceedOneWord, 0));
+                        totalLineLen += currLineLen + lineWordList.Count - 1;
+                        exceedOneWord = """";
+                        if (CountConsecutiveWhitespaceOrEndOfFile() >= 2
+                            || (_reader.Peek() == -1 && fileIndex == _inputFilesList.Length))
+                        {
+                            EOP = true;
+                            break;
+                        }
+                        continue;
+                    }
+
+                    string currentWord = GetNextWord().TrimEnd();
+                    if (!HandleReadAftermath(currentWord)) break; // Process the current word
+                }
+
+                HandleEOP(); // Handle end of processing for the line
+            }
+        }
+    }
+
+    public class ProgramInputOutputState : IDisposable
+    {
+        public TextWriter Writer { get; set; } = null;
+        public bool IsHighlight = false;
+        public string[] InputFileList { get; set; }
+        public int MaxLineWidth;
+
+        /// <summary>
+        /// Initializes the state from command-line arguments.
+        /// Configures the highlight option, input file list, and output writer.
+        /// </summary>
+        /// <param name=""args"">Command-line arguments passed to the program.</param>
+        /// <returns>True if initialization was successful; otherwise, false.</returns>
+        public bool InitializeFromCommandLineArgs(string[] args)
+        {
+            if (args.Length > 0)
+            {
+                if (args[0] == ""--highlight-spaces"")
+                {
+                    IsHighlight = true; // Enable highlighting if specified
+                }
+            }
+
+            if ((args.Length < 3 && !IsHighlight) || (args.Length < 4 && IsHighlight) || !int.TryParse(args[^1], out MaxLineWidth) || MaxLineWidth <= 0)
+            {
+                PrintUsage();
+                return false;
+            }
+
+            InputFileList = args.Skip(1).Take(args.Length - 2).ToArray();
+            Writer = CreateWriter();
+
+            return true;
+        }
+
+        /// <summary>
+        /// Creates a TextWriter for output based on the specified file name.
+        /// </summary>
+        /// <returns>A TextWriter configured for output.</returns>
+        private TextWriter CreateWriter()
+        {
+            if (IsHighlight) return Console.Out; // Highlight output to console
+            return new StreamWriter(""justified_output.txt""); // Regular output to file
+        }
+
+        /// <summary>
+        /// Creates a TextReader for the specified input file.
+        /// </summary>
+        /// <param name=""fileName"">The name of the input file.</param>
+        /// <returns>A TextReader for the input file.</returns>
+        public static TextReader CreateReader(string fileName)
+        {
+            return new StreamReader(fileName);
+        }
+
+        /// <summary>
+        /// Releases resources used by the writer and any other resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Writer?.Dispose();
+        }
+
+        /// <summary>
+        /// Prints the usage instructions for the command-line arguments.
+        /// </summary>
+        private void PrintUsage()
+        {
+            Console.WriteLine(""Usage: Justification [--highlight-spaces] inputFile1 inputFile2 ... inputFileN lineWidth"");
+        }
+    }
+}
+
+",text_justificator.txt
+19,"using System;
+using System.IO;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace Justification
+{
+    public class Program
+    {
+        private static void Main(string[] args)
+        {
+            var state = new ProgramInputOutputState();
+            if (!state.InitializeFromCommandLineArgs(args)) return;
+
+            var processor = new TextProcessor(state.Writer, state.MaxLineWidth, state.InputFileList, state.IsHighlight);
+            processor.Process();
+
+            state.Dispose();
+        }
+    }
+
+    public class TextProcessor
+    {
+        private static char[] WhitespaceCharacters = { ' ', '\n', '\t' };
+        private readonly int _maxLineWidth;
+        private readonly string[] _inputFilesList;
+        private readonly bool _isHighlight;
+        private int fileIndex = 0, currLineLen = 0, totalLineLen = 0;
+        private List<(string word, int spacing)> lineWordList = new List<(string word, int spacing)>();
+        private bool EOP = false;
+        private string exceedOneWord = """";
+        private TextReader _reader;
+        private TextWriter _writer;
+
+        public TextProcessor(TextWriter writer, int maxLineWidth, string[] inputFiles, bool highlightFlag)
+        {
+            _writer = writer;
+            _inputFilesList = inputFiles;
+            if (_inputFilesList.Length != 0) MakeReader();
+            _isHighlight = highlightFlag;
+            _maxLineWidth = maxLineWidth;
+        }
+
+        private void MakeReader()
+        {
+            if (fileIndex != 0) _reader.Dispose();
+            _reader = ProgramInputOutputState.CreateReader(_inputFilesList[fileIndex++]);
+        }
+
+        /// <summary>
+        /// Counts consecutive whitespace characters or end of file in the input stream.
+        /// </summary>
+        private int CountConsecutiveWhitespaceOrEndOfFile()
+        {
+            int consecutiveNewlines = 0;
+
+            while (!(fileIndex == _inputFilesList.Length && _reader.Peek() == -1) &&
+                   (WhitespaceCharacters.Contains((char)_reader.Peek()) || _reader.Peek() == -1))
+            {
+                if (_reader.Peek() == -1) MakeReader();
+                if (",conditional_statement,WhitespaceCharacters.Contains((char)_reader.Peek()),")
+                {
+                    if ((char)_reader.Read() == '\n')
+                    {
+                        ++consecutiveNewlines;
+                    }
+                }
+            }
+            return consecutiveNewlines;
+        }
+
+        /// <summary>
+        /// Reads the next word from the input stream.
+        /// Handles end-of-file conditions and whitespace appropriately.
+        /// </summary>
+        private string GetNextWord()
+        {
+            int consecutiveNewlines = CountConsecutiveWhitespaceOrEndOfFile();
+            string word = """";
+
+            if ((fileIndex == _inputFilesList.Length && _reader.Peek() == -1) || consecutiveNewlines >= 2)
+            {
+                EOP = true; // Set end-of-processing flag
+                return word;
+            }
+            else
+            {
+                while (_reader.Peek() != -1 && !WhitespaceCharacters.Contains((char)_reader.Peek()))
+                {
+                    word += (char)_reader.Read();
+                }
+                return word;
+            }
+        }
+
+        /// <summary>
+        /// Stretches the line by writing the words and their corresponding spacing to the output.
+        /// </summary>
+        /// <param name=""wordSpacingList"">A list of words and their spacing to format the output line.</param>
+        /// <param name=""EOP"">Indicates whether end of processing has been reached.</param>
+        private void StretchLine(List<(string word, int spacing)> wordSpacingList, bool EOP)
+        {
+            if (wordSpacingList.Count == 0) return;
+
+            foreach (var (word, spacing) in wordSpacingList)
+            {
+                _writer.Write($""{word}{new string(_isHighlight ? '.' : ' ', spacing)}"");
+            }
+
+            _writer.WriteLine(_isHighlight ? ""<-"" : """");
+
+            if (EOP)
+            {
+                _writer.WriteLine(_isHighlight ? ""<-"" : """");
+            }
+        }
+
+        /// <summary>
+        /// Handles the end of processing by stretching the line if necessary and writing it to output.
+        /// </summary>
+        private void HandleEOP()
+        {
+            if (EOP)
+            {
+                StretchLine(lineWordList, !(_reader.Peek() == -1 && fileIndex == _inputFilesList.Length));
+            }
+            else
+            {
+                if (lineWordList.Count > 1)
+                {
+                    // Adjust spacing to fit within the maximum line width
+                    while (totalLineLen < _maxLineWidth)
+                    {
+                        for (int i = 0; i < Math.Max(lineWordList.Count - 1, 1); ++i)
+                        {
+                            if (totalLineLen >= _maxLineWidth) break;
+                            lineWordList[i] = (lineWordList[i].word, lineWordList[i].spacing + 1);
+                            ++totalLineLen;
+                        }
+                    }
+                }
+                StretchLine(lineWordList, false);
+            }
+        }
+
+        /// <summary>
+        /// Handles the aftermath of reading a word to update the state and prepare for the next word.
+        /// </summary>
+        /// <param name=""currentWord"">The current word being processed.</param>
+        /// <returns>True if the word was successfully handled, false otherwise.</returns>
+        private bool HandleReadAftermath(string currentWord)
+        {
+            if (EOP) return false;
+
+            if (totalLineLen + 1 + currentWord.Length > _maxLineWidth)
+            {
+                exceedOneWord = currentWord; // Store the word that exceeds the line width
+                return false;
+            }
+
+            currLineLen += currentWord.Length;
+
+            if (lineWordList.Count > 0)
+            {
+                lineWordList[^1] = (lineWordList[^1].word, lineWordList[^1].spacing + 1); // Increase spacing for the last word
+            }
+
+            lineWordList.Add((currentWord, 0)); // Add the current word to the list
+            totalLineLen = currLineLen + lineWordList.Count - 1; // Update the total line length
+            return true;
+        }
+
+        /// <summary>
+        /// Processes the input files by reading words, justifying lines, and writing the output.
+        /// </summary>
+        public void Process()
+        {
+            while (fileIndex != _inputFilesList.Length || _reader.Peek() != -1)
+            {
+                currLineLen = 0;
+                totalLineLen = 0;
+                lineWordList = new List<(string word, int spacing)>();
+                EOP = false;
+
+                while (totalLineLen <= _maxLineWidth)
+                {
+                    if (!string.IsNullOrEmpty(exceedOneWord))
+                    {
+                        currLineLen += exceedOneWord.Length;
+                        lineWordList.Add((exceedOneWord, 0));
+                        totalLineLen += currLineLen + lineWordList.Count - 1;
+                        exceedOneWord = """";
+                        if (CountConsecutiveWhitespaceOrEndOfFile() >= 2
+                            || (_reader.Peek() == -1 && fileIndex == _inputFilesList.Length))
+                        {
+                            EOP = true;
+                            break;
+                        }
+                        continue;
+                    }
+
+                    string currentWord = GetNextWord().TrimEnd();
+                    if (!HandleReadAftermath(currentWord)) break; // Process the current word
+                }
+
+                HandleEOP(); // Handle end of processing for the line
+            }
+        }
+    }
+
+    public class ProgramInputOutputState : IDisposable
+    {
+        public TextWriter Writer { get; set; } = null;
+        public bool IsHighlight = false;
+        public string[] InputFileList { get; set; }
+        public int MaxLineWidth;
+
+        /// <summary>
+        /// Initializes the state from command-line arguments.
+        /// Configures the highlight option, input file list, and output writer.
+        /// </summary>
+        /// <param name=""args"">Command-line arguments passed to the program.</param>
+        /// <returns>True if initialization was successful; otherwise, false.</returns>
+        public bool InitializeFromCommandLineArgs(string[] args)
+        {
+            if (args.Length > 0)
+            {
+                if (args[0] == ""--highlight-spaces"")
+                {
+                    IsHighlight = true; // Enable highlighting if specified
+                }
+            }
+
+            if ((args.Length < 3 && !IsHighlight) || (args.Length < 4 && IsHighlight) || !int.TryParse(args[^1], out MaxLineWidth) || MaxLineWidth <= 0)
+            {
+                PrintUsage();
+                return false;
+            }
+
+            InputFileList = args.Skip(1).Take(args.Length - 2).ToArray();
+            Writer = CreateWriter();
+
+            return true;
+        }
+
+        /// <summary>
+        /// Creates a TextWriter for output based on the specified file name.
+        /// </summary>
+        /// <returns>A TextWriter configured for output.</returns>
+        private TextWriter CreateWriter()
+        {
+            if (IsHighlight) return Console.Out; // Highlight output to console
+            return new StreamWriter(""justified_output.txt""); // Regular output to file
+        }
+
+        /// <summary>
+        /// Creates a TextReader for the specified input file.
+        /// </summary>
+        /// <param name=""fileName"">The name of the input file.</param>
+        /// <returns>A TextReader for the input file.</returns>
+        public static TextReader CreateReader(string fileName)
+        {
+            return new StreamReader(fileName);
+        }
+
+        /// <summary>
+        /// Releases resources used by the writer and any other resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Writer?.Dispose();
+        }
+
+        /// <summary>
+        /// Prints the usage instructions for the command-line arguments.
+        /// </summary>
+        private void PrintUsage()
+        {
+            Console.WriteLine(""Usage: Justification [--highlight-spaces] inputFile1 inputFile2 ... inputFileN lineWidth"");
+        }
+    }
+}
+
+",text_justificator.txt
+20,"using System;
+using System.IO;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace Justification
+{
+    public class Program
+    {
+        private static void Main(string[] args)
+        {
+            var state = new ProgramInputOutputState();
+            if (!state.InitializeFromCommandLineArgs(args)) return;
+
+            var processor = new TextProcessor(state.Writer, state.MaxLineWidth, state.InputFileList, state.IsHighlight);
+            processor.Process();
+
+            state.Dispose();
+        }
+    }
+
+    public class TextProcessor
+    {
+        private static char[] WhitespaceCharacters = { ' ', '\n', '\t' };
+        private readonly int _maxLineWidth;
+        private readonly string[] _inputFilesList;
+        private readonly bool _isHighlight;
+        private int fileIndex = 0, currLineLen = 0, totalLineLen = 0;
+        private List<(string word, int spacing)> lineWordList = new List<(string word, int spacing)>();
+        private bool EOP = false;
+        private string exceedOneWord = """";
+        private TextReader _reader;
+        private TextWriter _writer;
+
+        public TextProcessor(TextWriter writer, int maxLineWidth, string[] inputFiles, bool highlightFlag)
+        {
+            _writer = writer;
+            _inputFilesList = inputFiles;
+            if (_inputFilesList.Length != 0) MakeReader();
+            _isHighlight = highlightFlag;
+            _maxLineWidth = maxLineWidth;
+        }
+
+        private void MakeReader()
+        {
+            if (fileIndex != 0) _reader.Dispose();
+            _reader = ProgramInputOutputState.CreateReader(_inputFilesList[fileIndex++]);
+        }
+
+        /// <summary>
+        /// Counts consecutive whitespace characters or end of file in the input stream.
+        /// </summary>
+        private int CountConsecutiveWhitespaceOrEndOfFile()
+        {
+            int consecutiveNewlines = 0;
+
+            while (!(fileIndex == _inputFilesList.Length && _reader.Peek() == -1) &&
+                   (WhitespaceCharacters.Contains((char)_reader.Peek()) || _reader.Peek() == -1))
+            {
+                if (_reader.Peek() == -1) MakeReader();
+                if (WhitespaceCharacters.Contains((char)_reader.Peek()))
+                {
+                    if ((char)_reader.Read() == '\n')
+                    {
+                        ++consecutiveNewlines;
+                    }
+                }
+            }
+            return consecutiveNewlines;
+        }
+
+        /// <summary>
+        ",description_by_code,"/// Reads the next word from the input stream.
+        /// Handles end-of-file conditions and whitespace appropriately.","
+        /// </summary>
+        private string GetNextWord()
+        {
+            int consecutiveNewlines = CountConsecutiveWhitespaceOrEndOfFile();
+            string word = """";
+
+            if ((fileIndex == _inputFilesList.Length && _reader.Peek() == -1) || consecutiveNewlines >= 2)
+            {
+                EOP = true; // Set end-of-processing flag
+                return word;
+            }
+            else
+            {
+                while (_reader.Peek() != -1 && !WhitespaceCharacters.Contains((char)_reader.Peek()))
+                {
+                    word += (char)_reader.Read();
+                }
+                return word;
+            }
+        }
+
+        /// <summary>
+        /// Stretches the line by writing the words and their corresponding spacing to the output.
+        /// </summary>
+        /// <param name=""wordSpacingList"">A list of words and their spacing to format the output line.</param>
+        /// <param name=""EOP"">Indicates whether end of processing has been reached.</param>
+        private void StretchLine(List<(string word, int spacing)> wordSpacingList, bool EOP)
+        {
+            if (wordSpacingList.Count == 0) return;
+
+            foreach (var (word, spacing) in wordSpacingList)
+            {
+                _writer.Write($""{word}{new string(_isHighlight ? '.' : ' ', spacing)}"");
+            }
+
+            _writer.WriteLine(_isHighlight ? ""<-"" : """");
+
+            if (EOP)
+            {
+                _writer.WriteLine(_isHighlight ? ""<-"" : """");
+            }
+        }
+
+        /// <summary>
+        /// Handles the end of processing by stretching the line if necessary and writing it to output.
+        /// </summary>
+        private void HandleEOP()
+        {
+            if (EOP)
+            {
+                StretchLine(lineWordList, !(_reader.Peek() == -1 && fileIndex == _inputFilesList.Length));
+            }
+            else
+            {
+                if (lineWordList.Count > 1)
+                {
+                    // Adjust spacing to fit within the maximum line width
+                    while (totalLineLen < _maxLineWidth)
+                    {
+                        for (int i = 0; i < Math.Max(lineWordList.Count - 1, 1); ++i)
+                        {
+                            if (totalLineLen >= _maxLineWidth) break;
+                            lineWordList[i] = (lineWordList[i].word, lineWordList[i].spacing + 1);
+                            ++totalLineLen;
+                        }
+                    }
+                }
+                StretchLine(lineWordList, false);
+            }
+        }
+
+        /// <summary>
+        /// Handles the aftermath of reading a word to update the state and prepare for the next word.
+        /// </summary>
+        /// <param name=""currentWord"">The current word being processed.</param>
+        /// <returns>True if the word was successfully handled, false otherwise.</returns>
+        private bool HandleReadAftermath(string currentWord)
+        {
+            if (EOP) return false;
+
+            if (totalLineLen + 1 + currentWord.Length > _maxLineWidth)
+            {
+                exceedOneWord = currentWord; // Store the word that exceeds the line width
+                return false;
+            }
+
+            currLineLen += currentWord.Length;
+
+            if (lineWordList.Count > 0)
+            {
+                lineWordList[^1] = (lineWordList[^1].word, lineWordList[^1].spacing + 1); // Increase spacing for the last word
+            }
+
+            lineWordList.Add((currentWord, 0)); // Add the current word to the list
+            totalLineLen = currLineLen + lineWordList.Count - 1; // Update the total line length
+            return true;
+        }
+
+        /// <summary>
+        /// Processes the input files by reading words, justifying lines, and writing the output.
+        /// </summary>
+        public void Process()
+        {
+            while (fileIndex != _inputFilesList.Length || _reader.Peek() != -1)
+            {
+                currLineLen = 0;
+                totalLineLen = 0;
+                lineWordList = new List<(string word, int spacing)>();
+                EOP = false;
+
+                while (totalLineLen <= _maxLineWidth)
+                {
+                    if (!string.IsNullOrEmpty(exceedOneWord))
+                    {
+                        currLineLen += exceedOneWord.Length;
+                        lineWordList.Add((exceedOneWord, 0));
+                        totalLineLen += currLineLen + lineWordList.Count - 1;
+                        exceedOneWord = """";
+                        if (CountConsecutiveWhitespaceOrEndOfFile() >= 2
+                            || (_reader.Peek() == -1 && fileIndex == _inputFilesList.Length))
+                        {
+                            EOP = true;
+                            break;
+                        }
+                        continue;
+                    }
+
+                    string currentWord = GetNextWord().TrimEnd();
+                    if (!HandleReadAftermath(currentWord)) break; // Process the current word
+                }
+
+                HandleEOP(); // Handle end of processing for the line
+            }
+        }
+    }
+
+    public class ProgramInputOutputState : IDisposable
+    {
+        public TextWriter Writer { get; set; } = null;
+        public bool IsHighlight = false;
+        public string[] InputFileList { get; set; }
+        public int MaxLineWidth;
+
+        /// <summary>
+        /// Initializes the state from command-line arguments.
+        /// Configures the highlight option, input file list, and output writer.
+        /// </summary>
+        /// <param name=""args"">Command-line arguments passed to the program.</param>
+        /// <returns>True if initialization was successful; otherwise, false.</returns>
+        public bool InitializeFromCommandLineArgs(string[] args)
+        {
+            if (args.Length > 0)
+            {
+                if (args[0] == ""--highlight-spaces"")
+                {
+                    IsHighlight = true; // Enable highlighting if specified
+                }
+            }
+
+            if ((args.Length < 3 && !IsHighlight) || (args.Length < 4 && IsHighlight) || !int.TryParse(args[^1], out MaxLineWidth) || MaxLineWidth <= 0)
+            {
+                PrintUsage();
+                return false;
+            }
+
+            InputFileList = args.Skip(1).Take(args.Length - 2).ToArray();
+            Writer = CreateWriter();
+
+            return true;
+        }
+
+        /// <summary>
+        /// Creates a TextWriter for output based on the specified file name.
+        /// </summary>
+        /// <returns>A TextWriter configured for output.</returns>
+        private TextWriter CreateWriter()
+        {
+            if (IsHighlight) return Console.Out; // Highlight output to console
+            return new StreamWriter(""justified_output.txt""); // Regular output to file
+        }
+
+        /// <summary>
+        /// Creates a TextReader for the specified input file.
+        /// </summary>
+        /// <param name=""fileName"">The name of the input file.</param>
+        /// <returns>A TextReader for the input file.</returns>
+        public static TextReader CreateReader(string fileName)
+        {
+            return new StreamReader(fileName);
+        }
+
+        /// <summary>
+        /// Releases resources used by the writer and any other resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Writer?.Dispose();
+        }
+
+        /// <summary>
+        /// Prints the usage instructions for the command-line arguments.
+        /// </summary>
+        private void PrintUsage()
+        {
+            Console.WriteLine(""Usage: Justification [--highlight-spaces] inputFile1 inputFile2 ... inputFileN lineWidth"");
+        }
+    }
+}
+
+",text_justificator.txt
+21,"using System;
+using System.IO;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace Justification
+{
+    public class Program
+    {
+        private static void Main(string[] args)
+        {
+            var state = new ProgramInputOutputState();
+            if (!state.InitializeFromCommandLineArgs(args)) return;
+
+            var processor = new TextProcessor(state.Writer, state.MaxLineWidth, state.InputFileList, state.IsHighlight);
+            processor.Process();
+
+            state.Dispose();
+        }
+    }
+
+    public class TextProcessor
+    {
+        private static char[] WhitespaceCharacters = { ' ', '\n', '\t' };
+        private readonly int _maxLineWidth;
+        private readonly string[] _inputFilesList;
+        private readonly bool _isHighlight;
+        private int fileIndex = 0, currLineLen = 0, totalLineLen = 0;
+        private List<(string word, int spacing)> lineWordList = new List<(string word, int spacing)>();
+        private bool EOP = false;
+        private string exceedOneWord = """";
+        private TextReader _reader;
+        private TextWriter _writer;
+
+        public TextProcessor(TextWriter writer, int maxLineWidth, string[] inputFiles, bool highlightFlag)
+        {
+            _writer = writer;
+            _inputFilesList = inputFiles;
+            if (_inputFilesList.Length != 0) MakeReader();
+            _isHighlight = highlightFlag;
+            _maxLineWidth = maxLineWidth;
+        }
+
+        private void MakeReader()
+        {
+            if (fileIndex != 0) _reader.Dispose();
+            _reader = ProgramInputOutputState.CreateReader(_inputFilesList[fileIndex++]);
+        }
+
+        /// <summary>
+        /// Counts consecutive whitespace characters or end of file in the input stream.
+        /// </summary>
+        private int CountConsecutiveWhitespaceOrEndOfFile()
+        {
+            int consecutiveNewlines = 0;
+
+            while (!(fileIndex == _inputFilesList.Length && _reader.Peek() == -1) &&
+                   (WhitespaceCharacters.Contains((char)_reader.Peek()) || _reader.Peek() == -1))
+            {
+                if (_reader.Peek() == -1) MakeReader();
+                if (WhitespaceCharacters.Contains((char)_reader.Peek()))
+                {
+                    if ((char)_reader.Read() == '\n')
+                    {
+                        ++consecutiveNewlines;
+                    }
+                }
+            }
+            return consecutiveNewlines;
+        }
+
+        /// <summary>
+        /// Reads the next word from the input stream.
+        /// Handles end-of-file conditions and whitespace appropriately.
+        /// </summary>
+        private string GetNextWord()
+        {
+            int consecutiveNewlines = ",var_declaration,CountConsecutiveWhitespaceOrEndOfFile();,"
+            string word = """";
+
+            if ((fileIndex == _inputFilesList.Length && _reader.Peek() == -1) || consecutiveNewlines >= 2)
+            {
+                EOP = true; // Set end-of-processing flag
+                return word;
+            }
+            else
+            {
+                while (_reader.Peek() != -1 && !WhitespaceCharacters.Contains((char)_reader.Peek()))
+                {
+                    word += (char)_reader.Read();
+                }
+                return word;
+            }
+        }
+
+        /// <summary>
+        /// Stretches the line by writing the words and their corresponding spacing to the output.
+        /// </summary>
+        /// <param name=""wordSpacingList"">A list of words and their spacing to format the output line.</param>
+        /// <param name=""EOP"">Indicates whether end of processing has been reached.</param>
+        private void StretchLine(List<(string word, int spacing)> wordSpacingList, bool EOP)
+        {
+            if (wordSpacingList.Count == 0) return;
+
+            foreach (var (word, spacing) in wordSpacingList)
+            {
+                _writer.Write($""{word}{new string(_isHighlight ? '.' : ' ', spacing)}"");
+            }
+
+            _writer.WriteLine(_isHighlight ? ""<-"" : """");
+
+            if (EOP)
+            {
+                _writer.WriteLine(_isHighlight ? ""<-"" : """");
+            }
+        }
+
+        /// <summary>
+        /// Handles the end of processing by stretching the line if necessary and writing it to output.
+        /// </summary>
+        private void HandleEOP()
+        {
+            if (EOP)
+            {
+                StretchLine(lineWordList, !(_reader.Peek() == -1 && fileIndex == _inputFilesList.Length));
+            }
+            else
+            {
+                if (lineWordList.Count > 1)
+                {
+                    // Adjust spacing to fit within the maximum line width
+                    while (totalLineLen < _maxLineWidth)
+                    {
+                        for (int i = 0; i < Math.Max(lineWordList.Count - 1, 1); ++i)
+                        {
+                            if (totalLineLen >= _maxLineWidth) break;
+                            lineWordList[i] = (lineWordList[i].word, lineWordList[i].spacing + 1);
+                            ++totalLineLen;
+                        }
+                    }
+                }
+                StretchLine(lineWordList, false);
+            }
+        }
+
+        /// <summary>
+        /// Handles the aftermath of reading a word to update the state and prepare for the next word.
+        /// </summary>
+        /// <param name=""currentWord"">The current word being processed.</param>
+        /// <returns>True if the word was successfully handled, false otherwise.</returns>
+        private bool HandleReadAftermath(string currentWord)
+        {
+            if (EOP) return false;
+
+            if (totalLineLen + 1 + currentWord.Length > _maxLineWidth)
+            {
+                exceedOneWord = currentWord; // Store the word that exceeds the line width
+                return false;
+            }
+
+            currLineLen += currentWord.Length;
+
+            if (lineWordList.Count > 0)
+            {
+                lineWordList[^1] = (lineWordList[^1].word, lineWordList[^1].spacing + 1); // Increase spacing for the last word
+            }
+
+            lineWordList.Add((currentWord, 0)); // Add the current word to the list
+            totalLineLen = currLineLen + lineWordList.Count - 1; // Update the total line length
+            return true;
+        }
+
+        /// <summary>
+        /// Processes the input files by reading words, justifying lines, and writing the output.
+        /// </summary>
+        public void Process()
+        {
+            while (fileIndex != _inputFilesList.Length || _reader.Peek() != -1)
+            {
+                currLineLen = 0;
+                totalLineLen = 0;
+                lineWordList = new List<(string word, int spacing)>();
+                EOP = false;
+
+                while (totalLineLen <= _maxLineWidth)
+                {
+                    if (!string.IsNullOrEmpty(exceedOneWord))
+                    {
+                        currLineLen += exceedOneWord.Length;
+                        lineWordList.Add((exceedOneWord, 0));
+                        totalLineLen += currLineLen + lineWordList.Count - 1;
+                        exceedOneWord = """";
+                        if (CountConsecutiveWhitespaceOrEndOfFile() >= 2
+                            || (_reader.Peek() == -1 && fileIndex == _inputFilesList.Length))
+                        {
+                            EOP = true;
+                            break;
+                        }
+                        continue;
+                    }
+
+                    string currentWord = GetNextWord().TrimEnd();
+                    if (!HandleReadAftermath(currentWord)) break; // Process the current word
+                }
+
+                HandleEOP(); // Handle end of processing for the line
+            }
+        }
+    }
+
+    public class ProgramInputOutputState : IDisposable
+    {
+        public TextWriter Writer { get; set; } = null;
+        public bool IsHighlight = false;
+        public string[] InputFileList { get; set; }
+        public int MaxLineWidth;
+
+        /// <summary>
+        /// Initializes the state from command-line arguments.
+        /// Configures the highlight option, input file list, and output writer.
+        /// </summary>
+        /// <param name=""args"">Command-line arguments passed to the program.</param>
+        /// <returns>True if initialization was successful; otherwise, false.</returns>
+        public bool InitializeFromCommandLineArgs(string[] args)
+        {
+            if (args.Length > 0)
+            {
+                if (args[0] == ""--highlight-spaces"")
+                {
+                    IsHighlight = true; // Enable highlighting if specified
+                }
+            }
+
+            if ((args.Length < 3 && !IsHighlight) || (args.Length < 4 && IsHighlight) || !int.TryParse(args[^1], out MaxLineWidth) || MaxLineWidth <= 0)
+            {
+                PrintUsage();
+                return false;
+            }
+
+            InputFileList = args.Skip(1).Take(args.Length - 2).ToArray();
+            Writer = CreateWriter();
+
+            return true;
+        }
+
+        /// <summary>
+        /// Creates a TextWriter for output based on the specified file name.
+        /// </summary>
+        /// <returns>A TextWriter configured for output.</returns>
+        private TextWriter CreateWriter()
+        {
+            if (IsHighlight) return Console.Out; // Highlight output to console
+            return new StreamWriter(""justified_output.txt""); // Regular output to file
+        }
+
+        /// <summary>
+        /// Creates a TextReader for the specified input file.
+        /// </summary>
+        /// <param name=""fileName"">The name of the input file.</param>
+        /// <returns>A TextReader for the input file.</returns>
+        public static TextReader CreateReader(string fileName)
+        {
+            return new StreamReader(fileName);
+        }
+
+        /// <summary>
+        /// Releases resources used by the writer and any other resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Writer?.Dispose();
+        }
+
+        /// <summary>
+        /// Prints the usage instructions for the command-line arguments.
+        /// </summary>
+        private void PrintUsage()
+        {
+            Console.WriteLine(""Usage: Justification [--highlight-spaces] inputFile1 inputFile2 ... inputFileN lineWidth"");
+        }
+    }
+}
+
+",text_justificator.txt
+22,"namespace MachineTranslator;
+
+using System;
+using System.Collections.Generic;
+using System.",imports,Linq;,"
+using System.Data;
+
+public class IBMModel1
+{
+    private Dictionary<string, int> enVocabularyDict, csVocabularyDict;
+    private List<(List<string>, List<string>)> sentencePairs;
+    private int numberIterations, enVocabularySize, csVocabularySize;
+    private bool Verbose;
+    private double Threshold;
+    private double[] countsSentences;
+    private DataTable probabilitiesDataTable;
+    public double[,] LexicalTranslationProb { get; set; }
+
+    public IBMModel1(Dictionary<string, int> enVocabularyDict, Dictionary<string, int> csVocabularyDict, List<(List<string>, List<string>)> sentencePairs,
+        int numberIterations = 7, bool verbose = true, double threshold = 0.02)
+    {
+        this.enVocabularyDict = enVocabularyDict;
+        enVocabularySize = enVocabularyDict.Count;
+
+        this.csVocabularyDict = csVocabularyDict;
+        csVocabularySize = csVocabularyDict.Count;
+
+        this.sentencePairs = sentencePairs;
+
+        this.numberIterations = numberIterations;
+
+        // Determine if process should be described during the run
+        this.Verbose = verbose;
+
+        // Initialize threshold for stoping the algorithm
+        this.Threshold = threshold;
+
+        // Initialize and fill the lexical translation probabilities (i.e. t(e|f)) uniformly
+        double uniform_val = 1.0 / csVocabularySize;
+        LexicalTranslationProb = new double[enVocabularySize, csVocabularySize];
+
+        for (int i = 0; i < enVocabularySize; i++)
+        {
+            for (int j = 0; j < csVocabularySize; j++)
+            {
+                LexicalTranslationProb[i, j] = uniform_val;
+            }
+        }
+
+        probabilitiesDataTable = new DataTable();
+        probabilitiesDataTable.Columns.Add(""word_en"", typeof(string));
+        probabilitiesDataTable.Columns.Add(""words_cz"", typeof(string));
+        probabilitiesDataTable.Columns.Add(""probability"", typeof(double));
+
+        countsSentences = new double[enVocabularySize];
+    }
+    /// <summary>
+    /// Transforms the lexical translation probability matrix into a DataTable for easy manipulation and sorting.
+    /// </summary>
+    public DataTable TransformTable(double[,] table)
+    {
+        for (int enIndex = 0; enIndex < table.GetLength(0); enIndex++)
+        {
+            var row = Enumerable.Range(0, table.GetLength(1)).Select(j => table[enIndex, j]).ToArray();
+            int index = row.Select((value, index) => new { Value = value, Index = index })
+                                .OrderByDescending(x => x.Value)
+                                .Select(x => x.Index).ToList()[0];
+
+            var prob = Math.Round(row[index] * 100, 2);
+            var csWord = csVocabularyDict.FirstOrDefault(x => x.Value == index).Key;
+            var enWord = enVocabularyDict.FirstOrDefault(x => x.Value == enIndex).Key;
+
+            probabilitiesDataTable.Rows.Add(enWord, csWord, prob);
+        }
+
+        var sortedRows = probabilitiesDataTable.AsEnumerable().OrderBy(row => row.Field<double>(""probability"")).Reverse();
+
+        // Create a new DataTable with the sorted rows
+        DataTable sortedDataTable = probabilitiesDataTable.Clone();
+        foreach (var row in sortedRows)
+        {
+            sortedDataTable.ImportRow(row);
+        }
+
+        return sortedDataTable;
+    }
+
+    // Fits the IBM Model 1 by iterating through the Expectation-Maximization algorithm.
+    // The number of iterations is controlled by the `numberIterations` variable.
+    // The algorithm converges if the change in translation probabilities falls below the threshold.
+    public void FitModel()
+    {
+        double[,] prevT = (double[,])LexicalTranslationProb.Clone();
+
+        // Loop until converge
+        for (int i = 0; i < numberIterations; i++)
+        {
+            Console.WriteLine($""Iteration {i + 1}"");
+
+            double[,] count = new double[enVocabularySize, csVocabularySize];
+            double[] total = new double[csVocabularyDict.Count];
+
+            ExpectationStep(count, total);
+            MaximizationStep(count, total);
+
+            double change = CheckThreshold(prevT, LexicalTranslationProb) * 1000;
+            Console.WriteLine($""\tChange rate: {change}"");
+            if (change < Threshold)
+            {
+                Console.WriteLine($""\nModel converged after {i + 1} iterations with value of change rate: {change} (expected number of iterations: {numberIterations})"");
+                break;
+            }
+            prevT = (double[,])LexicalTranslationProb.Clone();
+        }
+    }
+
+    // Performs the Expectation step of the algorithm.
+    // It calculates fractional counts of word translations based on sentence pairs and current probabilities.
+    private void ExpectationStep(double[,] count, double[] total)
+    {
+        foreach (var sp in sentencePairs)
+        {
+            foreach (var ew in sp.Item1)
+            {
+                int ew_ind = enVocabularyDict[ew];
+                countsSentences[ew_ind] = 0.0;
+                // Count probability of each word in sentence using the frequency of the word and its overall probability
+                foreach (var fw in sp.Item2)
+                {
+                    int fw_ind = csVocabularyDict[fw];
+                    countsSentences[ew_ind] += LexicalTranslationProb[ew_ind, fw_ind];
+                }
+
+                // Update counts (total and for pairs)
+                foreach (var fw in sp.Item2)
+                {
+                    int fw_ind = csVocabularyDict[fw];
+                    count[ew_ind, fw_ind] += LexicalTranslationProb[ew_ind, fw_ind] / countsSentences[ew_ind];
+                    total[fw_ind] += LexicalTranslationProb[ew_ind, fw_ind] / countsSentences[ew_ind];
+                }
+            }
+        }
+    }
+
+    // Performs the Maximization step of the algorithm.
+    // It updates the lexical translation probabilities using the counts from the Expectation step.
+    private void MaximizationStep(double[,] count, double[] total)
+    {
+        for (int fw = 0; fw < csVocabularyDict.Count; fw++)
+        {
+            for (int ew = 0; ew < enVocabularyDict.Count; ew++)
+            {
+                LexicalTranslationProb[ew, fw] = count[ew, fw] / total[fw];
+            }
+        }
+    }
+
+    // Checks how much the translation probabilities have changed between iterations.
+    // It computes the average absolute difference between the previous and current probability matrices.
+    // Returns the average difference per element.
+    private double CheckThreshold(double[,] prev_t, double[,] curr_t)
+    {
+        // Compute average absolute difference per element based on the number of elements in the matrices
+        double sumAbsDiff = 0;
+        int numRows = prev_t.GetLength(0); 
+        int numCols = prev_t.GetLength(1);
+
+        for (int i = 0; i < numRows; i++)
+        {
+            for (int j = 0; j < numCols; j++)
+            {
+                sumAbsDiff += Math.Abs(curr_t[i, j] - prev_t[i, j]);
+            }
+        }
+
+        return sumAbsDiff / (numRows * numCols);
+    }
+}
+",ibm1_model.txt
+23,"namespace MachineTranslator;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Data;
+
+public class IBMModel1
+{
+    private Dictionary<string, int> enVocabularyDict, csVocabularyDict;
+    private List<(List<string>, List<string>)> sentencePairs;
+    private int numberIterations, enVocabularySize, csVocabularySize;
+    private bool Verbose;
+    private double Threshold;
+    private double[] countsSentences;
+    private DataTable probabilitiesDataTable;
+    public double[,] LexicalTranslationProb { get; set; }
+
+    public IBMModel1(Dictionary<string, int> enVocabularyDict, Dictionary<string, int> csVocabularyDict, List<(List<string>, List<string>)> sentencePairs,
+        int numberIterations = 7, bool verbose = true, double threshold = 0.02)
+    {
+        this.enVocabularyDict = enVocabularyDict;
+        enVocabularySize = enVocabularyDict.Count;
+
+        ",class_initialization,"this.csVocabularyDict = csVocabularyDict;
+        csVocabularySize = csVocabularyDict.Count;
+
+        this.sentencePairs = sentencePairs;
+
+        this.numberIterations = numberIterations;
+
+        // Determine if process should be described during the run
+        this.Verbose = verbose;
+
+        // Initialize threshold for stoping the algorithm
+        this.Threshold = threshold;","
+
+        // Initialize and fill the lexical translation probabilities (i.e. t(e|f)) uniformly
+        double uniform_val = 1.0 / csVocabularySize;
+        LexicalTranslationProb = new double[enVocabularySize, csVocabularySize];
+
+        for (int i = 0; i < enVocabularySize; i++)
+        {
+            for (int j = 0; j < csVocabularySize; j++)
+            {
+                LexicalTranslationProb[i, j] = uniform_val;
+            }
+        }
+
+        probabilitiesDataTable = new DataTable();
+        probabilitiesDataTable.Columns.Add(""word_en"", typeof(string));
+        probabilitiesDataTable.Columns.Add(""words_cz"", typeof(string));
+        probabilitiesDataTable.Columns.Add(""probability"", typeof(double));
+
+        countsSentences = new double[enVocabularySize];
+    }
+    /// <summary>
+    /// Transforms the lexical translation probability matrix into a DataTable for easy manipulation and sorting.
+    /// </summary>
+    public DataTable TransformTable(double[,] table)
+    {
+        for (int enIndex = 0; enIndex < table.GetLength(0); enIndex++)
+        {
+            var row = Enumerable.Range(0, table.GetLength(1)).Select(j => table[enIndex, j]).ToArray();
+            int index = row.Select((value, index) => new { Value = value, Index = index })
+                                .OrderByDescending(x => x.Value)
+                                .Select(x => x.Index).ToList()[0];
+
+            var prob = Math.Round(row[index] * 100, 2);
+            var csWord = csVocabularyDict.FirstOrDefault(x => x.Value == index).Key;
+            var enWord = enVocabularyDict.FirstOrDefault(x => x.Value == enIndex).Key;
+
+            probabilitiesDataTable.Rows.Add(enWord, csWord, prob);
+        }
+
+        var sortedRows = probabilitiesDataTable.AsEnumerable().OrderBy(row => row.Field<double>(""probability"")).Reverse();
+
+        // Create a new DataTable with the sorted rows
+        DataTable sortedDataTable = probabilitiesDataTable.Clone();
+        foreach (var row in sortedRows)
+        {
+            sortedDataTable.ImportRow(row);
+        }
+
+        return sortedDataTable;
+    }
+
+    // Fits the IBM Model 1 by iterating through the Expectation-Maximization algorithm.
+    // The number of iterations is controlled by the `numberIterations` variable.
+    // The algorithm converges if the change in translation probabilities falls below the threshold.
+    public void FitModel()
+    {
+        double[,] prevT = (double[,])LexicalTranslationProb.Clone();
+
+        // Loop until converge
+        for (int i = 0; i < numberIterations; i++)
+        {
+            Console.WriteLine($""Iteration {i + 1}"");
+
+            double[,] count = new double[enVocabularySize, csVocabularySize];
+            double[] total = new double[csVocabularyDict.Count];
+
+            ExpectationStep(count, total);
+            MaximizationStep(count, total);
+
+            double change = CheckThreshold(prevT, LexicalTranslationProb) * 1000;
+            Console.WriteLine($""\tChange rate: {change}"");
+            if (change < Threshold)
+            {
+                Console.WriteLine($""\nModel converged after {i + 1} iterations with value of change rate: {change} (expected number of iterations: {numberIterations})"");
+                break;
+            }
+            prevT = (double[,])LexicalTranslationProb.Clone();
+        }
+    }
+
+    // Performs the Expectation step of the algorithm.
+    // It calculates fractional counts of word translations based on sentence pairs and current probabilities.
+    private void ExpectationStep(double[,] count, double[] total)
+    {
+        foreach (var sp in sentencePairs)
+        {
+            foreach (var ew in sp.Item1)
+            {
+                int ew_ind = enVocabularyDict[ew];
+                countsSentences[ew_ind] = 0.0;
+                // Count probability of each word in sentence using the frequency of the word and its overall probability
+                foreach (var fw in sp.Item2)
+                {
+                    int fw_ind = csVocabularyDict[fw];
+                    countsSentences[ew_ind] += LexicalTranslationProb[ew_ind, fw_ind];
+                }
+
+                // Update counts (total and for pairs)
+                foreach (var fw in sp.Item2)
+                {
+                    int fw_ind = csVocabularyDict[fw];
+                    count[ew_ind, fw_ind] += LexicalTranslationProb[ew_ind, fw_ind] / countsSentences[ew_ind];
+                    total[fw_ind] += LexicalTranslationProb[ew_ind, fw_ind] / countsSentences[ew_ind];
+                }
+            }
+        }
+    }
+
+    // Performs the Maximization step of the algorithm.
+    // It updates the lexical translation probabilities using the counts from the Expectation step.
+    private void MaximizationStep(double[,] count, double[] total)
+    {
+        for (int fw = 0; fw < csVocabularyDict.Count; fw++)
+        {
+            for (int ew = 0; ew < enVocabularyDict.Count; ew++)
+            {
+                LexicalTranslationProb[ew, fw] = count[ew, fw] / total[fw];
+            }
+        }
+    }
+
+    // Checks how much the translation probabilities have changed between iterations.
+    // It computes the average absolute difference between the previous and current probability matrices.
+    // Returns the average difference per element.
+    private double CheckThreshold(double[,] prev_t, double[,] curr_t)
+    {
+        // Compute average absolute difference per element based on the number of elements in the matrices
+        double sumAbsDiff = 0;
+        int numRows = prev_t.GetLength(0); 
+        int numCols = prev_t.GetLength(1);
+
+        for (int i = 0; i < numRows; i++)
+        {
+            for (int j = 0; j < numCols; j++)
+            {
+                sumAbsDiff += Math.Abs(curr_t[i, j] - prev_t[i, j]);
+            }
+        }
+
+        return sumAbsDiff / (numRows * numCols);
+    }
+}
+",ibm1_model.txt
+24,"namespace MachineTranslator;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Data;
+
+public class IBMModel1
+{
+    private Dictionary<string, int> enVocabularyDict, csVocabularyDict;
+    private List<(List<string>, List<string>)> sentencePairs;
+    private int numberIterations, enVocabularySize, csVocabularySize;
+    private bool Verbose;
+    private double Threshold;
+    private double[] countsSentences;
+    private DataTable probabilitiesDataTable;
+    public double[,] LexicalTranslationProb { get; set; }
+
+    public IBMModel1(Dictionary<string, int> enVocabularyDict, Dictionary<string, int> csVocabularyDict, List<(List<string>, List<string>)> sentencePairs,
+        int numberIterations = 7, bool verbose = true, double threshold = 0.02)
+    {
+        this.enVocabularyDict = enVocabularyDict;
+        enVocabularySize = enVocabularyDict.Count;
+
+        this.csVocabularyDict = csVocabularyDict;
+        csVocabularySize = csVocabularyDict.Count;
+
+        this.sentencePairs = sentencePairs;
+
+        this.numberIterations = numberIterations;
+
+        // Determine if process should be described during the run
+        this.Verbose = verbose;
+
+        // Initialize threshold for stoping the algorithm
+        this.Threshold = threshold;
+
+        // Initialize and fill the lexical translation probabilities (i.e. t(e|f)) uniformly
+        double uniform_val = 1.0 / csVocabularySize;
+        LexicalTranslationProb = new double[enVocabularySize, csVocabularySize];
+
+        for (int i = 0; i < enVocabularySize; i++)
+        {
+            for (int j = 0; j < csVocabularySize; j++)
+            {
+                LexicalTranslationProb[i, j] = uniform_val;
+            }
+        }
+
+        probabilitiesDataTable = new DataTable();
+        probabilitiesDataTable.Columns.Add(""word_en"", typeof(string));
+        probabilitiesDataTable.Columns.Add(""words_cz"", typeof(string));
+        probabilitiesDataTable.Columns.Add(""probability"", typeof(double));
+
+        countsSentences = new double[enVocabularySize];
+    }
+    /// <summary>
+    ",description_by_code,/// Transforms the lexical translation probability matrix into a DataTable for easy manipulation and sorting.,"
+    /// </summary>
+    public DataTable TransformTable(double[,] table)
+    {
+        for (int enIndex = 0; enIndex < table.GetLength(0); enIndex++)
+        {
+            var row = Enumerable.Range(0, table.GetLength(1)).Select(j => table[enIndex, j]).ToArray();
+            int index = row.Select((value, index) => new { Value = value, Index = index })
+                                .OrderByDescending(x => x.Value)
+                                .Select(x => x.Index).ToList()[0];
+
+            var prob = Math.Round(row[index] * 100, 2);
+            var csWord = csVocabularyDict.FirstOrDefault(x => x.Value == index).Key;
+            var enWord = enVocabularyDict.FirstOrDefault(x => x.Value == enIndex).Key;
+
+            probabilitiesDataTable.Rows.Add(enWord, csWord, prob);
+        }
+
+        var sortedRows = probabilitiesDataTable.AsEnumerable().OrderBy(row => row.Field<double>(""probability"")).Reverse();
+
+        // Create a new DataTable with the sorted rows
+        DataTable sortedDataTable = probabilitiesDataTable.Clone();
+        foreach (var row in sortedRows)
+        {
+            sortedDataTable.ImportRow(row);
+        }
+
+        return sortedDataTable;
+    }
+
+    // Fits the IBM Model 1 by iterating through the Expectation-Maximization algorithm.
+    // The number of iterations is controlled by the `numberIterations` variable.
+    // The algorithm converges if the change in translation probabilities falls below the threshold.
+    public void FitModel()
+    {
+        double[,] prevT = (double[,])LexicalTranslationProb.Clone();
+
+        // Loop until converge
+        for (int i = 0; i < numberIterations; i++)
+        {
+            Console.WriteLine($""Iteration {i + 1}"");
+
+            double[,] count = new double[enVocabularySize, csVocabularySize];
+            double[] total = new double[csVocabularyDict.Count];
+
+            ExpectationStep(count, total);
+            MaximizationStep(count, total);
+
+            double change = CheckThreshold(prevT, LexicalTranslationProb) * 1000;
+            Console.WriteLine($""\tChange rate: {change}"");
+            if (change < Threshold)
+            {
+                Console.WriteLine($""\nModel converged after {i + 1} iterations with value of change rate: {change} (expected number of iterations: {numberIterations})"");
+                break;
+            }
+            prevT = (double[,])LexicalTranslationProb.Clone();
+        }
+    }
+
+    // Performs the Expectation step of the algorithm.
+    // It calculates fractional counts of word translations based on sentence pairs and current probabilities.
+    private void ExpectationStep(double[,] count, double[] total)
+    {
+        foreach (var sp in sentencePairs)
+        {
+            foreach (var ew in sp.Item1)
+            {
+                int ew_ind = enVocabularyDict[ew];
+                countsSentences[ew_ind] = 0.0;
+                // Count probability of each word in sentence using the frequency of the word and its overall probability
+                foreach (var fw in sp.Item2)
+                {
+                    int fw_ind = csVocabularyDict[fw];
+                    countsSentences[ew_ind] += LexicalTranslationProb[ew_ind, fw_ind];
+                }
+
+                // Update counts (total and for pairs)
+                foreach (var fw in sp.Item2)
+                {
+                    int fw_ind = csVocabularyDict[fw];
+                    count[ew_ind, fw_ind] += LexicalTranslationProb[ew_ind, fw_ind] / countsSentences[ew_ind];
+                    total[fw_ind] += LexicalTranslationProb[ew_ind, fw_ind] / countsSentences[ew_ind];
+                }
+            }
+        }
+    }
+
+    // Performs the Maximization step of the algorithm.
+    // It updates the lexical translation probabilities using the counts from the Expectation step.
+    private void MaximizationStep(double[,] count, double[] total)
+    {
+        for (int fw = 0; fw < csVocabularyDict.Count; fw++)
+        {
+            for (int ew = 0; ew < enVocabularyDict.Count; ew++)
+            {
+                LexicalTranslationProb[ew, fw] = count[ew, fw] / total[fw];
+            }
+        }
+    }
+
+    // Checks how much the translation probabilities have changed between iterations.
+    // It computes the average absolute difference between the previous and current probability matrices.
+    // Returns the average difference per element.
+    private double CheckThreshold(double[,] prev_t, double[,] curr_t)
+    {
+        // Compute average absolute difference per element based on the number of elements in the matrices
+        double sumAbsDiff = 0;
+        int numRows = prev_t.GetLength(0); 
+        int numCols = prev_t.GetLength(1);
+
+        for (int i = 0; i < numRows; i++)
+        {
+            for (int j = 0; j < numCols; j++)
+            {
+                sumAbsDiff += Math.Abs(curr_t[i, j] - prev_t[i, j]);
+            }
+        }
+
+        return sumAbsDiff / (numRows * numCols);
+    }
+}
+",ibm1_model.txt
+25,"namespace MachineTranslator;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Data;
+
+public class IBMModel1
+{
+    private Dictionary<string, int> enVocabularyDict, csVocabularyDict;
+    private List<(List<string>, List<string>)> sentencePairs;
+    private int numberIterations, enVocabularySize, csVocabularySize;
+    private bool Verbose;
+    private double Threshold;
+    private double[] countsSentences;
+    private DataTable probabilitiesDataTable;
+    public double[,] LexicalTranslationProb { get; set; }
+
+    public IBMModel1(Dictionary<string, int> enVocabularyDict, Dictionary<string, int> csVocabularyDict, List<(List<string>, List<string>)> sentencePairs,
+        int numberIterations = 7, bool verbose = true, double threshold = 0.02)
+    {
+        this.enVocabularyDict = enVocabularyDict;
+        enVocabularySize = enVocabularyDict.Count;
+
+        this.csVocabularyDict = csVocabularyDict;
+        csVocabularySize = csVocabularyDict.Count;
+
+        this.sentencePairs = sentencePairs;
+
+        this.numberIterations = numberIterations;
+
+        // Determine if process should be described during the run
+        this.Verbose = verbose;
+
+        // Initialize threshold for stoping the algorithm
+        this.Threshold = threshold;
+
+        // Initialize and fill the lexical translation probabilities (i.e. t(e|f)) uniformly
+        double uniform_val = 1.0 / csVocabularySize;
+        LexicalTranslationProb = new double[enVocabularySize, csVocabularySize];
+
+        for (int i = 0; i < enVocabularySize; i++)
+        {
+            for (int j = 0; j < csVocabularySize; j++)
+            {
+                LexicalTranslationProb[i, j] = uniform_val;
+            }
+        }
+
+        probabilitiesDataTable = new DataTable();
+        probabilitiesDataTable.Columns.Add(""word_en"", typeof(string));
+        probabilitiesDataTable.Columns.Add(""words_cz"", typeof(string));
+        probabilitiesDataTable.Columns.Add(""probability"", typeof(double));
+
+        countsSentences = new double[enVocabularySize];
+    }
+    /// <summary>
+    /// Transforms the lexical translation probability matrix into a DataTable for easy manipulation and sorting.
+    /// </summary>
+    public DataTable TransformTable(double[,] table)
+    {
+        for (int enIndex = 0; enIndex < table.GetLength(0); enIndex++)
+        {
+            var row = Enumerable.Range(0, table.GetLength(1)).Select(j => table[enIndex, j]).ToArray();
+            int index = row.Select((value, index) => new { Value = value, Index = index })
+                                .OrderByDescending(x => x.Value)
+                                .Select(x => x.Index).ToList()[0];
+
+            var prob = Math.Round(row[index] * 100, 2);
+            var csWord = csVocabularyDict.FirstOrDefault(x => x.Value == index).Key;
+            var enWord = enVocabularyDict.FirstOrDefault(x => x.Value == enIndex).Key;
+
+            probabilitiesDataTable.Rows.",method_call,"Add(enWord, csWord, prob);","
+        }
+
+        var sortedRows = probabilitiesDataTable.AsEnumerable().OrderBy(row => row.Field<double>(""probability"")).Reverse();
+
+        // Create a new DataTable with the sorted rows
+        DataTable sortedDataTable = probabilitiesDataTable.Clone();
+        foreach (var row in sortedRows)
+        {
+            sortedDataTable.ImportRow(row);
+        }
+
+        return sortedDataTable;
+    }
+
+    // Fits the IBM Model 1 by iterating through the Expectation-Maximization algorithm.
+    // The number of iterations is controlled by the `numberIterations` variable.
+    // The algorithm converges if the change in translation probabilities falls below the threshold.
+    public void FitModel()
+    {
+        double[,] prevT = (double[,])LexicalTranslationProb.Clone();
+
+        // Loop until converge
+        for (int i = 0; i < numberIterations; i++)
+        {
+            Console.WriteLine($""Iteration {i + 1}"");
+
+            double[,] count = new double[enVocabularySize, csVocabularySize];
+            double[] total = new double[csVocabularyDict.Count];
+
+            ExpectationStep(count, total);
+            MaximizationStep(count, total);
+
+            double change = CheckThreshold(prevT, LexicalTranslationProb) * 1000;
+            Console.WriteLine($""\tChange rate: {change}"");
+            if (change < Threshold)
+            {
+                Console.WriteLine($""\nModel converged after {i + 1} iterations with value of change rate: {change} (expected number of iterations: {numberIterations})"");
+                break;
+            }
+            prevT = (double[,])LexicalTranslationProb.Clone();
+        }
+    }
+
+    // Performs the Expectation step of the algorithm.
+    // It calculates fractional counts of word translations based on sentence pairs and current probabilities.
+    private void ExpectationStep(double[,] count, double[] total)
+    {
+        foreach (var sp in sentencePairs)
+        {
+            foreach (var ew in sp.Item1)
+            {
+                int ew_ind = enVocabularyDict[ew];
+                countsSentences[ew_ind] = 0.0;
+                // Count probability of each word in sentence using the frequency of the word and its overall probability
+                foreach (var fw in sp.Item2)
+                {
+                    int fw_ind = csVocabularyDict[fw];
+                    countsSentences[ew_ind] += LexicalTranslationProb[ew_ind, fw_ind];
+                }
+
+                // Update counts (total and for pairs)
+                foreach (var fw in sp.Item2)
+                {
+                    int fw_ind = csVocabularyDict[fw];
+                    count[ew_ind, fw_ind] += LexicalTranslationProb[ew_ind, fw_ind] / countsSentences[ew_ind];
+                    total[fw_ind] += LexicalTranslationProb[ew_ind, fw_ind] / countsSentences[ew_ind];
+                }
+            }
+        }
+    }
+
+    // Performs the Maximization step of the algorithm.
+    // It updates the lexical translation probabilities using the counts from the Expectation step.
+    private void MaximizationStep(double[,] count, double[] total)
+    {
+        for (int fw = 0; fw < csVocabularyDict.Count; fw++)
+        {
+            for (int ew = 0; ew < enVocabularyDict.Count; ew++)
+            {
+                LexicalTranslationProb[ew, fw] = count[ew, fw] / total[fw];
+            }
+        }
+    }
+
+    // Checks how much the translation probabilities have changed between iterations.
+    // It computes the average absolute difference between the previous and current probability matrices.
+    // Returns the average difference per element.
+    private double CheckThreshold(double[,] prev_t, double[,] curr_t)
+    {
+        // Compute average absolute difference per element based on the number of elements in the matrices
+        double sumAbsDiff = 0;
+        int numRows = prev_t.GetLength(0); 
+        int numCols = prev_t.GetLength(1);
+
+        for (int i = 0; i < numRows; i++)
+        {
+            for (int j = 0; j < numCols; j++)
+            {
+                sumAbsDiff += Math.Abs(curr_t[i, j] - prev_t[i, j]);
+            }
+        }
+
+        return sumAbsDiff / (numRows * numCols);
+    }
+}
+",ibm1_model.txt
+26,"namespace MachineTranslator;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Data;
+
+public class IBMModel1
+{
+    private Dictionary<string, int> enVocabularyDict, csVocabularyDict;
+    private List<(List<string>, List<string>)> sentencePairs;
+    private int numberIterations, enVocabularySize, csVocabularySize;
+    private bool Verbose;
+    private double Threshold;
+    private double[] countsSentences;
+    private DataTable probabilitiesDataTable;
+    public double[,] LexicalTranslationProb { get; set; }
+
+    public IBMModel1(Dictionary<string, int> enVocabularyDict, Dictionary<string, int> csVocabularyDict, List<(List<string>, List<string>)> sentencePairs,
+        int numberIterations = 7, bool verbose = true, double threshold = 0.02)
+    {
+        this.enVocabularyDict = enVocabularyDict;
+        enVocabularySize = enVocabularyDict.Count;
+
+        this.csVocabularyDict = csVocabularyDict;
+        csVocabularySize = csVocabularyDict.Count;
+
+        this.sentencePairs = sentencePairs;
+
+        this.numberIterations = numberIterations;
+
+        // Determine if process should be described during the run
+        this.Verbose = verbose;
+
+        // Initialize threshold for stoping the algorithm
+        this.Threshold = threshold;
+
+        // Initialize and fill the lexical translation probabilities (i.e. t(e|f)) uniformly
+        double uniform_val = 1.0 / csVocabularySize;
+        LexicalTranslationProb = new double[enVocabularySize, csVocabularySize];
+
+        for (int i = 0; i < enVocabularySize; i++)
+        {
+            for (int j = 0; j < csVocabularySize; j++)
+            {
+                LexicalTranslationProb[i, j] = uniform_val;
+            }
+        }
+
+        probabilitiesDataTable = new DataTable();
+        probabilitiesDataTable.Columns.Add(""word_en"", typeof(string));
+        probabilitiesDataTable.Columns.Add(""words_cz"", typeof(string));
+        probabilitiesDataTable.Columns.Add(""probability"", typeof(double));
+
+        countsSentences = new double[enVocabularySize];
+    }
+    /// <summary>
+    /// Transforms the lexical translation probability matrix into a DataTable for easy manipulation and sorting.
+    /// </summary>
+    public DataTable TransformTable(double[,] table)
+    {
+        for (int enIndex = 0; enIndex < table.GetLength(0); enIndex++)
+        {
+            var row = Enumerable.Range(0, table.GetLength(1)).Select(j => table[enIndex, j]).ToArray();
+            int index = row.Select((value, index) => new { Value = value, Index = index })
+                                .OrderByDescending(x => x.Value)
+                                .Select(x => x.Index).ToList()[0];
+
+            var prob = Math.Round(row[index] * 100, 2);
+            var csWord = csVocabularyDict.FirstOrDefault(x => x.Value == index).Key;
+            var enWord = enVocabularyDict.FirstOrDefault(x => x.Value == enIndex).Key;
+
+            probabilitiesDataTable.Rows.Add(enWord, csWord, prob);
+        }
+
+        var sortedRows = probabilitiesDataTable.AsEnumerable().OrderBy(row => row.Field<double>(""probability"")).Reverse();
+
+        // Create a new DataTable with the sorted rows
+        DataTable sortedDataTable = probabilitiesDataTable.Clone();
+        foreach (var row in sortedRows)
+        {
+            sortedDataTable.ImportRow(row);
+        }
+
+        return sortedDataTable;
+    }
+
+    // Fits the IBM Model 1 by iterating through the Expectation-Maximization algorithm.
+    // The number of iterations is controlled by the `numberIterations` variable.
+    // The algorithm converges if the change in translation probabilities falls below the threshold.
+    public void FitModel()
+    {
+        double[,] prevT = (double[,])LexicalTranslationProb.Clone();
+
+        // Loop until converge
+        for (int i = 0; i < numberIterations; i++)
+        {
+            Console.WriteLine($""Iteration {i + 1}"");
+
+            double[,] count = new double[enVocabularySize, csVocabularySize];
+            double[] total = new double[csVocabularyDict.Count];
+
+            ExpectationStep(count, total);
+            MaximizationStep(count, total);
+
+            double change = CheckThreshold(prevT, LexicalTranslationProb) * 1000;
+            Console.WriteLine($""\tChange rate: {change}"");
+            if (change < Threshold)
+            {
+                Console.WriteLine($""\nModel converged after {i + 1} iterations with value of change rate: {change} (expected number of iterations: {numberIterations})"");
+                break;
+            }
+            prevT = (double[,])LexicalTranslationProb.Clone();
+        }
+    }
+
+    // Performs the Expectation step of the algorithm.
+    // It calculates fractional counts of word translations based on sentence pairs and current probabilities.
+    private void ExpectationStep(",function_parameter,"double[,] count, double[] total",")
+    {
+        foreach (var sp in sentencePairs)
+        {
+            foreach (var ew in sp.Item1)
+            {
+                int ew_ind = enVocabularyDict[ew];
+                countsSentences[ew_ind] = 0.0;
+                // Count probability of each word in sentence using the frequency of the word and its overall probability
+                foreach (var fw in sp.Item2)
+                {
+                    int fw_ind = csVocabularyDict[fw];
+                    countsSentences[ew_ind] += LexicalTranslationProb[ew_ind, fw_ind];
+                }
+
+                // Update counts (total and for pairs)
+                foreach (var fw in sp.Item2)
+                {
+                    int fw_ind = csVocabularyDict[fw];
+                    count[ew_ind, fw_ind] += LexicalTranslationProb[ew_ind, fw_ind] / countsSentences[ew_ind];
+                    total[fw_ind] += LexicalTranslationProb[ew_ind, fw_ind] / countsSentences[ew_ind];
+                }
+            }
+        }
+    }
+
+    // Performs the Maximization step of the algorithm.
+    // It updates the lexical translation probabilities using the counts from the Expectation step.
+    private void MaximizationStep(double[,] count, double[] total)
+    {
+        for (int fw = 0; fw < csVocabularyDict.Count; fw++)
+        {
+            for (int ew = 0; ew < enVocabularyDict.Count; ew++)
+            {
+                LexicalTranslationProb[ew, fw] = count[ew, fw] / total[fw];
+            }
+        }
+    }
+
+    // Checks how much the translation probabilities have changed between iterations.
+    // It computes the average absolute difference between the previous and current probability matrices.
+    // Returns the average difference per element.
+    private double CheckThreshold(double[,] prev_t, double[,] curr_t)
+    {
+        // Compute average absolute difference per element based on the number of elements in the matrices
+        double sumAbsDiff = 0;
+        int numRows = prev_t.GetLength(0); 
+        int numCols = prev_t.GetLength(1);
+
+        for (int i = 0; i < numRows; i++)
+        {
+            for (int j = 0; j < numCols; j++)
+            {
+                sumAbsDiff += Math.Abs(curr_t[i, j] - prev_t[i, j]);
+            }
+        }
+
+        return sumAbsDiff / (numRows * numCols);
+    }
+}
+",ibm1_model.txt
+27,"namespace MachineTranslator;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Data;
+
+public class IBMModel1
+{
+    private Dictionary<string, int> enVocabularyDict, csVocabularyDict;
+    private List<(List<string>, List<string>)> sentencePairs;
+    private int numberIterations, enVocabularySize, csVocabularySize;
+    private bool Verbose;
+    private double Threshold;
+    private double[] countsSentences;
+    private DataTable probabilitiesDataTable;
+    public double[,] LexicalTranslationProb { get; set; }
+
+    public IBMModel1(Dictionary<string, int> enVocabularyDict, Dictionary<string, int> csVocabularyDict, List<(List<string>, List<string>)> sentencePairs,
+        int numberIterations = 7, bool verbose = true, double threshold = 0.02)
+    {
+        this.enVocabularyDict = enVocabularyDict;
+        enVocabularySize = enVocabularyDict.Count;
+
+        this.csVocabularyDict = csVocabularyDict;
+        csVocabularySize = csVocabularyDict.Count;
+
+        this.sentencePairs = sentencePairs;
+
+        this.numberIterations = numberIterations;
+
+        // Determine if process should be described during the run
+        this.Verbose = verbose;
+
+        // Initialize threshold for stoping the algorithm
+        this.Threshold = threshold;
+
+        // Initialize and fill the lexical translation probabilities (i.e. t(e|f)) uniformly
+        double uniform_val = 1.0 / csVocabularySize;
+        LexicalTranslationProb = new double[enVocabularySize, csVocabularySize];
+
+        for (int i = 0; i < enVocabularySize; i++)
+        {
+            for (int j = 0; j < csVocabularySize; j++)
+            {
+                LexicalTranslationProb[i, j] = uniform_val;
+            }
+        }
+
+        probabilitiesDataTable = new DataTable();
+        probabilitiesDataTable.Columns.Add(""word_en"", typeof(string));
+        probabilitiesDataTable.Columns.Add(""words_cz"", typeof(string));
+        probabilitiesDataTable.Columns.Add(""probability"", typeof(double));
+
+        countsSentences = new double[enVocabularySize];
+    }
+    /// <summary>
+    /// Transforms the lexical translation probability matrix into a DataTable for easy manipulation and sorting.
+    /// </summary>
+    public DataTable TransformTable(double[,] table)
+    {
+        for (int enIndex = 0; enIndex < table.GetLength(0); enIndex++)
+        {
+            var row = Enumerable.Range(0, table.GetLength(1)).Select(j => table[enIndex, j]).ToArray();
+            int index = row.Select((value, index) => new { Value = value, Index = index })
+                                .OrderByDescending(x => x.Value)
+                                .Select(x => x.Index).ToList()[0];
+
+            var prob = Math.Round(row[index] * 100, 2);
+            var csWord = csVocabularyDict.FirstOrDefault(x => x.Value == index).Key;
+            var enWord = enVocabularyDict.FirstOrDefault(x => x.Value == enIndex).Key;
+
+            probabilitiesDataTable.Rows.Add(enWord, csWord, prob);
+        }
+
+        var sortedRows = probabilitiesDataTable.AsEnumerable().OrderBy(row => row.Field<double>(""probability"")).Reverse();
+
+        // Create a new DataTable with the sorted rows
+        DataTable sortedDataTable = probabilitiesDataTable.Clone();
+        foreach (var row in sortedRows)
+        {
+            sortedDataTable.ImportRow(row);
+        }
+
+        return sortedDataTable;
+    }
+
+    // Fits the IBM Model 1 by iterating through the Expectation-Maximization algorithm.
+    // The number of iterations is controlled by the `numberIterations` variable.
+    // The algorithm converges if the change in translation probabilities falls below the threshold.
+    public void FitModel()
+    {
+        double[,] prevT = (double[,])LexicalTranslationProb.Clone();
+
+        // Loop until converge
+        for (int i = 0; i < numberIterations; i++)
+        {
+            Console.WriteLine($""Iteration {i + 1}"");
+
+            double[,] count = new double[enVocabularySize, csVocabularySize];
+            double[] total = new double[csVocabularyDict.Count];
+
+            ExpectationStep(count, total);
+            MaximizationStep(count, total);
+
+            double change = CheckThreshold(prevT, LexicalTranslationProb) * 1000;
+            Console.WriteLine($""\tChange rate: {change}"");
+            if (change < Threshold)
+            {
+                Console.WriteLine($""\nModel converged after {i + 1} iterations with value of change rate: {change} (expected number of iterations: {numberIterations})"");
+                break;
+            }
+            prevT = (double[,])LexicalTranslationProb.Clone();
+        }
+    }
+
+    // Performs the Expectation step of the algorithm.
+    // It calculates fractional counts of word translations based on sentence pairs and current probabilities.
+    private void ExpectationStep(double[,] count, double[] total)
+    {
+        foreach (var sp in sentencePairs)
+        {
+            foreach (var ew in sp.Item1)
+            {
+                int ew_ind = enVocabularyDict[ew];
+                countsSentences[ew_ind] = 0.0;
+                // Count probability of each word in sentence using the frequency of the word and its overall probability
+                foreach (var fw in sp.Item2)
+                {
+                    int fw_ind = csVocabularyDict[fw];
+                    countsSentences[ew_ind] += LexicalTranslationProb[ew_ind, fw_ind];
+                }
+
+                // Update counts (total and for pairs)
+                foreach (var fw in sp.Item2)
+                {
+                    int fw_ind = csVocabularyDict[fw];
+                    count[ew_ind, fw_ind] += LexicalTranslationProb[ew_ind, fw_ind] / countsSentences[ew_ind];
+                    total[fw_ind] += LexicalTranslationProb[ew_ind, fw_ind] / countsSentences[ew_ind];
+                }
+            }
+        }
+    }
+
+    // Performs the Maximization step of the algorithm.
+    // It updates the lexical translation probabilities using the counts from the Expectation step.
+    private void MaximizationStep(double[,] count, double[] total)
+    {
+        for (int fw = 0; fw < csVocabularyDict.Count; fw++)
+        {
+            for (int ew = 0; ew < enVocabularyDict.Count; ew++)
+            {
+                LexicalTranslationProb[ew, fw] = count[ew, fw] / total[fw];
+            }
+        }
+    }
+
+    // Checks how much the translation probabilities have changed between iterations.
+    // It computes the average absolute difference between the previous and current probability matrices.
+    // Returns the average difference per element.
+    private double CheckThreshold(",function_parameter,"double[,] prev_t, double[,] curr_t",")
+    {
+        // Compute average absolute difference per element based on the number of elements in the matrices
+        double sumAbsDiff = 0;
+        int numRows = prev_t.GetLength(0); 
+        int numCols = prev_t.GetLength(1);
+
+        for (int i = 0; i < numRows; i++)
+        {
+            for (int j = 0; j < numCols; j++)
+            {
+                sumAbsDiff += Math.Abs(curr_t[i, j] - prev_t[i, j]);
+            }
+        }
+
+        return sumAbsDiff / (numRows * numCols);
+    }
+}
+",ibm1_model.txt
+28,"namespace MachineTranslator;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Data;
+
+public class IBMModel1
+{
+    private Dictionary<string, int> enVocabularyDict, csVocabularyDict;
+    private List<(List<string>, List<string>)> sentencePairs;
+    private int numberIterations, enVocabularySize, csVocabularySize;
+    private bool Verbose;
+    private double Threshold;
+    private double[] countsSentences;
+    private DataTable probabilitiesDataTable;
+    public double[,] LexicalTranslationProb { get; set; }
+
+    public IBMModel1(Dictionary<string, int> enVocabularyDict, Dictionary<string, int> csVocabularyDict, List<(List<string>, List<string>)> sentencePairs,
+        int numberIterations = 7, bool verbose = true, double threshold = 0.02)
+    {
+        this.enVocabularyDict = enVocabularyDict;
+        enVocabularySize = enVocabularyDict.Count;
+
+        this.csVocabularyDict = csVocabularyDict;
+        csVocabularySize = csVocabularyDict.Count;
+
+        this.sentencePairs = sentencePairs;
+
+        this.numberIterations = numberIterations;
+
+        // Determine if process should be described during the run
+        this.Verbose = verbose;
+
+        // Initialize threshold for stoping the algorithm
+        this.Threshold = threshold;
+
+        // Initialize and fill the lexical translation probabilities (i.e. t(e|f)) uniformly
+        double uniform_val = 1.0 / csVocabularySize;
+        LexicalTranslationProb = new double[enVocabularySize, csVocabularySize];
+
+        for (int i = 0; i < enVocabularySize; i++)
+        {
+            for (int j = 0; j < csVocabularySize; j++)
+            {
+                LexicalTranslationProb[i, j] = uniform_val;
+            }
+        }
+
+        probabilitiesDataTable = new DataTable();
+        probabilitiesDataTable.Columns.Add(""word_en"", typeof(string));
+        probabilitiesDataTable.Columns.Add(""words_cz"", typeof(string));
+        probabilitiesDataTable.Columns.Add(""probability"", typeof(double));
+
+        countsSentences = new double[enVocabularySize];
+    }
+    /// <summary>
+    /// Transforms the lexical translation probability matrix into a DataTable for easy manipulation and sorting.
+    /// </summary>
+    public DataTable TransformTable(double[,] table)
+    {
+        for (int enIndex = 0; enIndex < table.GetLength(0); enIndex++)
+        {
+            var row = Enumerable.Range(0, table.GetLength(1)).Select(j => table[enIndex, j]).ToArray();
+            int index = row.Select((value, index) => new { Value = value, Index = index })
+                                .OrderByDescending(x => x.Value)
+                                .Select(x => x.Index).ToList()[0];
+
+            var prob = Math.Round(row[index] * 100, 2);
+            var csWord = csVocabularyDict.FirstOrDefault(x => x.Value == index).Key;
+            var enWord = enVocabularyDict.FirstOrDefault(x => x.Value == enIndex).Key;
+
+            probabilitiesDataTable.Rows.Add(enWord, csWord, prob);
+        }
+
+        var sortedRows = probabilitiesDataTable.AsEnumerable().OrderBy(row => row.Field<double>(""probability"")).Reverse();
+
+        // Create a new DataTable with the sorted rows
+        DataTable sortedDataTable = probabilitiesDataTable.Clone();
+        foreach (var row in sortedRows)
+        {
+            sortedDataTable.ImportRow(row);
+        }
+
+        return sortedDataTable;
+    }
+
+    // Fits the IBM Model 1 by iterating through the Expectation-Maximization algorithm.
+    // The number of iterations is controlled by the `numberIterations` variable.
+    // The algorithm converges if the change in translation probabilities falls below the threshold.
+    public void FitModel()
+    {
+        double[,] prevT = (double[,])LexicalTranslationProb.Clone();
+
+        // Loop until converge
+        for (int i = 0; i < numberIterations; i++)
+        {
+            Console.WriteLine($""Iteration {i + 1}"");
+
+            double[,] count = new double[enVocabularySize, csVocabularySize];
+            double[] total = new double[csVocabularyDict.Count];
+
+            ExpectationStep(count, total);
+            MaximizationStep(count, total);
+
+            double change = CheckThreshold(prevT, LexicalTranslationProb) * 1000;
+            Console.WriteLine($""\tChange rate: {change}"");
+            if (change < Threshold)
+            {
+                Console.WriteLine($""\nModel converged after {i + 1} iterations with value of change rate: {change} (expected number of iterations: {numberIterations})"");
+                break;
+            }
+            prevT = (double[,])LexicalTranslationProb.Clone();
+        }
+    }
+
+    // Performs the Expectation step of the algorithm.
+    // It calculates fractional counts of word translations based on sentence pairs and current probabilities.
+    private void ExpectationStep(double[,] count, double[] total)
+    {
+        foreach (var sp in sentencePairs)
+        {
+            foreach (var ew in sp.Item1)
+            {
+                int ew_ind = enVocabularyDict[ew];
+                countsSentences[ew_ind] = 0.0;
+                // Count probability of each word in sentence using the frequency of the word and its overall probability
+                foreach (var fw in sp.Item2)
+                {
+                    int fw_ind = csVocabularyDict[fw];
+                    countsSentences[ew_ind] += LexicalTranslationProb[ew_ind, fw_ind];
+                }
+
+                // Update counts (total and for pairs)
+                foreach (var fw in sp.Item2)
+                {
+                    int fw_ind = csVocabularyDict[fw];
+                    count[ew_ind, fw_ind] += LexicalTranslationProb[ew_ind, fw_ind] / countsSentences[ew_ind];
+                    total[fw_ind] += LexicalTranslationProb[ew_ind, fw_ind] / countsSentences[ew_ind];
+                }
+            }
+        }
+    }
+
+    // Performs the Maximization step of the algorithm.
+    // It updates the lexical translation probabilities using the counts from the Expectation step.
+    private void MaximizationStep(double[,] count, double[] total)
+    {
+        for (int fw = 0; fw < csVocabularyDict.Count; fw++)
+        {
+            for (int ew = 0; ew < enVocabularyDict.Count; ew++)
+            {
+                LexicalTranslationProb[ew, fw] = count[ew, fw] / total[fw];
+            }
+        }
+    }
+
+    // Checks how much the translation probabilities have changed between iterations.
+    // It computes the average absolute difference between the previous and current probability matrices.
+    // Returns the average difference per element.
+    private double CheckThreshold(double[,] prev_t, double[,] curr_t)
+    {
+        // Compute average absolute difference per element based on the number of elements in the matrices
+        double sumAbsDiff = 0;
+        int numRows = prev_t.",method_call,GetLength(0); ,"
+        int numCols = prev_t.GetLength(1);
+
+        for (int i = 0; i < numRows; i++)
+        {
+            for (int j = 0; j < numCols; j++)
+            {
+                sumAbsDiff += Math.Abs(curr_t[i, j] - prev_t[i, j]);
+            }
+        }
+
+        return sumAbsDiff / (numRows * numCols);
+    }
+}
+",ibm1_model.txt
+29,"namespace MachineTranslator;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Data;
+
+public class IBMModel1
+{
+    private Dictionary<string, int> enVocabularyDict, csVocabularyDict;
+    private List<(List<string>, List<string>)> sentencePairs;
+    private int numberIterations, enVocabularySize, csVocabularySize;
+    private bool Verbose;
+    private double Threshold;
+    private double[] countsSentences;
+    private DataTable probabilitiesDataTable;
+    public double[,] LexicalTranslationProb { get; set; }
+
+    public IBMModel1(Dictionary<string, int> enVocabularyDict, Dictionary<string, int> csVocabularyDict, List<(List<string>, List<string>)> sentencePairs,
+        int numberIterations = 7, bool verbose = true, double threshold = 0.02)
+    {
+        this.enVocabularyDict = enVocabularyDict;
+        enVocabularySize = enVocabularyDict.Count;
+
+        this.csVocabularyDict = csVocabularyDict;
+        csVocabularySize = csVocabularyDict.Count;
+
+        this.sentencePairs = sentencePairs;
+
+        this.numberIterations = numberIterations;
+
+        // Determine if process should be described during the run
+        this.Verbose = verbose;
+
+        // Initialize threshold for stoping the algorithm
+        this.Threshold = threshold;
+
+        // Initialize and fill the lexical translation probabilities (i.e. t(e|f)) uniformly
+        double uniform_val = 1.0 / csVocabularySize;
+        LexicalTranslationProb = new double[enVocabularySize, csVocabularySize];
+
+        for (int i = 0; i < enVocabularySize; i++)
+        {
+            for (int j = 0; j < csVocabularySize; j++)
+            {
+                LexicalTranslationProb[i, j] = uniform_val;
+            }
+        }
+
+        probabilitiesDataTable = new DataTable();
+        probabilitiesDataTable.Columns.Add(""word_en"", typeof(string));
+        probabilitiesDataTable.Columns.Add(""words_cz"", typeof(string));
+        probabilitiesDataTable.Columns.Add(""probability"", typeof(double));
+
+        countsSentences = new double[enVocabularySize];
+    }
+    /// <summary>
+    /// Transforms the lexical translation probability matrix into a DataTable for easy manipulation and sorting.
+    /// </summary>
+    public DataTable TransformTable(double[,] table)
+    {
+        for (int enIndex = 0; enIndex < table.GetLength(0); enIndex++)
+        {
+            var row = Enumerable.Range(0, table.GetLength(1)).Select(j => table[enIndex, j]).ToArray();
+            int index = row.Select((value, index) => new { Value = value, Index = index })
+                                .OrderByDescending(x => x.Value)
+                                .Select(x => x.Index).ToList()[0];
+
+            var prob = Math.Round(row[index] * 100, 2);
+            var csWord = csVocabularyDict.FirstOrDefault(x => x.Value == index).Key;
+            var enWord = enVocabularyDict.FirstOrDefault(x => x.Value == enIndex).Key;
+
+            probabilitiesDataTable.Rows.Add(enWord, csWord, prob);
+        }
+
+        var sortedRows = probabilitiesDataTable.AsEnumerable().OrderBy(row => row.Field<double>(""probability"")).Reverse();
+
+        // Create a new DataTable with the sorted rows
+        DataTable sortedDataTable = probabilitiesDataTable.Clone();
+        foreach (var row in sortedRows)
+        {
+            sortedDataTable.ImportRow(row);
+        }
+
+        return sortedDataTable;
+    }
+
+    // Fits the IBM Model 1 by iterating through the Expectation-Maximization algorithm.
+    // The number of iterations is controlled by the `numberIterations` variable.
+    // The algorithm converges if the change in translation probabilities falls below the threshold.
+    public void FitModel()
+    {
+        double[,] prevT = (double[,])LexicalTranslationProb.Clone();
+
+        // Loop until converge
+        for (int i = 0; i < numberIterations; i++)
+        {
+            Console.WriteLine($""Iteration {i + 1}"");
+
+            double[,] count = new double[enVocabularySize, csVocabularySize];
+            double[] total = new double[csVocabularyDict.Count];
+
+            ExpectationStep(count, total);
+            MaximizationStep(count, total);
+
+            double change = CheckThreshold(prevT, LexicalTranslationProb) * 1000;
+            Console.WriteLine($""\tChange rate: {change}"");
+            if (change < Threshold)
+            {
+                Console.WriteLine($""\nModel converged after {i + 1} iterations with value of change rate: {change} (expected number of iterations: {numberIterations})"");
+                break;
+            }
+            prevT = (double[,])LexicalTranslationProb.Clone();
+        }
+    }
+
+    // Performs the Expectation step of the algorithm.
+    // It calculates fractional counts of word translations based on sentence pairs and current probabilities.
+    private void ExpectationStep(double[,] count, double[] total)
+    {
+        foreach (var sp in sentencePairs)
+        {
+            foreach (var ew in sp.Item1)
+            {
+                int ew_ind = enVocabularyDict[ew];
+                countsSentences[ew_ind] = 0.0;
+                // Count probability of each word in sentence using the frequency of the word and its overall probability
+                foreach (var fw in sp.Item2)
+                {
+                    int fw_ind = csVocabularyDict[fw];
+                    countsSentences[ew_ind] += LexicalTranslationProb[ew_ind, fw_ind];
+                }
+
+                // Update counts (total and for pairs)
+                foreach (var fw in sp.Item2)
+                {
+                    int fw_ind = csVocabularyDict[fw];
+                    count[ew_ind, fw_ind] += LexicalTranslationProb[ew_ind, fw_ind] / countsSentences[ew_ind];
+                    total[fw_ind] += LexicalTranslationProb[ew_ind, fw_ind] / countsSentences[ew_ind];
+                }
+            }
+        }
+    }
+
+    // Performs the Maximization step of the algorithm.
+    // It updates the lexical translation probabilities using the counts from the Expectation step.
+    private void MaximizationStep(double[,] count, double[] total)
+    {
+        for (int fw = 0; fw < csVocabularyDict.Count; fw++)
+        {
+            for (int ew = 0; ew < enVocabularyDict.Count; ew++)
+            {
+                LexicalTranslationProb[ew, fw] = count[ew, fw] / total[fw];
+            }
+        }
+    }
+
+    // Checks how much the translation probabilities have changed between iterations.
+    // It computes the average absolute difference between the previous and current probability matrices.
+    // Returns the average difference per element.
+    private double CheckThreshold(double[,] prev_t, double[,] curr_t)
+    {
+        // Compute average absolute difference per element based on the number of elements in the matrices
+        double sumAbsDiff = 0;
+        int numRows = prev_t.GetLength(0); 
+        int numCols = prev_t.GetLength(1);
+
+        for (int i = 0; i < numRows; i++)
+        {
+            for (int j = 0; j < numCols; j++)
+            {
+                sumAbsDiff += ",var_declaration,"Math.Abs(curr_t[i, j] - prev_t[i, j]);","
+            }
+        }
+
+        return sumAbsDiff / (numRows * numCols);
+    }
+}
+",ibm1_model.txt
