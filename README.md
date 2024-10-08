@@ -78,9 +78,8 @@ TensorBoard(log_dir=logdir, histogram_freq=1)$$
 # Example 2:
 def generate_time_based_id():
     # Get the current time in the format YYYYMMDDHHMMSSFFF (year, month, day, hour, minute, second, millisecond)
-    return $$code_by_description
-    datetime.now().strftime("%Y%m%d%H%M%S%f")$$
-    # target part is `code_by_description datetime.now().strftime("%Y%m%d%H%M%S%f")` with tag code_by_description
+    return $$code_by_description datetime.now().strftime("%Y%m%d%H%M%S%f")$$
+    # target part is `datetime.now().strftime("%Y%m%d%H%M%S%f")` with tag code_by_description
 ```
 
 * Extracted all targets using regex along with suffixes and prefixes from the same file. The resulting dataset consists
