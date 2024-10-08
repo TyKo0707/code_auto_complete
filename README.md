@@ -88,7 +88,7 @@ def generate_time_based_id():
 
 ### 2. Generation Code Completions
 
-* Using dataset and 4 models, generate missing code parts and save them
+* Using dataset, 4 models and [script for generation](https://github.com/TyKo0707/code_completion/blob/main/generate_completions.ipynb), generate missing code parts and save them
   into [data/python_dataset_gen.csv](https://github.com/TyKo0707/code_completion/blob/main/data/python_dataset_gen.csv)
 
 ### 3. Evaluation
